@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXColorPicker?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="paneprincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.krupique.bedusystem.interfaces.basicas.TelaParametrizacaoController">
+   <children>
+      <BorderPane prefHeight="680.0" prefWidth="880.0">
+         <top>
+            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="880.0" style="-fx-background-color: #D1D1D1;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Parametrização">
+                     <font>
+                        <Font name="System Bold" size="30.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </top>
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #EAEAEA;" BorderPane.alignment="CENTER">
+               <children>
+                  <JFXTextField fx:id="tfNomeFantasia" labelFloat="true" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="250.0" promptText="Nome Fantasia*" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="15.0" />
+                  <JFXTextField fx:id="tfRazaoSocial" labelFloat="true" layoutX="14.0" layoutY="49.0" prefHeight="30.0" prefWidth="250.0" promptText="Razão Social*" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="70.0" />
+                  <JFXTextField fx:id="tfEndereco" layoutX="14.0" layoutY="299.0" prefHeight="30.0" prefWidth="250.0" promptText="Endereço*" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="220.0" />
+                  <JFXColorPicker fx:id="tfCorFundo" layoutX="119.0" layoutY="161.0" prefHeight="25.0" prefWidth="90.0" promptText="Cor do sistema" AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="115.0" />
+                  <Label layoutX="29.0" layoutY="165.0" text="Cor do sistema:*" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="120.0" />
+                  <JFXTextField fx:id="tfCep" focusTraversable="false" labelFloat="true" layoutX="14.0" layoutY="218.0" onKeyReleased="#maskCep" prefHeight="30.0" prefWidth="140.0" promptText="CEP*" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="170.0" />
+                  <JFXButton fx:id="btConsultar" buttonType="RAISED" layoutX="191.0" layoutY="234.0" onAction="#evtConsultar" prefHeight="30.0" prefWidth="140.0" style="-fx-background-color: #347E65;" text="Consultar" textFill="WHITE" AnchorPane.leftAnchor="185.0" AnchorPane.topAnchor="170.0">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXComboBox fx:id="cbcidade" focusTraversable="false" layoutX="210.0" layoutY="361.0" prefHeight="30.0" prefWidth="140.0" promptText="Cidade:" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="270.0" />
+                  <JFXComboBox fx:id="cbbairro" focusTraversable="false" layoutX="29.0" layoutY="361.0" prefHeight="30.0" prefWidth="140.0" promptText="Bairro:" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="270.0" />
+                  <JFXTextField fx:id="tfNumero" layoutX="291.0" layoutY="222.0" onKeyPressed="#MaskNum" prefHeight="30.0" prefWidth="80.0" promptText="Número:" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="220.0" />
+                  <JFXTextField fx:id="tfSite" layoutX="7.0" layoutY="410.0" prefHeight="30.0" prefWidth="250.0" promptText="Site*" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="320.0" />
+                  <JFXTextField fx:id="tfEmail" layoutX="14.0" layoutY="450.0" prefHeight="30.0" prefWidth="250.0" promptText="Email*" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="370.0" />
+                  <JFXTextField fx:id="tfFone" layoutX="7.0" layoutY="476.0" onKeyPressed="#MaskFone" prefHeight="30.0" prefWidth="250.0" promptText="Fone*" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="420.0" />
+                  <Label layoutX="15.0" layoutY="472.0" text="Obs: (*) Campos obrigatórios" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="470.0" />
+                  <ImageView fx:id="imageview" fitHeight="280.0" fitWidth="280.0" layoutX="415.0" layoutY="30.0" onMouseClicked="#logoPrincipal" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="15.0" />
+                  <ImageView fx:id="imageview2" fitHeight="150.0" fitWidth="200.0" layoutX="610.0" layoutY="345.0" onMouseClicked="#logoSecundario" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="70.0" />
+                  <Label layoutX="579.0" layoutY="270.0" text="Carregar Logo Principal" AnchorPane.bottomAnchor="230.0" AnchorPane.leftAnchor="575.0" />
+                  <Label layoutX="637.0" layoutY="450.0" text="Carregar Logo Secundário" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="660.0" />
+               </children>
+            </AnchorPane>
+         </center>
+         <bottom>
+            <HBox fx:id="paneBotoes" alignment="CENTER" prefHeight="80.0" prefWidth="200.0" spacing="40.0" style="-fx-background-color: #D1D1D1;" BorderPane.alignment="CENTER">
+               <children>
+                  <JFXButton fx:id="btSalvar" buttonType="RAISED" layoutX="410.0" layoutY="46.0" onAction="#evtSalvar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Salvar" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btAlterar" buttonType="RAISED" layoutX="450.0" layoutY="46.0" onAction="#evtAlterar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Alterar" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btCancelar" buttonType="RAISED" layoutX="530.0" layoutY="46.0" onAction="#evtCancelar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Cancelar" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btBuscar" buttonType="RAISED" layoutX="570.0" layoutY="46.0" onAction="#evtBuscar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Buscar" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btVoltar" buttonType="RAISED" layoutX="610.0" layoutY="46.0" onAction="#evtVoltar" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Voltar" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+         </bottom>
+      </BorderPane>
+   </children>
+</AnchorPane>
