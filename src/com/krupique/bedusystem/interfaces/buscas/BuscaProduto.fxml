@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane fx:id="paneprincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.krupique.bedusystem.interfaces.buscas.BuscaProdutoController">
    <top>
       <HBox alignment="CENTER" prefHeight="80.0" prefWidth="200.0" style="-fx-background-color: #E1E1E1;" BorderPane.alignment="CENTER">
@@ -61,8 +60,10 @@
                   </HBox>
                   <TableView fx:id="tableview" prefHeight="500.0" prefWidth="850.0">
                      <columns>
-                        <TableColumn prefWidth="75.0" text="C1" />
-                        <TableColumn prefWidth="75.0" text="C2" />
+                        <TableColumn fx:id="colNome" prefWidth="330.0" text="Nome" />
+                        <TableColumn fx:id="colClass" prefWidth="330.0" text="Classificação" />
+                        <TableColumn fx:id="colQtd" prefWidth="90.0" text="Qt. Estoque" />
+                        <TableColumn fx:id="colPreco" prefWidth="100.0" text="Preço" />
                      </columns>
                   </TableView>
                </children>
@@ -75,9 +76,8 @@
             <AnchorPane prefHeight="100.0" prefWidth="880.0" BorderPane.alignment="CENTER">
                <children>
                   <JFXTextField fx:id="txtPesquisa" focusColor="#347e65" labelFloat="true" layoutX="21.0" layoutY="27.0" prefHeight="30.0" prefWidth="180.0" promptText="Digite" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="15.0" />
-                  <JFXRadioButton layoutX="34.0" layoutY="127.0" prefWidth="95.0" style="-jfx-selected-color: #347E65;" text="Filtro 1" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="70.0" />
-                  <JFXRadioButton layoutX="136.0" layoutY="136.0" prefWidth="95.0" style="-jfx-selected-color: #347E65;" text="Filtro 2" AnchorPane.leftAnchor="135.0" AnchorPane.topAnchor="70.0" />
-                  <JFXRadioButton layoutX="260.0" layoutY="127.0" prefWidth="95.0" style="-jfx-selected-color: #347E65;" text="Filtro 3" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="70.0" />
+                  <JFXRadioButton fx:id="rdNome" layoutX="34.0" layoutY="127.0" onAction="#evtRdNome" prefWidth="95.0" style="-jfx-selected-color: #347E65;" text="Nome" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="70.0" />
+                  <JFXRadioButton fx:id="rdClass" layoutX="136.0" layoutY="136.0" onAction="#evtRdClass" prefWidth="95.0" style="-jfx-selected-color: #347E65;" text="Classificação" AnchorPane.leftAnchor="135.0" AnchorPane.topAnchor="70.0" />
                   <JFXButton fx:id="btBuscar" buttonType="RAISED" layoutX="229.0" layoutY="15.0" onAction="#evtBuscar" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: #347E65;" text="Buscar" textFill="WHITE" AnchorPane.leftAnchor="250.0">
                      <font>
                         <Font name="System Bold" size="13.0" />
