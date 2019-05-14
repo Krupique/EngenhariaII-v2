@@ -11,6 +11,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.krupique.bedusystem.controladoras.CtrClassificacao;
 import com.krupique.bedusystem.controladoras.CtrProdutos;
 import com.krupique.bedusystem.interfaces.buscas.BuscaProdutoController;
+import com.krupique.bedusystem.interfaces.fundamentais.RegistrarCompraController;
 import com.krupique.bedusystem.utilidades.CorSistema;
 import com.krupique.bedusystem.utilidades.MaskFieldUtil;
 import java.net.URL;
@@ -92,7 +93,7 @@ public class CadProdutosController implements Initializable {
         inicializaEstilo();
         
         flagVolta = 1;
-        //RegistrarCompraController.setFlagVolta(0);
+        RegistrarCompraController.setFlagVolta(0);
         
         habilitarBotoes(true, false, false, false, false, true, true);
         //habilitarBotoes(true, true, true, true, true, true); //Teste

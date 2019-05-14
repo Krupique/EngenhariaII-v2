@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="paneprincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.krupique.bedusystem.interfaces.fundamentais.RegistrarCompraController">
@@ -17,4 +26,119 @@
          </children>
       </HBox>
    </top>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane layoutX="221.0" layoutY="107.0" prefHeight="170.0" prefWidth="850.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="20.0">
+               <children>
+                  <JFXComboBox fx:id="cbProdutos" labelFloat="true" layoutX="14.0" layoutY="27.0" onAction="#evtCbProds" prefHeight="30.0" prefWidth="200.0" promptText="Produtos" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="15.0" />
+                  <JFXTextField fx:id="txtQuantidade" labelFloat="true" layoutX="14.0" layoutY="68.0" onKeyReleased="#evtMaskQuantidade" prefHeight="30.0" prefWidth="90.0" promptText="Quantidade" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="65.0" />
+                  <JFXTextField fx:id="txtValorPago" labelFloat="true" layoutY="117.0" onKeyReleased="#evtMaskVlrPago" prefHeight="30.0" prefWidth="90.0" promptText="Valor Pago" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="115.0" />
+                  <AnchorPane layoutX="291.0" layoutY="27.0" prefHeight="120.0" prefWidth="360.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="355.0" AnchorPane.topAnchor="25.0">
+                     <children>
+                        <JFXRadioButton fx:id="rdAVista" layoutX="14.0" layoutY="14.0" onAction="#evtRdAvista" text="À Vista" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </JFXRadioButton>
+                        <JFXRadioButton fx:id="rdParcelado" layoutX="95.0" layoutY="15.0" onAction="#evtRdParcelado" text="Parcelado" AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="15.0">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </JFXRadioButton>
+                        <JFXTextField fx:id="txtQtdParcelas" labelFloat="true" layoutX="12.0" layoutY="70.0" onKeyReleased="#evtMaskQtdParcelas" prefHeight="30.0" prefWidth="75.0" promptText="Qtd. Parcelas" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="65.0" />
+                        <JFXTextField fx:id="txtJuros" labelFloat="true" layoutX="123.0" layoutY="65.0" onKeyReleased="#evtMaskJuros" prefHeight="30.0" prefWidth="70.0" promptText="Valor Juros" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="65.0" />
+                        <JFXDatePicker fx:id="txtDateVenc" defaultColor="#003d8f" layoutX="200.0" layoutY="65.0" prefHeight="30.0" prefWidth="150.0" promptText="Primeiro Vencimento" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="65.0" />
+                     </children>
+                  </AnchorPane>
+                  <JFXButton fx:id="btBuscarProd" buttonType="RAISED" layoutX="238.0" layoutY="5.0" onAction="#evtBuscarProd" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Buscar" textFill="WHITE" AnchorPane.leftAnchor="245.0" AnchorPane.topAnchor="15.0">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btAddProd" buttonType="RAISED" layoutX="744.0" layoutY="70.0" onAction="#evtAddProd" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Adicionar" textFill="WHITE" AnchorPane.bottomAnchor="100.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="40.0">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btRemoverProd" buttonType="RAISED" layoutX="755.0" layoutY="115.0" onAction="#evtRemovProd" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Remover" textFill="WHITE" AnchorPane.bottomAnchor="40.0">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </AnchorPane>
+            <VBox layoutX="350.0" layoutY="239.0" prefHeight="187.0" prefWidth="850.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="210.0">
+               <children>
+                  <HBox fx:id="hbox" alignment="CENTER" prefHeight="20.0" prefWidth="200.0" style="-fx-background-color: #347E65;">
+                     <children>
+                        <Label fx:id="lblProds" text="Produtos" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <TableView fx:id="tableview" prefWidth="850.0">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="C1" />
+                      <TableColumn prefWidth="75.0" text="C2" />
+                    </columns>
+                  </TableView>
+               </children>
+            </VBox>
+            <AnchorPane layoutY="436.0" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #E1E1E1;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+               <children>
+                  <JFXComboBox fx:id="cbFornec" labelFloat="true" layoutX="14.0" layoutY="18.0" prefHeight="30.0" prefWidth="200.0" promptText="Fornecedores" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
+                  <JFXButton fx:id="btBuscarFornec" buttonType="RAISED" layoutX="208.0" layoutY="20.0" onAction="#evtBuscarFornec" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Buscar" textFill="WHITE" AnchorPane.leftAnchor="245.0" AnchorPane.topAnchor="15.0">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btAddFornec" buttonType="RAISED" layoutX="590.0" layoutY="16.0" onAction="#evtAddFornec" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Adicionar" textFill="WHITE" AnchorPane.rightAnchor="175.0" AnchorPane.topAnchor="15.0">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btCancelForne" buttonType="RAISED" layoutX="713.0" layoutY="18.0" onAction="#evtCancelFornec" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Cancelar" textFill="WHITE" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="15.0">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </center>
+   <bottom>
+      <HBox fx:id="paneBotoes" alignment="CENTER" prefHeight="80.0" prefWidth="200.0" spacing="40.0" style="-fx-background-color: #E1E1E1;" BorderPane.alignment="CENTER">
+         <children>
+            <JFXButton fx:id="btNovo" buttonType="RAISED" onAction="#evtNovo" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Novo" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btSalvar" buttonType="RAISED" layoutX="410.0" layoutY="46.0" onAction="#evtSalvar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Salvar" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btCancelar" buttonType="RAISED" layoutX="530.0" layoutY="46.0" onAction="#evtCancelar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Cancelar" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btBuscar" buttonType="RAISED" layoutX="570.0" layoutY="46.0" onAction="#evtBuscar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Buscar" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btVoltar" buttonType="RAISED" layoutX="610.0" layoutY="46.0" onAction="#evtVoltar" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Voltar" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </HBox>
+   </bottom>
 </BorderPane>

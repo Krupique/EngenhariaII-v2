@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import com.krupique.bedusystem.controladoras.CtrFornecedor;
+import com.krupique.bedusystem.interfaces.fundamentais.RegistrarCompraController;
 import com.krupique.bedusystem.utilidades.CorSistema;
 import com.krupique.bedusystem.utilidades.Objeto;
 import java.net.URL;
@@ -142,14 +143,14 @@ public class BuscaFornecedorController implements Initializable {
                     int index = tableview.getSelectionModel().getSelectedIndex();
                     retorno = list.get(index);
 
-                    Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/basicas/CadFornecedor.fxml"));
-                    /*
+                    //Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/basicas/CadFornecedor.fxml"));
+                    
                     Parent root;
                     if(RegistrarCompraController.getFlagVolta() == 1)
-                        root = FXMLLoader.load(getClass().getResource("/Interfaces/henrique/RegistrarCompra.fxml"));
+                        root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/fundamentais/RegistrarCompra.fxml"));
                     else
-                        root = FXMLLoader.load(getClass().getResource("/Interfaces/henrique/CadFornecedor.fxml"));
-                    */
+                        root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/basicas/CadFornecedor.fxml"));
+                    
                     paneprincipal.getChildren().clear();
                     paneprincipal.getChildren().add(root);
                 }
@@ -171,15 +172,13 @@ public class BuscaFornecedorController implements Initializable {
         {
             try{
                 flag = 0;
-                //Adicionar objeto de retorno aqui
-                Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/basicas/CadFornecedor.fxml"));
-                /*
+                //Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/basicas/CadFornecedor.fxml"));
                 Parent root;
                     if(RegistrarCompraController.getFlagVolta() == 1)
-                        root = FXMLLoader.load(getClass().getResource("/Interfaces/henrique/RegistrarCompra.fxml"));
+                        root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/fundamentais/RegistrarCompra.fxml"));
                     else
-                        root = FXMLLoader.load(getClass().getResource("/Interfaces/henrique/CadFornecedor.fxml"));
-                */                
+                        root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/basicas/CadFornecedor.fxml"));
+                                   
                 paneprincipal.getChildren().clear();
                 paneprincipal.getChildren().add(root);
 

@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.krupique.bedusystem.controladoras.CtrFornecedor;
 import com.krupique.bedusystem.interfaces.buscas.BuscaFornecedorController;
+import com.krupique.bedusystem.interfaces.fundamentais.RegistrarCompraController;
 import com.krupique.bedusystem.utilidades.CorSistema;
 import com.krupique.bedusystem.utilidades.MaskFieldUtil;
 import com.krupique.bedusystem.utilidades.ValidadorCPFeCNPJ;
@@ -100,7 +101,8 @@ public class CadFornecedorController implements Initializable {
         inicializaEstilo();
         
         flagVolta = 1;
-        //RegistrarCompraController.setFlagVolta(0);
+        RegistrarCompraController.setFlagVolta(0);
+
         
         habilitarBotoes(true, false, false, false, false, true, true, false); //Oficial
         //habilitarBotoes(true, true, true, true, true, true); //Teste

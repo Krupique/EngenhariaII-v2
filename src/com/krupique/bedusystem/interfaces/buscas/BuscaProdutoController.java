@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import com.krupique.bedusystem.controladoras.CtrProdutos;
+import com.krupique.bedusystem.interfaces.fundamentais.RegistrarCompraController;
 import com.krupique.bedusystem.utilidades.CorSistema;
 import com.krupique.bedusystem.utilidades.Objeto;
 import java.net.URL;
@@ -74,6 +75,7 @@ public class BuscaProdutoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
         inicializaEstilo();
         
         habilitarBotoes(true, false, true);
@@ -131,14 +133,12 @@ public class BuscaProdutoController implements Initializable {
                     int index = tableview.getSelectionModel().getSelectedIndex();
                     retorno = list.get(index);
                     
-                    Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/basicas/CadProdutos.fxml"));
-                    /*
+                    
                     Parent root;
                     if(RegistrarCompraController.getFlagVolta() == 1)
-                        root = FXMLLoader.load(getClass().getResource("/Interfaces/henrique/RegistrarCompra.fxml"));
+                        root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/fundamentais/RegistrarCompra.fxml"));
                     else
-                        root = FXMLLoader.load(getClass().getResource("/Interfaces/henrique/CadProdutos.fxml"));
-                    */  
+                        root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/basicas/CadProdutos.fxml"));
                     
                     paneprincipal.getChildren().clear();
                     paneprincipal.getChildren().add(root);
@@ -163,13 +163,13 @@ public class BuscaProdutoController implements Initializable {
                 flag = 0;
                 //Adicionar objeto de retorno aqui
                 
-                Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/basicas/CadProdutos.fxml"));
-                /*Parent root;
+                //Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/basicas/CadProdutos.fxml"));
+                Parent root;
                     if(RegistrarCompraController.getFlagVolta() == 1)
-                        root = FXMLLoader.load(getClass().getResource("/Interfaces/henrique/RegistrarCompra.fxml"));
+                        root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/fundamentais/RegistrarCompra.fxml"));
                     else
-                        root = FXMLLoader.load(getClass().getResource("/Interfaces/henrique/CadProdutos.fxml"));
-                */    
+                        root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/basicas/CadProdutos.fxml"));
+                      
                 paneprincipal.getChildren().clear();
                 paneprincipal.getChildren().add(root);
 
