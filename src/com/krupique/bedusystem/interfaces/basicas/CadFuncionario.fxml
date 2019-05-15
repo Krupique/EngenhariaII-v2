@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="paneprincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.krupique.bedusystem.interfaces.basicas.CadFuncionarioController">
+<BorderPane fx:id="paneprincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.krupique.bedusystem.interfaces.basicas.CadFuncionarioController">
    <top>
       <HBox alignment="CENTER" prefHeight="80.0" prefWidth="200.0" style="-fx-background-color: #E1E1E1;" BorderPane.alignment="CENTER">
          <children>
@@ -21,37 +25,37 @@
    <bottom>
       <HBox fx:id="paneBotoes" alignment="CENTER" prefHeight="80.0" prefWidth="200.0" spacing="40.0" style="-fx-background-color: #E1E1E1;" BorderPane.alignment="CENTER">
          <children>
-            <JFXButton fx:id="btNovo" buttonType="RAISED" onAction="#evtNovo" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Novo" textFill="WHITE">
+            <JFXButton fx:id="btSalvar" buttonType="RAISED" layoutX="410.0" layoutY="46.0" onAction="#clickSalvar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Confirmar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btSalvar" buttonType="RAISED" layoutX="410.0" layoutY="46.0" onAction="#evtSalvar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Salvar" textFill="WHITE">
+            <JFXButton fx:id="btNovo" buttonType="RAISED" onAction="#clickNovo" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Novo" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btAlterar" buttonType="RAISED" layoutX="450.0" layoutY="46.0" onAction="#evtAlterar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Alterar" textFill="WHITE">
+            <JFXButton fx:id="btAlterar" buttonType="RAISED" layoutX="450.0" layoutY="46.0" onAction="#clickAlterar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Alterar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btExcluir" buttonType="RAISED" layoutX="490.0" layoutY="46.0" onAction="#evtExcluir" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Excluir" textFill="WHITE">
+            <JFXButton fx:id="btExcluir" buttonType="RAISED" layoutX="490.0" layoutY="46.0" onAction="#clickExcluir" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Excluir" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btCancelar" buttonType="RAISED" layoutX="530.0" layoutY="46.0" onAction="#evtCancelar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Cancelar" textFill="WHITE">
+            <JFXButton fx:id="btCancelar" buttonType="RAISED" layoutX="530.0" layoutY="46.0" onAction="#clickCancelar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Cancelar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btBuscar" buttonType="RAISED" layoutX="570.0" layoutY="46.0" onAction="#evtBuscar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Buscar" textFill="WHITE">
+            <JFXButton fx:id="btBuscar" buttonType="RAISED" layoutX="570.0" layoutY="46.0" onAction="#clickBuscar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Buscar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btVoltar" buttonType="RAISED" layoutX="610.0" layoutY="46.0" onAction="#evtVoltar" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Voltar" textFill="WHITE">
+            <JFXButton fx:id="btVoltar" buttonType="RAISED" layoutX="610.0" layoutY="46.0" onAction="#clickVoltar" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Voltar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
@@ -59,4 +63,51 @@
          </children>
       </HBox>
    </bottom>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="52.0" layoutY="24.0" text="Informações Básicas e de Contato" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="12.0">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <AnchorPane layoutX="18.0" layoutY="31.0" prefHeight="164.0" prefWidth="850.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="30.0">
+               <children>
+                  <JFXTextField fx:id="tf_nome" layoutX="23.0" layoutY="23.0" prefHeight="25.0" prefWidth="233.0" promptText="Nome*" />
+                  <JFXTextField fx:id="tf_funcao" layoutX="291.0" layoutY="23.0" prefHeight="25.0" prefWidth="233.0" promptText="Função*" />
+                  <JFXTextField fx:id="tf_telefone" layoutX="23.0" layoutY="75.0" onKeyReleased="#eventMaskTel" prefHeight="25.0" prefWidth="233.0" promptText="Telefone" />
+                  <JFXTextField fx:id="tf_celular" layoutX="291.0" layoutY="75.0" onKeyReleased="#eventMaskCel" prefWidth="233.0" promptText="Celular" />
+                  <JFXTextField fx:id="tf_email" layoutX="566.0" layoutY="75.0" prefWidth="233.0" promptText="Email" />
+                  <JFXRadioButton fx:id="rb_masculino" layoutX="23.0" layoutY="124.0" text="Masculino" />
+                  <JFXRadioButton fx:id="rb_feminino" layoutX="129.0" layoutY="124.0" text="Feminino" />
+                  <JFXDatePicker fx:id="dp_data" layoutX="566.0" layoutY="22.0" prefWidth="233.0" />
+               </children>
+            </AnchorPane>
+            <Label layoutX="15.0" layoutY="217.0" text="Informações de Endereço">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <AnchorPane layoutX="18.0" layoutY="248.0" prefHeight="144.0" prefWidth="850.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+               <children>
+                  <JFXTextField fx:id="tf_rua" layoutX="23.0" layoutY="27.0" prefHeight="25.0" prefWidth="193.0" promptText="Rua" AnchorPane.topAnchor="27.0" />
+                  <JFXTextField fx:id="tf_bairro" labelFloat="true" layoutX="338.0" layoutY="22.0" prefHeight="30.0" prefWidth="200.0" promptText="Bairro" />
+                  <JFXTextField fx:id="tf_numero" labelFloat="true" layoutX="241.0" layoutY="22.0" onKeyReleased="#evtMaskNum" prefHeight="30.0" prefWidth="60.0" promptText="Número" AnchorPane.topAnchor="22.0" />
+                  <JFXTextField fx:id="tf_cidade" labelFloat="true" layoutX="23.0" layoutY="79.0" prefHeight="25.0" prefWidth="266.0" promptText="Cidade" />
+                  <JFXTextField fx:id="tf_cep" labelFloat="true" layoutX="342.0" layoutY="79.0" onKeyReleased="#evtMaskCep" prefWidth="100.0" promptText="CEP" />
+                  <JFXButton fx:id="btn_cep" buttonType="RAISED" layoutX="468.0" layoutY="77.0" onAction="#clickCep" prefHeight="30.0" prefWidth="95.0" style="-fx-background-color: #347E65;" text="Buscar CEP" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </AnchorPane>
+            <Label layoutX="15.0" layoutY="471.0" text="Obs: (*) Campos obrigatórios">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </center>
 </BorderPane>

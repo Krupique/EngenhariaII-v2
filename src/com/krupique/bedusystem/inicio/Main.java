@@ -33,15 +33,15 @@ public class Main extends Application{
         stage.setWidth(1080);
         stage.setHeight(680);*/
          
-        if(CtrParametrizacao.instancia().inicia())
-        {
+        /*if(CtrParametrizacao.instancia().inicia())
+        {*/
             janela = "/com/krupique/bedusystem/interfaces/basicas/TelaLogin.fxml";
-            CorSistema.setCorHex(CtrParametrizacao.instancia().corParamatrizacao());
+           /* CorSistema.setCorHex(CtrParametrizacao.instancia().corParamatrizacao());
         }
         else
         {
             janela = "/com/krupique/bedusystem/interfaces/basicas/TelaParametrizacao.fxml";
-        }
+        }*/
         
         Parent root = FXMLLoader.load(getClass().getResource(janela));
         Scene scene = new Scene(root);
