@@ -10,6 +10,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
+import com.krupique.bedusystem.controladoras.CtrCompra;
 import com.krupique.bedusystem.controladoras.CtrFornecedor;
 import com.krupique.bedusystem.controladoras.CtrProdutos;
 import com.krupique.bedusystem.interfaces.basicas.CadFornecedorController;
@@ -20,8 +21,10 @@ import com.krupique.bedusystem.utilidades.CorSistema;
 import com.krupique.bedusystem.utilidades.MaskFieldUtil;
 import com.krupique.bedusystem.utilidades.Objeto;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,7 +33,9 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -84,19 +89,32 @@ public class RegistrarCompraController implements Initializable {
     private JFXComboBox<String> cbFornec;
     @FXML
     private JFXButton btBuscarFornec;
-    @FXML
+    /*@FXML
     private JFXButton btAddFornec;
     @FXML
-    private JFXButton btCancelForne;
+    private JFXButton btCancelForne;*/
     @FXML
     private HBox hbox;
     @FXML
     private Label lblProds;
+    @FXML
+    private JFXRadioButton rdUnidade;
+    @FXML
+    private JFXRadioButton rdTotal;
+    @FXML
+    private TableColumn<String, String> colProduto;
+    @FXML
+    private TableColumn<String, String> colPreco;
+    @FXML
+    private TableColumn<String, String> colQuantidade;
+    @FXML
+    private TableColumn<String, String> colValorTotal;
 
     
     //Variáveis para controlar a funcionalidade do sistema.
     private static int flagVolta = 0;
     private ArrayList<Object[]> listProds;
+    private ArrayList<Object[]> listProdsCompra;
     private ArrayList<Object[]> listFornec;
     private ArrayList<Object[]> listCompra;
     private ArrayList<Objeto> table;
@@ -105,6 +123,8 @@ public class RegistrarCompraController implements Initializable {
     
     private Object[] objFornec;
     private Object[] objProd;
+    private double valorTotal;
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -133,11 +153,22 @@ public class RegistrarCompraController implements Initializable {
             limparCampos();
             habilitarCampos(false);
             setRadioButton(true, false);
+            setRdPreco(true, false);
+            iniciarColunas();
 
             listCompra = new ArrayList<>();
+            listProdsCompra = new ArrayList<>();
             table = new ArrayList<>();
         }
         
+    }
+    
+    private void iniciarColunas() {
+        
+        colProduto.setCellValueFactory(new PropertyValueFactory<>("param1"));
+        colPreco.setCellValueFactory(new PropertyValueFactory<>("param2"));
+        colQuantidade.setCellValueFactory(new PropertyValueFactory<>("param3"));
+        colValorTotal.setCellValueFactory(new PropertyValueFactory<>("param4"));
     }
     
     private void setRadioButton(boolean v1, boolean v2){
@@ -147,6 +178,12 @@ public class RegistrarCompraController implements Initializable {
         txtQtdParcelas.setVisible(v2);
         txtJuros.setVisible(v2);
         txtDateVenc.setVisible(v2);
+    }
+    
+    private void setRdPreco(boolean v1, boolean v2)
+    {
+        rdUnidade.setSelected(v1);
+        rdTotal.setSelected(v2);
     }
     
     private void inicializaEstilo()
@@ -162,8 +199,10 @@ public class RegistrarCompraController implements Initializable {
         btAddProd.setStyle("-fx-background-color: " + cor);
         btRemoverProd.setStyle("-fx-background-color: " + cor);
         btBuscarFornec.setStyle("-fx-background-color: " + cor);
-        btAddFornec.setStyle("-fx-background-color: " + cor);
-        btCancelForne.setStyle("-fx-background-color: " + cor);
+        rdUnidade.setStyle("-jfx-selected-color: "+ cor);
+        rdTotal.setStyle("-jfx-selected-color: "+ cor);
+        //btAddFornec.setStyle("-fx-background-color: " + cor);
+        //btCancelForne.setStyle("-fx-background-color: " + cor);
         
         rdAVista.setStyle("-jfx-selected-color: " + cor);
         rdParcelado.setStyle("-jfx-selected-color: " + cor);
@@ -191,6 +230,8 @@ public class RegistrarCompraController implements Initializable {
         cbProdutos.setDisable(value);
         txtQuantidade.setDisable(value);
         txtValorPago.setDisable(value);
+        rdUnidade.setDisable(value);
+        rdTotal.setDisable(value);
         
         rdAVista.setDisable(value);
         rdParcelado.setDisable(value);
@@ -208,8 +249,8 @@ public class RegistrarCompraController implements Initializable {
         btRemoverProd.setDisable(value);
         
         btBuscarFornec.setDisable(value);
-        btAddFornec.setDisable(value);
-        btCancelForne.setDisable(value);
+        //btAddFornec.setDisable(value);
+        //btCancelForne.setDisable(value);
     }
     
     private void habilitarBotoes(boolean novo, boolean salvar, boolean cancelar, boolean buscar, boolean voltar){
@@ -287,11 +328,64 @@ public class RegistrarCompraController implements Initializable {
     @FXML
     private void evtCbProds(ActionEvent event) {
         if(cbProdutos.getSelectionModel().getSelectedIndex() != -1)
-            txtValorPago.setText("" + listProds.get(cbProdutos.getSelectionModel().getSelectedIndex())[2]);
+        {
+            String aux = String.valueOf((double)listProds.get(cbProdutos.getSelectionModel().getSelectedIndex())[2]);
+            aux = aux.replace(".", ",");
+            txtValorPago.setText(aux);
+        }
     }
 
     @FXML
+    private void evtRdUnidade(ActionEvent event) {
+        setRdPreco(true, false);
+    }
+
+    @FXML
+    private void evtRdTotal(ActionEvent event) {
+        setRdPreco(false, true);
+    }
+    
+    @FXML
     private void evtAddProd(ActionEvent event) {
+        try{
+            
+            ArrayList<Objeto> obsList = new ArrayList<>();
+            Objeto obj;
+            Object[] prod = new Object[5]; //cod, nome, preco, quantidade, precoTotal
+            int index = cbProdutos.getSelectionModel().getSelectedIndex();
+            prod[0] = (int)listProds.get(index)[0]; //Cod produto
+            prod[1] = (String)listProds.get(index)[1]; //Nome produto
+            prod[3] = Integer.parseInt(txtQuantidade.getText()); //Quantidade de produtos
+            if(rdUnidade.isSelected())
+            {
+                prod[2] = Double.parseDouble(txtValorPago.getText().replace(".", "").replace(",", ".")); //Valor pago
+                prod[4] = (double)((double)prod[2] * (int)prod[3]); //Valor total
+            }
+            else
+            {
+                prod[4] = Double.parseDouble(txtValorPago.getText().replace(",", ".")); //Valor total
+                prod[2] = (double)((double)prod[4] / (int)prod[3]); //Valor pago
+            }
+            
+            
+            listProdsCompra.add(prod);
+            valorTotal = 0;
+            
+            for (int i = 0; i < listProdsCompra.size(); i++) {
+                valorTotal += (double)listProdsCompra.get(i)[4];
+                obj = new Objeto((String)listProdsCompra.get(i)[1], 
+                        String.valueOf(listProdsCompra.get(i)[2]), 
+                        String.valueOf(listProdsCompra.get(i)[3]), 
+                        String.valueOf(listProdsCompra.get(i)[4]));
+                obsList.add(obj);
+            }
+            
+            tableview.setItems(FXCollections.observableArrayList(obsList)); //Adicione observable list na tabela.
+            
+        }catch(Exception er){
+            Alert a = new Alert(Alert.AlertType.ERROR, "Erro ao inserir dados na tabela!\nErro: " + er.getMessage(), ButtonType.OK);
+            a.showAndWait();
+        }
     }
 
     @FXML
@@ -312,13 +406,14 @@ public class RegistrarCompraController implements Initializable {
         }
     }
 
+    /*
     @FXML
     private void evtAddFornec(ActionEvent event) {
     }
 
     @FXML
     private void evtCancelFornec(ActionEvent event) {
-    }
+    }*/
     
     @FXML
     private void evtNovo(ActionEvent event) {
@@ -336,6 +431,48 @@ public class RegistrarCompraController implements Initializable {
     
     @FXML
     private void evtSalvar(ActionEvent event) {
+        Object[] objCompra = new Object[7];
+        Object[] objParcela = new Object[7];
+        try{
+            //if ValidarErros() -- faz tudo pra baixo. //Erros: campos nulos, datas e valores negativos, etc.
+            
+            objCompra[0] = (int)-1; //Cod compra
+            objCompra[1] = (int)listFornec.get(cbFornec.getSelectionModel().getSelectedIndex())[0]; //Cod fornecedor
+            objCompra[2] = (int)1; //BUSCAR DA FUNÇÃO DO ZACARIAS; //Cod funcionario
+            
+            if(rdAVista.isSelected()){
+                objCompra[3] = 1;
+                objCompra[4] = (double)0;
+            }
+            else{
+                objCompra[3] = Integer.parseInt(txtQtdParcelas.getText()); //Quantidade de parcelas.
+                objCompra[4] = Double.parseDouble(txtJuros.getText().replace(".", "").replace(",", ".")); //Valor juros.
+            }
+            objCompra[5] = (double)(valorTotal * ((double)objCompra[4]/100 + 1)); //Valor total
+            objCompra[6] = (LocalDate)LocalDate.now(); //Data da compra
+            
+            objParcela[0] = (int)-1;//Cod parc
+            if(rdAVista.isSelected()){
+                objParcela[1] = 1; //Status paga
+                objParcela[2] = (LocalDate)LocalDate.now(); //Data do primeiro vencimento
+            }
+            else{
+                objParcela[1] = (int)0; //Status nao paga.
+                objParcela[2] = (LocalDate)txtDateVenc.getValue(); //Data do primeiro vencimento
+            }
+            objParcela[3] = (int)1; //Número da parcela.
+            objParcela[4] = (LocalDate)null;//Data do pagamento.
+            objParcela[5] = (double)-1;//Valor pago na parcela.
+            objParcela[6] = (int) -1;//Cod compra
+            
+            CtrCompra ctrCompra = new CtrCompra();
+            ctrCompra.salvar(objCompra, objParcela, listProdsCompra);
+            
+            
+        }catch(Exception er){
+            Alert a = new Alert(Alert.AlertType.ERROR, "Erro ao registrar compra!\nErro: " + er.getMessage(), ButtonType.OK);
+            a.showAndWait();
+        }
     }
 
 
@@ -354,6 +491,8 @@ public class RegistrarCompraController implements Initializable {
     public static void setFlagVolta(int flagVolta) {
         RegistrarCompraController.flagVolta = flagVolta;
     }
+
+    
 
     
 }

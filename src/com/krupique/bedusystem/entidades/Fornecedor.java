@@ -41,13 +41,14 @@ public class Fornecedor
     public int salvar(int flag)
     {
         String sql;
-        if(flag == 1)
+        if(flag == 1) //Se for 1, atualiza
             sql = "update fornecedor set forn_cnpj = '$1', forn_nome = '$2', forn_telefone = '$3', forn_email = '$4', forn_rua = '$5', forn_bairro = '$6', forn_num = $7, forn_cidade = '$8', forn_cep = '$9' where forn_cod = " + cod;
-        else
+        else //Se não, é insert
         {
             ResultSet rs;
             int cod = -1;
             
+            //Validar se um fornecedor com o mesmo CNPJ já foi cadastrado.
             try{
                 rs = Banco.con.consultar("select * from fornecedor where forn_cnpj = '" + cnpj + "'");
                 if(rs.next())
@@ -59,6 +60,7 @@ public class Fornecedor
                 System.out.println("Erro: " + er.getMessage());
             }
             
+            //Comando para inserir
             sql = "insert into fornecedor (forn_cod, forn_cnpj, forn_nome, forn_telefone, forn_email, forn_rua, forn_bairro, forn_num, forn_cidade, forn_cep)"
                 + "values (nextval('seq_fornecedor') , '$1', '$2', '$3', '$4', '$5', '$6', $7, '$8', '$9')";
         }
