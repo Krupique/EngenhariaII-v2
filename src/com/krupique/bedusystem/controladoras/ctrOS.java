@@ -9,8 +9,14 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import com.krupique.bedusystem.entidades.Funcionário;
 import com.krupique.bedusystem.entidades.OS;
+import com.krupique.bedusystem.entidades.Orçamento;
+import com.krupique.bedusystem.entidades.Status;
+import com.krupique.bedusystem.entidades.StatusOS;
+import java.sql.Date;
 import java.util.ArrayList;
+import javafx.scene.control.DatePicker;
 
 /**
  *
@@ -26,45 +32,47 @@ public class ctrOS
         return true;
     }
     
-    public ArrayList<Object[]> procurar()
+    public boolean alterar(JFXComboBox cb, JFXTextField funcionario, JFXTextArea desc, DatePicker data,int cod)
+    {
+        StatusOS s = new StatusOS();
+        Status sta = new Status().buscaStatus(cb.getSelectionModel().getSelectedItem().toString());
+        return s.gravar(cod,sta.getCodigo(),Date.valueOf(data.getValue()),desc.getText(),
+                new Funcionário().get_nome(funcionario.getText()).getCodigo());
+    }
+    
+    public ArrayList<Object[]> procurar(int filtro)
     {
         ArrayList<Object[]> usuarios = new ArrayList<>();
         ArrayList<OS> aux = new ArrayList<>();
-        Object[] obj;
-        Object[] objAux = null;
-        Object[] objAux2 = null;
-        int tipo;
+        ArrayList<StatusOS> historico = new ArrayList<>();
+        Object[] obj,object,object2;
+        Status s;
         
-        OS o = new OS().busca(1);
+        aux = new OS().busca(filtro);
         
-        obj = new Object[7 + o.getStatus().size()];
-            
-        obj[0] = o.getCodigo();
-        obj[1] = o.getData();
-        obj[2] = o.getDescricao();
-        obj[3] = o.getOrcamento().getCodigo();
-        obj[4] = o.getOrcamento().getCliente().getNome();
-        obj[5] = o.getOrcamento().getVeiculo().getVei_placa();
-        
-        for (int i = 0; i < o.getStatus().size(); i++)
+        for (int i = 0; i < aux.size(); i++)
         {
-            objAux = new Object[2 + o.getStatus().size()];
-            
-            objAux[0] = o.getStatus().get(i).getCodigo();
-            objAux[1] = o.getStatus().get(i).getStatus().getCodigo();
-            
-            for (int j = 0; j < o.getStatus().get(i).getFuncionarios().size(); j++)
+            obj = new Object[8];
+
+            obj[0] = aux.get(i).getCodigo();
+            obj[1] = aux.get(i).getData();
+            obj[2] = aux.get(i).getDescricao();
+            obj[3] = aux.get(i).getOrcamento().getCodigo();
+            obj[4] = aux.get(i).getOrcamento().getCliente().getNome();
+            obj[5] = aux.get(i).getOrcamento().getVeiculo().getVei_placa();
+            s = aux.get(i).getMax().getStatus();
+            if(s != null)
             {
-                objAux2 = new Object[2];
-                
-                objAux2[0] = o.getStatus().get(i).getFuncionarios().get(j).getCodigo();
-                objAux2[1] = o.getStatus().get(i).getFuncionarios().get(j).getNome();
-                objAux[j + 2] = objAux2;
+                obj[6] = aux.get(i).getMax().getStatus().getDescricao();
+                obj[7] = aux.get(i).getMax().getFuncionarios().getNome();
             }
-            obj[6 + i] = objAux;
+            else
+            {
+                obj[6] = "";
+                obj[7] = "";
+            }
+            usuarios.add(obj);
         }
-        
-        
         return usuarios;
     }
 }

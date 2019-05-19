@@ -58,6 +58,12 @@ public class ctrFuncionarios
         return f.getNomes();
     }
     
+    public ArrayList<String> buscaTodosSemAdmin()
+    {
+        Funcionário f = new Funcionário();
+        return f.getNomesSemAdmin();
+    }
+    
     public ArrayList<Object[]> procurarTodos(JFXTextField filtro,JFXRadioButton rb,JFXDatePicker dp)
     {
         ArrayList<Object[]> usuarios = new ArrayList<>();

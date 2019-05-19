@@ -408,6 +408,24 @@ public class Funcionário
         return nomes;
     }
     
+    public ArrayList<String> getNomesSemAdmin()
+    {
+        ArrayList<String> nomes = new ArrayList<>();
+        ResultSet rs = Banco.getCon().consultar("select func_nome from funcionario where func_nome <>'admin'");
+        
+        try
+        {
+            while(rs != null && rs.next())            
+            {
+                nomes.add(rs.getString("func_nome"));
+            }
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(Funcionário.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return nomes;
+    }
+    
     public ArrayList<Funcionário> getAll(String filtro)
     {
         ArrayList<Funcionário> funcionarios = new ArrayList<>();

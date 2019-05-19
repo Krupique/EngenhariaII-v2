@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.krupique.bedusystem.interfaces.fundamentais.OSController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.krupique.bedusystem.interfaces.fundamentais.OSController">
    <top>
       <HBox alignment="CENTER" prefHeight="80.0" prefWidth="880.0" style="-fx-background-color: #E1E1E1;" BorderPane.alignment="CENTER">
          <children>
@@ -17,4 +25,86 @@
          </children>
       </HBox>
    </top>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane layoutX="21.0" layoutY="35.0" prefHeight="246.0" prefWidth="528.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="35.0">
+               <children>
+                  <JFXTextField fx:id="tf_codigo" editable="false" labelFloat="true" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="79.0" promptText="Código OS" AnchorPane.topAnchor="20.0" />
+                  <JFXTextField fx:id="tf_funcionario" labelFloat="true" layoutX="14.0" layoutY="74.0" prefHeight="25.0" prefWidth="183.0" promptText="Funconário" AnchorPane.topAnchor="74.0" />
+                  <JFXComboBox fx:id="cb_status" labelFloat="true" layoutX="246.0" layoutY="20.0" prefHeight="25.0" prefWidth="184.0" promptText="Status Manutenção" AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="98.0" AnchorPane.topAnchor="20.0" />
+                  <JFXTextArea fx:id="ta_descricao" labelFloat="true" layoutX="14.0" layoutY="121.0" prefHeight="103.0" prefWidth="423.0" promptText="Observações" AnchorPane.leftAnchor="14.0" />
+                  
+                  <JFXButton fx:id="btHelp" buttonType="RAISED" layoutX="447.0" layoutY="18.0" onAction="#clickHelp" style="-fx-background-color: #347E65;" text="?" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <DatePicker fx:id="dp_data" layoutX="239.0" layoutY="83.0" prefHeight="25.0" prefWidth="192.0" promptText="Data da Manutenção" />
+                  
+               </children>
+            </AnchorPane>
+            <TableView fx:id="tv_historico" layoutX="659.0" layoutY="38.0" prefHeight="247.0" prefWidth="289.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="35.0">
+              <columns>
+                <TableColumn fx:id="tc_statusHistorico" prefWidth="96.0" text="Status" />
+                <TableColumn fx:id="tc_dataHistorico" prefWidth="77.0" text="Data" />
+                  <TableColumn fx:id="tc_funcionarioHistorico" prefWidth="115.0" text="Funcionário" />
+              </columns>
+            </TableView>
+            <Label layoutX="28.0" layoutY="12.0" text="Informações da Ordem de Serviço">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <AnchorPane layoutX="21.0" layoutY="358.0" prefHeight="230.0" prefWidth="838.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0">
+               <children>
+                  <TableView fx:id="tv_os" layoutX="14.0" layoutY="15.0" onMouseClicked="#clickTabela" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="15.0">
+                    <columns>
+                      <TableColumn fx:id="tc_os" prefWidth="68.0" text="Os" />
+                      <TableColumn fx:id="tc_cliente" prefWidth="175.0" text="Nome do Cliente" />
+                        <TableColumn fx:id="tc_veiculo" prefWidth="130.0" text="Veículo" />
+                        <TableColumn fx:id="tc_status" prefWidth="131.0" text="Status Atual" />
+                        <TableColumn fx:id="tc_data" prefWidth="109.0" text="Data" />
+                        <TableColumn fx:id="tc_descricao" prefWidth="196.0" text="Descrição" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <HBox alignment="CENTER" layoutX="20.0" layoutY="285.0" prefHeight="49.0" prefWidth="531.0" spacing="40.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="285.0">
+               <children>
+                  <JFXButton fx:id="btConfirmar" buttonType="RAISED" onAction="#clickConfirmar" style="-fx-background-color: #347E65;" text="Confirmar" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btIniciar" buttonType="RAISED" onAction="#clickIniciar" style="-fx-background-color: #347E65;" text="Iniciar" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btAlterar" buttonType="RAISED" onAction="#clickAlterar" style="-fx-background-color: #347E65;" text="Alterar" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btFinalizar" buttonType="RAISED" onAction="#clickFinalizar" style="-fx-background-color: #347E65;" text="Finalizar" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btCancelar" buttonType="RAISED" onAction="#clickCancelar" style="-fx-background-color: #347E65;" text="Cancelar" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <Label layoutX="28.0" layoutY="341.0" text="Lista de Ordem de Serviço">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </center>
 </BorderPane>

@@ -107,6 +107,11 @@ public class Objeto {
         this.param2 = param2;
     }
 
+    public Objeto(String valueOf, String valueOf0, String string, String valueOf1, String string0, String string1, String valueOf2, String valueOf3, String valueOf4)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public String getParam1() {
         return param1;
     }

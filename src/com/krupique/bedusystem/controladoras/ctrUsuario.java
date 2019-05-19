@@ -26,9 +26,9 @@ public class ctrUsuario
             return false;
         else
         {
-            if(nivel.getSelectionModel().getSelectedItem().equals("alto"))
+            if(nivel.getSelectionModel().getSelectedItem().equals("Alto"))
                 n = 0;
-            else if(nivel.getSelectionModel().getSelectedItem().equals("medio"))
+            else if(nivel.getSelectionModel().getSelectedItem().equals("Medio"))
                 n = 1;
             else 
                 n = 2;
@@ -73,13 +73,13 @@ public class ctrUsuario
             String txt = "";
             switch(filtro.getText())
             {
-                case "alto":
+                case "Alto":
                     txt = "0";
                     break;
-                case "medio":
+                case "Medio":
                     txt = "1";
                     break;
-                case "baixo":
+                case "Baixo":
                     txt = "2";
                     break;
             }
@@ -91,7 +91,18 @@ public class ctrUsuario
             obj = new Object[3];
             
             obj[0] = aux.get(i).getLogin();
-            obj[1] = aux.get(i).getNivel();
+            switch(aux.get(i).getNivel())
+            {
+                case 0:
+                    obj[1] = "Alto";
+                    break;
+                case 1:
+                    obj[1] = "Medio";
+                    break;
+                case 2:
+                    obj[1] = "Baixo";
+            }
+            //obj[1] = aux.get(i).getNivel();
             obj[2] = aux.get(i).getFuncionario().getNome();
             usuarios.add(obj);
         }

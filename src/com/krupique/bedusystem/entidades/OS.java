@@ -36,9 +36,7 @@ public class OS
         this.data = data;
         this.status = status;
         this.orcamento = orcamento;
-    }
-
-    
+    }    
     
     public int getCodigo()
     {
@@ -95,35 +93,69 @@ public class OS
         this.data = data;
     }
     
-    public OS busca(int filtro)
+    public ArrayList<OS> busca(int filtro)
     {
         OS os = null;
-        ResultSet rs = Banco.getCon().consultar("select * from ordem_de_servico where os_codigo = " + filtro);
+        ArrayList<OS>retorno = new ArrayList<>();
+        ResultSet rs,rsAux;
+        if(filtro != 0)
+             rs = Banco.getCon().consultar("select * from ordem_de_servico where os_codigo = " + filtro);
+        else
+            rs = Banco.getCon().consultar("select * from ordem_de_servico");
         
         try
         {
-            if(rs != null && rs.next())            
+            while(rs != null && rs.next())            
             {
                 os = new OS(rs.getInt("os_codigo"), rs.getString("os_descricao"), rs.getDate("os_data"));
                 Orçamento o = new Orçamento().busca(rs.getInt("orc_codigo"));
                 os.setOrcamento(o);
                 
-                rs = Banco.getCon().consultar("select status.stat_codigo,stat_descricao,stat_os_codigo from ordem_de_servico "
-                        + "inner join status_os on ordem_de_servico.os_codigo = status_os.os_codigo "
-                        + "AND ordem_de_servico.os_codigo = " + os.getCodigo()+ "inner join status on "
-                        + "status.stat_codigo = status_os.stat_codigo");
-                while(rs != null && rs.next())
+                rsAux = Banco.getCon().consultar("select status.stat_codigo,stat_descricao,stat_os_codigo,funcionario.func_codigo "
+                        + "from ordem_de_servico inner join status_os on ordem_de_servico.os_codigo = status_os.os_codigo "
+                        + "AND ordem_de_servico.os_codigo = " + os.getCodigo()+ " inner join status on "
+                                + "status.stat_codigo = status_os.stat_codigo inner join funcionario "
+                                + "on funcionario.func_codigo = status_os.func_codigo");
+                while(rsAux != null && rsAux.next())
                 {
-                    StatusOS s = new StatusOS(rs.getInt("stat_os_codigo"), new Status(rs.getInt("stat_codigo")).busca(), os);
-                    s.setFuncionarios(s.buscaFuncionarios());
+                    StatusOS s = new StatusOS(rsAux.getInt("stat_os_codigo"), new Status(rsAux.getInt("stat_codigo")).busca());
+                    s.setFuncionarios(new Funcionário().get(rsAux.getInt("func_codigo")));
                     os.addStatus(s);
                 }
+                retorno.add(os);
             }
         } 
         catch (SQLException ex)
         {
             Logger.getLogger(OS.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return os;
+        return retorno;
+    }
+    
+    public StatusOS getMax()
+    {
+        StatusOS sos = new StatusOS();
+        ResultSet rs = Banco.getCon().consultar("select max(stat_os_codigo) as stat_os_codigo from status_os inner join "
+        + "ordem_de_servico on ordem_de_servico.os_codigo = status_os.os_codigo and ordem_de_servico.os_codigo = " + codigo);
+        
+        try
+        {
+            if(rs != null && rs.next())            
+            {
+                sos = new StatusOS(rs.getInt("stat_os_codigo"));
+                sos.busca();
+            }
+        } 
+        catch (SQLException ex)
+        {
+            Logger.getLogger(OS.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return sos;
+    }
+
+    public boolean alterar()
+    {
+        
+        return true;
     }
 }

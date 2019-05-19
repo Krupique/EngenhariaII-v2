@@ -127,4 +127,32 @@ public class Orçamento
         }
         return o;
     }
+    
+    public Orçamento buscaOrc_Os(int filtro)
+    {
+        Orçamento o = null;
+        ResultSet rs = Banco.getCon().consultar("select * from orcamento inner join ordem_de_servico on "
+                + "orcamento.orc_codigo = ordem_de_servico.orc_codigo and os_codigo = " + filtro);
+        
+        try
+        {
+            if(rs != null && rs.next())            
+            {
+                Funcionário f = new Funcionário(rs.getInt("func_codigo"));
+                Veiculo v = new Veiculo(rs.getString("vei_placa"));
+                Cliente c = new Cliente(rs.getInt("cli_cod"));
+                
+                f = f.get();
+                v.busca();
+                c.busca();
+                
+                o = new Orçamento(rs.getInt("orc_codigo"), rs.getString("orc_descricao"), f, c, v);
+            }
+        } 
+        catch (SQLException ex)
+        {
+            Logger.getLogger(Orçamento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return o;
+    }
 }

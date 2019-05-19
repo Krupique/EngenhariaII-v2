@@ -73,14 +73,14 @@
             </Label>
             <AnchorPane layoutX="18.0" layoutY="31.0" prefHeight="164.0" prefWidth="850.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="30.0">
                <children>
-                  <JFXTextField fx:id="tf_nome" layoutX="23.0" layoutY="23.0" prefHeight="25.0" prefWidth="233.0" promptText="Nome*" />
-                  <JFXTextField fx:id="tf_funcao" layoutX="291.0" layoutY="23.0" prefHeight="25.0" prefWidth="233.0" promptText="Função*" />
-                  <JFXTextField fx:id="tf_telefone" layoutX="23.0" layoutY="75.0" onKeyReleased="#eventMaskTel" prefHeight="25.0" prefWidth="233.0" promptText="Telefone" />
-                  <JFXTextField fx:id="tf_celular" layoutX="291.0" layoutY="75.0" onKeyReleased="#eventMaskCel" prefWidth="233.0" promptText="Celular" />
-                  <JFXTextField fx:id="tf_email" layoutX="566.0" layoutY="75.0" prefWidth="233.0" promptText="Email" />
+                  <JFXTextField fx:id="tf_nome" labelFloat="true" layoutX="23.0" layoutY="23.0" prefHeight="25.0" prefWidth="233.0" promptText="Nome*" />
+                  <JFXTextField fx:id="tf_funcao" labelFloat="true" layoutX="291.0" layoutY="23.0" prefHeight="25.0" prefWidth="233.0" promptText="Função*" />
+                  <JFXTextField fx:id="tf_telefone" labelFloat="true" layoutX="23.0" layoutY="75.0" onKeyReleased="#eventMaskTel" prefHeight="25.0" prefWidth="233.0" promptText="Telefone" />
+                  <JFXTextField fx:id="tf_celular" labelFloat="true" layoutX="291.0" layoutY="75.0" onKeyReleased="#eventMaskCel" prefWidth="233.0" promptText="Celular" />
+                  <JFXTextField fx:id="tf_email" labelFloat="true" layoutX="566.0" layoutY="75.0" prefWidth="233.0" promptText="Email" />
                   <JFXRadioButton fx:id="rb_masculino" layoutX="23.0" layoutY="124.0" text="Masculino" />
                   <JFXRadioButton fx:id="rb_feminino" layoutX="129.0" layoutY="124.0" text="Feminino" />
-                  <JFXDatePicker fx:id="dp_data" layoutX="566.0" layoutY="22.0" prefWidth="233.0" />
+                  <JFXDatePicker fx:id="dp_data" layoutX="566.0" layoutY="22.0" overLay="true" prefWidth="233.0" promptText="Data de Admissão" />
                </children>
             </AnchorPane>
             <Label layoutX="15.0" layoutY="217.0" text="Informações de Endereço">
@@ -90,10 +90,10 @@
             </Label>
             <AnchorPane layoutX="18.0" layoutY="248.0" prefHeight="144.0" prefWidth="850.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                <children>
-                  <JFXTextField fx:id="tf_rua" layoutX="23.0" layoutY="27.0" prefHeight="25.0" prefWidth="193.0" promptText="Rua" AnchorPane.topAnchor="27.0" />
-                  <JFXTextField fx:id="tf_bairro" labelFloat="true" layoutX="338.0" layoutY="22.0" prefHeight="30.0" prefWidth="200.0" promptText="Bairro" />
+                  <JFXTextField fx:id="tf_rua" labelFloat="true" layoutX="23.0" layoutY="27.0" prefHeight="25.0" prefWidth="193.0" promptText="Rua*" AnchorPane.topAnchor="27.0" />
+                  <JFXTextField fx:id="tf_bairro" labelFloat="true" layoutX="338.0" layoutY="22.0" prefHeight="30.0" prefWidth="200.0" promptText="Bairro*" />
                   <JFXTextField fx:id="tf_numero" labelFloat="true" layoutX="241.0" layoutY="22.0" onKeyReleased="#evtMaskNum" prefHeight="30.0" prefWidth="60.0" promptText="Número" AnchorPane.topAnchor="22.0" />
-                  <JFXTextField fx:id="tf_cidade" labelFloat="true" layoutX="23.0" layoutY="79.0" prefHeight="25.0" prefWidth="266.0" promptText="Cidade" />
+                  <JFXTextField fx:id="tf_cidade" labelFloat="true" layoutX="23.0" layoutY="79.0" prefHeight="25.0" prefWidth="266.0" promptText="Cidade*" />
                   <JFXTextField fx:id="tf_cep" labelFloat="true" layoutX="342.0" layoutY="79.0" onKeyReleased="#evtMaskCep" prefWidth="100.0" promptText="CEP" />
                   <JFXButton fx:id="btn_cep" buttonType="RAISED" layoutX="468.0" layoutY="77.0" onAction="#clickCep" prefHeight="30.0" prefWidth="95.0" style="-fx-background-color: #347E65;" text="Buscar CEP" textFill="WHITE">
                      <font>
