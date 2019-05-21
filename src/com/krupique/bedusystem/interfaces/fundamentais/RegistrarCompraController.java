@@ -113,6 +113,8 @@ public class RegistrarCompraController implements Initializable {
     private TableColumn<String, String> colValorTotal;
     @FXML
     private JFXButton btExcluir;
+    @FXML
+    private JFXButton btAlterar;
 
     
     //Variáveis para controlar a funcionalidade do sistema.
@@ -130,8 +132,7 @@ public class RegistrarCompraController implements Initializable {
     private double valorTotal;
     private Object[] retorno;
     private int flagAlter;
-    @FXML
-    private JFXButton btAlterar;
+    private int codCompra;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -159,6 +160,7 @@ public class RegistrarCompraController implements Initializable {
         {
             limparCampos();
             habilitarBotoes(false, false, true, true, true, true, true);
+            habilitarCampos(false);
             retorno = BuscaComprasController.getRetorno();
             setarCampos(retorno);
         }
@@ -210,6 +212,7 @@ public class RegistrarCompraController implements Initializable {
             }
         
         tableview.setItems(FXCollections.observableArrayList(obs_list)); //Adicione observable list na tabela.
+        codCompra = (int)obj[0];
     }
     
     private void iniciarColunas() {
@@ -495,7 +498,7 @@ public class RegistrarCompraController implements Initializable {
     
     @FXML
     private void evtAlterar(ActionEvent event) {
-        habilitarBotoes(false, true, true, true, true, true, true);
+        habilitarBotoes(false, true, false, false, true, true, true);
         habilitarCampos(true);
         cbProdutos.requestFocus();
         flagAlter = 1;
@@ -513,55 +516,69 @@ public class RegistrarCompraController implements Initializable {
     private void evtSalvar(ActionEvent event) {
         Object[] objCompra = new Object[7];
         Object[] objParcela = new Object[7];
+        int aux_atu = 0;
         try{
-            //if ValidarErros() -- faz tudo pra baixo. //Erros: campos nulos, datas e valores negativos, etc.
-            
-            objCompra[0] = (int)-1; //Cod compra
-            objCompra[1] = (int)listFornec.get(cbFornec.getSelectionModel().getSelectedIndex())[0]; //Cod fornecedor
-            objCompra[2] = (int)1; //BUSCAR DA FUNÇÃO DO ZACARIAS; //Cod funcionario
-            
-            if(rdAVista.isSelected()){
-                objCompra[3] = 1;
-                objCompra[4] = (double)0;
-            }
-            else{
-                objCompra[3] = Integer.parseInt(txtQtdParcelas.getText()); //Quantidade de parcelas.
-                objCompra[4] = Double.parseDouble(txtJuros.getText().replace(".", "").replace(",", ".")); //Valor juros.
-            }
-            objCompra[5] = (double)(valorTotal * ((double)objCompra[4]/100 + 1)); //Valor total
-            objCompra[6] = (LocalDate)LocalDate.now(); //Data da compra
-            
-            objParcela[0] = (int)-1;//Cod parc
-            if(rdAVista.isSelected()){
-                objParcela[1] = 1; //Status paga
-                objParcela[2] = (LocalDate)LocalDate.now(); //Data do primeiro vencimento
-            }
-            else{
-                objParcela[1] = (int)0; //Status nao paga.
-                objParcela[2] = (LocalDate)txtDateVenc.getValue(); //Data do primeiro vencimento
-            }
-            objParcela[3] = (int)1; //Número da parcela.
-            objParcela[4] = (LocalDate)null;//Data do pagamento.
-            objParcela[5] = (double)-1;//Valor pago na parcela.
-            objParcela[6] = (int) -1;//Cod compra
-            
-            CtrCompra ctrCompra = new CtrCompra();
-            if(flagAlter == 1)
+            if (ValidarErros())// -- faz tudo pra baixo. //Erros: campos nulos, datas e valores negativos, etc.
             {
-                //ctrCompra.excluir();
-            }
-            if(ctrCompra.salvar(objCompra, objParcela, listProdsCompra))
-            {
-                limparCampos();
-                habilitarBotoes(true, false, false, false, false, true, true);
-                habilitarCampos(false);
-                tableview = new TableView<>();
-                listProdsCompra = new ArrayList<>();
                 
-                Alert a = new Alert(Alert.AlertType.INFORMATION, "Compra realizada com sucesso!", ButtonType.OK);
-                a.showAndWait();
+                objCompra[0] = (int)-1; //Cod compra
+                objCompra[1] = (int)listFornec.get(cbFornec.getSelectionModel().getSelectedIndex())[0]; //Cod fornecedor
+                objCompra[2] = (int)1; //BUSCAR DA FUNÇÃO DO ZACARIAS; //Cod funcionario
+
+                if(rdAVista.isSelected()){
+                    objCompra[3] = 1;
+                    objCompra[4] = (double)0;
+                }
+                else{
+                    objCompra[3] = Integer.parseInt(txtQtdParcelas.getText()); //Quantidade de parcelas.
+                    objCompra[4] = Double.parseDouble(txtJuros.getText().replace(".", "").replace(",", ".")); //Valor juros.
+                }
+                objCompra[5] = (double)(valorTotal * ((double)objCompra[4]/100 + 1)); //Valor total
+                objCompra[6] = (LocalDate)LocalDate.now(); //Data da compra
+
+                objParcela[0] = (int)-1;//Cod parc
+                if(rdAVista.isSelected()){
+                    objParcela[1] = 1; //Status paga
+                    objParcela[2] = (LocalDate)LocalDate.now(); //Data do primeiro vencimento
+                }
+                else{
+                    objParcela[1] = (int)0; //Status nao paga.
+                    objParcela[2] = (LocalDate)txtDateVenc.getValue(); //Data do primeiro vencimento
+                }
+                objParcela[3] = (int)1; //Número da parcela.
+                objParcela[4] = (LocalDate)null;//Data do pagamento.
+                objParcela[5] = (double)-1;//Valor pago na parcela.
+                objParcela[6] = (int) -1;//Cod compra
+
+                CtrCompra ctrCompra = new CtrCompra();
+                aux_atu = 0;
+                if(flagAlter == 1)
+                {
+                    aux_atu = 1;
+                    if(!excluir(codCompra))
+                    {
+                        aux_atu = -1;
+                        Alert a = new Alert(Alert.AlertType.ERROR, "Erro ao excluir compra!", ButtonType.OK);
+                        a.showAndWait();
+                    }
+                }
+                
+                if(ctrCompra.salvar(objCompra, objParcela, listProdsCompra) && aux_atu != -1)
+                {
+                    limparCampos();
+                    habilitarBotoes(true, false, false, false, false, true, true);
+                    habilitarCampos(false);
+                    tableview = new TableView<>();
+                    listProdsCompra = new ArrayList<>();
+
+                    Alert a;
+                    if(aux_atu == 0) 
+                        a = new Alert(Alert.AlertType.INFORMATION, "Compra realizada com sucesso!", ButtonType.OK);
+                    else //aux_atu == 1
+                        a = new Alert(Alert.AlertType.INFORMATION, "Compra alterada com sucesso!", ButtonType.OK);
+                    a.showAndWait();
+                }
             }
-            
             
         }catch(Exception er){
             Alert a = new Alert(Alert.AlertType.ERROR, "Erro ao registrar compra!\nErro: " + er.getMessage(), ButtonType.OK);
@@ -569,6 +586,13 @@ public class RegistrarCompraController implements Initializable {
         }
     }
 
+    public boolean ValidarErros(){
+        boolean flag = true;
+        int[] erro = new int[]{0,0,0,0,0};
+        
+        return true;
+    }
+    
 
     @FXML
     private void evtBuscar(ActionEvent event) {
@@ -586,9 +610,32 @@ public class RegistrarCompraController implements Initializable {
             a.showAndWait();
         }
     }
+    
+    private boolean excluir(int cod)
+    {
+        CtrCompra compra = new CtrCompra();
+        return compra.excluir(cod);
+    }
 
     @FXML
     private void evtExcluir(ActionEvent event) {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Deseja mesmo excluir esta compra?", ButtonType.YES, ButtonType.NO);
+        a.showAndWait();
+        if(a.getResult() == ButtonType.YES)
+        {
+            if(excluir(codCompra))
+            {
+                a = new Alert(Alert.AlertType.INFORMATION, "Compra excluída com sucesso!", ButtonType.OK);
+                limparCampos();
+                habilitarCampos(false);
+                habilitarBotoes(true, false, false, false, false, true, true);
+            }
+            else
+            {
+                a = new Alert(Alert.AlertType.ERROR, "Erro ao excluir compra!", ButtonType.OK);
+            }
+            a.showAndWait();
+        }
     }
     
     @FXML

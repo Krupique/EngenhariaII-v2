@@ -97,4 +97,19 @@ public class CtrCompra {
         
         return lista;
     }
+    
+    public boolean excluir(int cod)
+    {
+        ItensCompra itens = new ItensCompra(cod);
+        if(itens.excluir())
+        {
+            ParcelaCompra parcela = new ParcelaCompra(cod);
+            if(parcela.excluir())
+            {
+                Compra compra = new Compra(cod);
+                return compra.excluir();
+            }
+        }
+        return false;
+    }
 }

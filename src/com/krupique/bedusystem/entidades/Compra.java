@@ -19,6 +19,11 @@ public class Compra extends Movimento
     {
     }
 
+    public Compra(int cod_compra)
+    {
+        this.cod_compra = cod_compra;
+    }
+    
     public Compra(int cod_compra, int cod_fornecedor, int cod_funcionario, int parcelas, double juros, double valor_total, LocalDate data_compra) {
         this.cod_compra = cod_compra;
         this.cod_fornecedor = cod_fornecedor;
@@ -107,6 +112,12 @@ public class Compra extends Movimento
             System.out.println("Erro: " + er.getMessage());
         }
         return list;
+    }
+    
+    public boolean excluir()
+    {
+        String sql = "delete from compra where comp_codigo = " + cod_compra;
+        return Banco.con.manipular(sql);
     }
     
     public int getCod_compra() {

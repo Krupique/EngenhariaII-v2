@@ -77,6 +77,34 @@ public class ItensCompra {
         return lista;
     }
     
+    public boolean excluir()
+    {
+        ResultSet rs;
+        String consulta = "select * from itens_compra where comp_codigo = " + cod_compra;
+        int aux;
+        int qt;
+        Produto prod;
+        try
+        {
+            rs = Banco.con.consultar(consulta);
+            while(rs.next())
+            {
+                aux = rs.getInt("prod_codigo");
+                qt = rs.getInt("itens_compra_quantidade");
+                qt *= -1;
+                prod = new Produto(aux, qt);
+                prod.atualiza_estoque();
+            }
+            
+        }catch(Exception er)
+        {
+            System.out.println("Erro: " + er.getMessage());
+        }
+        
+        String str = "delete from itens_compra where comp_codigo = " + cod_compra;
+        return Banco.con.manipular(str);
+    }
+    
     public int getCod_compra() {
         return cod_compra;
     }

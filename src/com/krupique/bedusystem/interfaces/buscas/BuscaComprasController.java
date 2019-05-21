@@ -86,6 +86,8 @@ public class BuscaComprasController implements Initializable {
     @FXML
     private TableColumn<String, String> colParVlrPago;
     @FXML
+    private TableColumn<String, String> colDtCompra;
+    @FXML
     private TableView<Objeto> tbvCompras;
     @FXML
     private TableView<Objeto> tbvParcelas;
@@ -95,8 +97,6 @@ public class BuscaComprasController implements Initializable {
     ArrayList<Object[]> lista;
     private static int flag = 0;
     private static Object[] retorno;
-    @FXML
-    private TableColumn<?, ?> colDtCompra;
     /**
      * Initializes the controller class.
      */

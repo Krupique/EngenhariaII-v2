@@ -43,6 +43,10 @@ public class ParcelaCompra {
         this.numero_parcela = numero_parcela;
         this.cod_compra = cod_compra;
     }
+
+    public ParcelaCompra(int cod) {
+        this.cod_compra = cod;
+    }
     
     
     
@@ -89,6 +93,12 @@ public class ParcelaCompra {
             System.out.println("Erro: " + er.getMessage());
         }
         return list;
+    }
+    
+    public boolean excluir()
+    {
+        String str = "delete from parcela_compra where parc_compra_compra_cod = " + cod_compra;
+        return Banco.con.manipular(str);
     }
 
     public int getCod_parcela() {
