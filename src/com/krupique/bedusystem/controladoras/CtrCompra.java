@@ -74,11 +74,13 @@ public class CtrCompra {
         for (int i = 0; i < list_prods.size(); i++) {
             list_parcelas = new ArrayList<>();
             list_parcelas = parcela_compra.buscar((int)list_prods.get(i)[0]);
-            if(list_parcelas.get(i)[3] == null)
-                list_parcelas.get(i)[3] = "nulo";
-            if(list_parcelas.get(i)[4] == null)
-                list_parcelas.get(i)[4] = 1;
-            list_prods.get(i)[5] = list_parcelas;
+            for (int j = 0; j < list_parcelas.size(); j++) {
+                if(list_parcelas.get(j)[3] == null)
+                    list_parcelas.get(j)[3] = "nulo";
+                if(list_parcelas.get(j)[4] == null)
+                    list_parcelas.get(j)[4] = 1;
+            }
+            list_prods.get(i)[6] = list_parcelas;
         }
         
         return list_prods;

@@ -95,6 +95,8 @@ public class BuscaComprasController implements Initializable {
     ArrayList<Object[]> lista;
     private static int flag = 0;
     private static Object[] retorno;
+    @FXML
+    private TableColumn<?, ?> colDtCompra;
     /**
      * Initializes the controller class.
      */
@@ -131,7 +133,7 @@ public class BuscaComprasController implements Initializable {
         rdVenceAte.setStyle("-jfx-selected-color: " + cor);
         rdVenceNoDia.setStyle("-jfx-selected-color: " + cor);
         
-        ckExibirContasPagas.setStyle("-jfx-checked-color" + cor);
+        ckExibirContasPagas.setStyle("-jfx-checked-color: " + cor);
     }
     
     private void setRadioButtons(boolean v1, boolean v2, boolean v3, boolean v4)
@@ -150,6 +152,7 @@ public class BuscaComprasController implements Initializable {
         colCompFornec.setCellValueFactory(new PropertyValueFactory<>("param2"));
         colCompQtdParcelas.setCellValueFactory(new PropertyValueFactory<>("param3"));
         colCompValorTotal.setCellValueFactory(new PropertyValueFactory<>("param4"));
+        colDtCompra.setCellValueFactory(new PropertyValueFactory<>("param5"));
         
         colParNum.setCellValueFactory(new PropertyValueFactory<>("param1"));
         colParStatus.setCellValueFactory(new PropertyValueFactory<>("param2"));
@@ -282,32 +285,36 @@ public class BuscaComprasController implements Initializable {
         ArrayList<Objeto> obslist_comp = new ArrayList<>();
         ArrayList<Objeto> obslist_parc = new ArrayList<>();
         ArrayList<Object[]> arry_parc;
+        String aux;
         
         for (int i = 0; i < lista.size(); i++) {
-            temp = new Object[5];
-            temp[0] = lista.get(i)[0];
-            temp[1] = lista.get(i)[1];
-            temp[2] = lista.get(i)[2];
-            temp[3] = lista.get(i)[3];
-            temp[4] = lista.get(i)[4];
-            obj_comp = new Objeto(String.valueOf((int)temp[0]), (String)temp[1], 
-                    (String)temp[2], String.valueOf((int)temp[3]), String.valueOf((double)temp[4]));
+            temp = new Object[6];
+            temp[0] = lista.get(i)[0]; //Codigo compra
+            temp[1] = lista.get(i)[1]; //Funcionário
+            temp[2] = lista.get(i)[2]; //Fornecedor
+            temp[3] = lista.get(i)[3]; //Qtd. Parcelas
+            temp[4] = lista.get(i)[4]; //Valor total
+            temp[5] = lista.get(i)[5]; //Data - tá errado
+            obj_comp = new Objeto((String)temp[1], (String)temp[2], 
+                    String.valueOf((int)temp[3]), String.valueOf((double)temp[4]), (String)temp[5] + "");
             
             obslist_comp.add(obj_comp);
             
             arry_parc = new ArrayList<>();
-            arry_parc = (ArrayList<Object[]>)lista.get(i)[5];
+            arry_parc = (ArrayList<Object[]>)lista.get(i)[6];
             for (int j = 0; j < arry_parc.size(); j++) {
                 if(((int)arry_parc.get(j)[1] == 0 && flag == 0) || flag == 1)
                 {
                     temp2 = new Object[5];
                     temp2[0] = arry_parc.get(j)[0];
-                    temp2[1] = arry_parc.get(j)[1];
+                    aux = String.valueOf((int)arry_parc.get(j)[1]);
+                    aux = aux.equals("0") ? "em haver" : "paga";
+                    temp2[1] = aux;
                     temp2[2] = arry_parc.get(j)[2];
                     temp2[3] = arry_parc.get(j)[3];
                     temp2[4] = arry_parc.get(j)[4];
 
-                    obj_parc = new Objeto(String.valueOf((int)temp2[0]), String.valueOf((int)temp2[1]), 
+                    obj_parc = new Objeto(String.valueOf((int)temp2[0]), (String)temp2[1], 
                             (String)temp2[2], (String)temp2[3], String.valueOf((double)temp2[4]));
 
                     obslist_parc.add(obj_parc);

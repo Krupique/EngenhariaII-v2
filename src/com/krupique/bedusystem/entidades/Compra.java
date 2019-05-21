@@ -68,7 +68,7 @@ public class Compra extends Movimento
     
     public ArrayList<Object[]> buscar(String str)
     {
-        String temp =   "select distinct compra.comp_codigo, funcionario.func_nome, fornecedor.forn_nome, compra.comp_qtd_parcelas, compra.comp_valor_total\n" +
+        String temp =   "select distinct compra.comp_codigo, funcionario.func_nome, fornecedor.forn_nome, compra.comp_qtd_parcelas, compra.comp_valor_total, compra.comp_data_compra\n" +
                         "from compra inner join funcionario on compra.func_codigo = funcionario.func_codigo\n" +
                         "inner join fornecedor on compra.forn_cod = fornecedor.forn_cod\n" +
                         "inner join itens_compra on compra.comp_codigo = itens_compra.comp_codigo\n" +
@@ -91,13 +91,14 @@ public class Compra extends Movimento
             rs = Banco.con.consultar(sql);
             while(rs.next())
             {
-                obj = new Object[6];
+                obj = new Object[7];
                 obj[0] = rs.getInt("comp_codigo");
                 obj[1] = rs.getString("func_nome");
                 obj[2] = rs.getString("forn_nome");
                 obj[3] = rs.getInt("comp_qtd_parcelas");
                 obj[4] = rs.getDouble("comp_valor_total");
-                obj[5] = null; //Parcelas
+                obj[5] = rs.getString("comp_data_compra");
+                obj[6] = null; //Parcelas
                 
                 list.add(obj);
             }

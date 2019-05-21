@@ -127,6 +127,8 @@ public class RegistrarCompraController implements Initializable {
     private Object[] objProd;
     private double valorTotal;
     private Object[] retorno;
+    @FXML
+    private JFXButton btExcluir;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -141,24 +143,24 @@ public class RegistrarCompraController implements Initializable {
         {
             objFornec = BuscaFornecedorController.getRetorno();
             cbFornec.getSelectionModel().select((String)objFornec[2]);
-            habilitarBotoes(false, true, true, true, true);
+            habilitarBotoes(false, true, false, true, true, true);
         }
         else if(BuscaProdutoController.getFlag() == 1)
         {
             objProd = BuscaProdutoController.getRetorno();
             cbProdutos.getSelectionModel().select((String)objProd[1]);
-            habilitarBotoes(false, true, true, true, true);
+            habilitarBotoes(false, true, false, true, true, true);
         }
         else if(BuscaComprasController.getFlag() == 1)
         {
             limparCampos();
-            habilitarBotoes(false, false, true, true, true);
+            habilitarBotoes(false, false, true, true, true, true);
             retorno = BuscaComprasController.getRetorno();
             setarCampos(retorno);
         }
         else
         {
-            habilitarBotoes(true, false, false, true, true);
+            habilitarBotoes(true, false, false, false, true, true);
             limparCampos();
             habilitarCampos(false);
             setRadioButton(true, false);
@@ -206,6 +208,7 @@ public class RegistrarCompraController implements Initializable {
         String cor = CorSistema.getCorHex();
         btNovo.setStyle("-fx-background-color: " + cor);
         btSalvar.setStyle("-fx-background-color: " + cor);
+        btExcluir.setStyle("-fx-background-color: " + cor);
         btCancelar.setStyle("-fx-background-color: " + cor);
         btBuscar.setStyle("-fx-background-color: " + cor);
         btVoltar.setStyle("-fx-background-color: " + cor);
@@ -235,9 +238,10 @@ public class RegistrarCompraController implements Initializable {
         txtJuros.setText("");
         txtDateVenc.setValue(null); //Cuidado
 
-        tableview.getSelectionModel().select(-1);
-        
+        cbProdutos.getSelectionModel().select(-1);
         cbFornec.getSelectionModel().select(-1);
+        
+        tableview = new TableView<>();
     }
     
     private void habilitarCampos(boolean value){
@@ -268,9 +272,10 @@ public class RegistrarCompraController implements Initializable {
         //btCancelForne.setDisable(value);
     }
     
-    private void habilitarBotoes(boolean novo, boolean salvar, boolean cancelar, boolean buscar, boolean voltar){
+    private void habilitarBotoes(boolean novo, boolean salvar, boolean excluir, boolean cancelar, boolean buscar, boolean voltar){
         btNovo.setDisable(!novo);
         btSalvar.setDisable(!salvar);
+        btExcluir.setDisable(!excluir);
         btCancelar.setDisable(!cancelar);
         btBuscar.setDisable(!buscar);
         btVoltar.setDisable(!voltar);
@@ -432,7 +437,7 @@ public class RegistrarCompraController implements Initializable {
     
     @FXML
     private void evtNovo(ActionEvent event) {
-        habilitarBotoes(false, true, true, true, true);
+        habilitarBotoes(false, true, false, true, true, true);
         habilitarCampos(true);
     }
 
@@ -440,7 +445,7 @@ public class RegistrarCompraController implements Initializable {
     private void evtCancelar(ActionEvent event) {
         habilitarCampos(false);
         limparCampos();
-        habilitarBotoes(true, false, false, true, true);
+        habilitarBotoes(true, false, false, false, true, true);
         setRadioButton(true, false);
     }
     
@@ -484,7 +489,7 @@ public class RegistrarCompraController implements Initializable {
             if(ctrCompra.salvar(objCompra, objParcela, listProdsCompra))
             {
                 limparCampos();
-                habilitarBotoes(true, false, false, true, true);
+                habilitarBotoes(true, false, false, false, true, true);
                 habilitarCampos(false);
                 tableview = new TableView<>();
                 listProdsCompra = new ArrayList<>();
@@ -519,6 +524,10 @@ public class RegistrarCompraController implements Initializable {
     }
 
     @FXML
+    private void evtExcluir(ActionEvent event) {
+    }
+    
+    @FXML
     private void evtVoltar(ActionEvent event) {
     }
     
@@ -529,8 +538,5 @@ public class RegistrarCompraController implements Initializable {
     public static void setFlagVolta(int flagVolta) {
         RegistrarCompraController.flagVolta = flagVolta;
     }
-
-    
-
     
 }
