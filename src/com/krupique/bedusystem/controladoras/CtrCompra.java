@@ -8,6 +8,7 @@ package com.krupique.bedusystem.controladoras;
 import com.krupique.bedusystem.entidades.Compra;
 import com.krupique.bedusystem.entidades.ItensCompra;
 import com.krupique.bedusystem.entidades.ParcelaCompra;
+import com.krupique.bedusystem.entidades.Produto;
 import java.time.LocalDate;
 import java.util.ArrayList;
 /**
@@ -20,6 +21,7 @@ public class CtrCompra {
         
         //Inserir compra
         Compra compra = new Compra((int)obj_compra[0], (int)obj_compra[1], (int)obj_compra[2], (int)obj_compra[3], (double)obj_compra[4], (double)obj_compra[5], (LocalDate)obj_compra[6]);
+        Produto prod;
         if(compra.salvar())
         {
             int cod = compra.getSequence();
@@ -30,6 +32,8 @@ public class CtrCompra {
             try
             {
                 for (int i = 0; i < obj_itens.size(); i++) {
+                    prod = new Produto((int)obj_itens.get(i)[0], (int)obj_itens.get(i)[3]);
+                    prod.atualiza_estoque();
                     itens = new ItensCompra(cod, (int)obj_itens.get(i)[0], (double)obj_itens.get(i)[2], (int)obj_itens.get(i)[3]);
                     itens.salvar();
                 }
@@ -84,5 +88,13 @@ public class CtrCompra {
         }
         
         return list_prods;
+    }
+    
+    public ArrayList<Object[]> buscar_itens_compra(int cod)
+    {
+        ItensCompra itens_compra = new ItensCompra(cod);
+        ArrayList<Object[]> lista = itens_compra.buscar();
+        
+        return lista;
     }
 }

@@ -22,6 +22,12 @@ public class Produto
         this.quantidade = quantidade;
         this.classificacao = classificacao;
     }
+    
+    public Produto(int codigo, int quantidade)
+    {
+        this.codigo = codigo;
+        this.quantidade = quantidade;
+    }
 
     public Produto(int cod) {
         this.codigo = cod;
@@ -68,6 +74,27 @@ public class Produto
     {
         String str = "delete from produto where prod_codigo = " + codigo;
         return Banco.con.manipular(str);
+    }
+    
+    public boolean atualiza_estoque()
+    {
+        String sql = "select prod_quantidade from produto where prod_codigo = " + codigo;
+        
+        ResultSet rs;
+        int quant = 0;
+        
+        try
+        {
+            rs = Banco.con.consultar(sql);
+            if(rs.next())
+                quant = rs.getInt("prod_quantidade");
+        }catch(Exception er){
+            System.out.println("Erro: " + er.getMessage());
+        }
+        
+        quant += this.quantidade;
+        sql = "update produto set prod_quantidade = " + quant + " where prod_codigo = " + codigo;
+        return Banco.con.manipular(sql);
     }
 
     public int getCodigo()

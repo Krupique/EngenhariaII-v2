@@ -111,6 +111,8 @@ public class RegistrarCompraController implements Initializable {
     private TableColumn<String, String> colQuantidade;
     @FXML
     private TableColumn<String, String> colValorTotal;
+    @FXML
+    private JFXButton btExcluir;
 
     
     //Variáveis para controlar a funcionalidade do sistema.
@@ -127,8 +129,9 @@ public class RegistrarCompraController implements Initializable {
     private Object[] objProd;
     private double valorTotal;
     private Object[] retorno;
+    private int flagAlter;
     @FXML
-    private JFXButton btExcluir;
+    private JFXButton btAlterar;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -138,34 +141,34 @@ public class RegistrarCompraController implements Initializable {
         
         inicializaEstilo();
         inicializaCombobox();
+        iniciarColunas();
         
-        if(BuscaFornecedorController.getFlag() == 1)
+        if(BuscaFornecedorController.getFlag() == 1) //Vindo da busca de fornecedores
         {
             objFornec = BuscaFornecedorController.getRetorno();
             cbFornec.getSelectionModel().select((String)objFornec[2]);
-            habilitarBotoes(false, true, false, true, true, true);
+            habilitarBotoes(false, true, false, false, true, true, true);
         }
-        else if(BuscaProdutoController.getFlag() == 1)
+        else if(BuscaProdutoController.getFlag() == 1) //Vindo da busca de produto
         {
             objProd = BuscaProdutoController.getRetorno();
             cbProdutos.getSelectionModel().select((String)objProd[1]);
-            habilitarBotoes(false, true, false, true, true, true);
+            habilitarBotoes(false, true, false, false, true, true, true);
         }
-        else if(BuscaComprasController.getFlag() == 1)
+        else if(BuscaComprasController.getFlag() == 1) //Vindo da busca de compras
         {
             limparCampos();
-            habilitarBotoes(false, false, true, true, true, true);
+            habilitarBotoes(false, false, true, true, true, true, true);
             retorno = BuscaComprasController.getRetorno();
             setarCampos(retorno);
         }
-        else
+        else //Inicio
         {
-            habilitarBotoes(true, false, false, false, true, true);
+            habilitarBotoes(true, false, false, false, false, true, true);
             limparCampos();
             habilitarCampos(false);
             setRadioButton(true, false);
             setRdPreco(true, false);
-            iniciarColunas();
 
             listCompra = new ArrayList<>();
             listProdsCompra = new ArrayList<>();
@@ -176,8 +179,37 @@ public class RegistrarCompraController implements Initializable {
     
     private void setarCampos(Object[] obj)
     {
-        //cbProdutos.getSelectionModel().select((String)obj[1]); //Arrumar
+        CtrCompra ctrcompra = new CtrCompra();
+        ArrayList<Object[]>  temp = ctrcompra.buscar_itens_compra((int)obj[0]);
+        Object[] aux_obj = new Object[5];
+        listProdsCompra = new ArrayList<>();
         
+        //Parte para adicionar no ArrayList principal
+        for (int i = 0; i < temp.size(); i++) {
+            aux_obj = new Object[5];
+            aux_obj[0] = temp.get(i)[0];
+            aux_obj[1] = temp.get(i)[1];
+            aux_obj[2] = temp.get(i)[2];
+            aux_obj[3] = temp.get(i)[3];
+            aux_obj[4] = (double)((int)temp.get(i)[3] * (double)temp.get(i)[2]);
+            
+            listProdsCompra.add(aux_obj);
+        }
+        
+        //Parte para exibir no ArrayList.
+        ArrayList<Objeto> obs_list = new ArrayList<>();
+        Objeto obs_obj;    
+        valorTotal = 0;
+        for (int i = 0; i < listProdsCompra.size(); i++) {
+                valorTotal += (double)listProdsCompra.get(i)[4];
+                obs_obj = new Objeto((String)listProdsCompra.get(i)[1], 
+                        String.valueOf(listProdsCompra.get(i)[2]), 
+                        String.valueOf(listProdsCompra.get(i)[3]), 
+                        String.valueOf(listProdsCompra.get(i)[4]));
+                obs_list.add(obs_obj);
+            }
+        
+        tableview.setItems(FXCollections.observableArrayList(obs_list)); //Adicione observable list na tabela.
     }
     
     private void iniciarColunas() {
@@ -197,17 +229,16 @@ public class RegistrarCompraController implements Initializable {
         txtDateVenc.setVisible(v2);
     }
     
-    private void setRdPreco(boolean v1, boolean v2)
-    {
+    private void setRdPreco(boolean v1, boolean v2){
         rdUnidade.setSelected(v1);
         rdTotal.setSelected(v2);
     }
     
-    private void inicializaEstilo()
-    {
+    private void inicializaEstilo(){
         String cor = CorSistema.getCorHex();
         btNovo.setStyle("-fx-background-color: " + cor);
         btSalvar.setStyle("-fx-background-color: " + cor);
+        btAlterar.setStyle("-fx-background-color: " + cor);
         btExcluir.setStyle("-fx-background-color: " + cor);
         btCancelar.setStyle("-fx-background-color: " + cor);
         btBuscar.setStyle("-fx-background-color: " + cor);
@@ -241,7 +272,9 @@ public class RegistrarCompraController implements Initializable {
         cbProdutos.getSelectionModel().select(-1);
         cbFornec.getSelectionModel().select(-1);
         
-        tableview = new TableView<>();
+        listProdsCompra = new ArrayList<>();
+        ArrayList<Objeto> aux = new ArrayList<>();
+        tableview.setItems(FXCollections.observableArrayList(aux)); //Adicione observable list na tabela.
     }
     
     private void habilitarCampos(boolean value){
@@ -272,18 +305,17 @@ public class RegistrarCompraController implements Initializable {
         //btCancelForne.setDisable(value);
     }
     
-    private void habilitarBotoes(boolean novo, boolean salvar, boolean excluir, boolean cancelar, boolean buscar, boolean voltar){
+    private void habilitarBotoes(boolean novo, boolean salvar, boolean alterar, boolean excluir, boolean cancelar, boolean buscar, boolean voltar){
         btNovo.setDisable(!novo);
         btSalvar.setDisable(!salvar);
+        btAlterar.setDisable(!alterar);
         btExcluir.setDisable(!excluir);
         btCancelar.setDisable(!cancelar);
         btBuscar.setDisable(!buscar);
         btVoltar.setDisable(!voltar);
     }
-    
 
-    private void inicializaCombobox()
-    {
+    private void inicializaCombobox(){
         ctrProds = new CtrProdutos();
         ctrFornecedor = new CtrFornecedor();
         listProds = ctrProds.buscar("prod_nome ilike '%%'");
@@ -410,6 +442,24 @@ public class RegistrarCompraController implements Initializable {
 
     @FXML
     private void evtRemovProd(ActionEvent event) {
+        int index = tableview.getSelectionModel().getSelectedIndex();
+        ArrayList<Objeto> obsList = new ArrayList<>();
+        Objeto obj;
+        if(index != -1)
+        {
+           listProdsCompra.remove(index);
+           
+           for (int i = 0; i < listProdsCompra.size(); i++) {
+                valorTotal += (double)listProdsCompra.get(i)[4];
+                obj = new Objeto((String)listProdsCompra.get(i)[1], 
+                        String.valueOf(listProdsCompra.get(i)[2]), 
+                        String.valueOf(listProdsCompra.get(i)[3]), 
+                        String.valueOf(listProdsCompra.get(i)[4]));
+                obsList.add(obj);
+            }
+           
+           tableview.setItems(FXCollections.observableArrayList(obsList)); //Adicione observable list na tabela.
+        }
     }
 
     @FXML
@@ -437,15 +487,25 @@ public class RegistrarCompraController implements Initializable {
     
     @FXML
     private void evtNovo(ActionEvent event) {
-        habilitarBotoes(false, true, false, true, true, true);
+        habilitarBotoes(false, true, false, false, true, true, true);
         habilitarCampos(true);
+        cbProdutos.requestFocus();
+        flagAlter = 0;
+    }
+    
+    @FXML
+    private void evtAlterar(ActionEvent event) {
+        habilitarBotoes(false, true, true, true, true, true, true);
+        habilitarCampos(true);
+        cbProdutos.requestFocus();
+        flagAlter = 1;
     }
 
     @FXML
     private void evtCancelar(ActionEvent event) {
         habilitarCampos(false);
         limparCampos();
-        habilitarBotoes(true, false, false, false, true, true);
+        habilitarBotoes(true, false, false, false, false, true, true);
         setRadioButton(true, false);
     }
     
@@ -486,10 +546,14 @@ public class RegistrarCompraController implements Initializable {
             objParcela[6] = (int) -1;//Cod compra
             
             CtrCompra ctrCompra = new CtrCompra();
+            if(flagAlter == 1)
+            {
+                //ctrCompra.excluir();
+            }
             if(ctrCompra.salvar(objCompra, objParcela, listProdsCompra))
             {
                 limparCampos();
-                habilitarBotoes(true, false, false, false, true, true);
+                habilitarBotoes(true, false, false, false, false, true, true);
                 habilitarCampos(false);
                 tableview = new TableView<>();
                 listProdsCompra = new ArrayList<>();
@@ -538,5 +602,7 @@ public class RegistrarCompraController implements Initializable {
     public static void setFlagVolta(int flagVolta) {
         RegistrarCompraController.flagVolta = flagVolta;
     }
+
+    
     
 }

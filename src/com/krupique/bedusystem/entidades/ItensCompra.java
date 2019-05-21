@@ -6,6 +6,8 @@
 package com.krupique.bedusystem.entidades;
 
 import com.krupique.bedusystem.utilidades.Banco;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 
 /**
  *
@@ -24,6 +26,11 @@ public class ItensCompra {
         this.qtd = qtd;
     }
     
+    public ItensCompra(int cod_compra)
+    {
+        this.cod_compra = cod_compra;
+    }
+    
     public boolean salvar()
     {
         String sql = "insert into itens_compra (prod_codigo, comp_codigo, itens_compra_preco, itens_compra_quantidade)"
@@ -38,7 +45,38 @@ public class ItensCompra {
         return Banco.con.manipular(sql);
     }
     
-
+    public ArrayList<Object[]> buscar()
+    {
+        String sql = "select * from itens_compra inner join produto on itens_compra.prod_codigo = produto.prod_codigo\n" +
+                    "where comp_codigo = " + cod_compra;
+        ResultSet rs;
+        ArrayList<Object[]> lista = new ArrayList<>();
+        Object[] obj;
+        /*
+            prod_cod
+            prod_nome
+            itens_compra_preco
+            itens_compra_quantidade        
+        */
+        try
+        {
+            rs = Banco.con.consultar(sql);
+            while(rs.next())
+            {
+                obj = new Object[4];
+                obj[0] = rs.getInt("prod_codigo");
+                obj[1] = rs.getString("prod_nome");
+                obj[2] = rs.getDouble("itens_compra_preco");
+                obj[3] = rs.getInt("itens_compra_quantidade");
+                
+                lista.add(obj);
+            }
+        }catch(Exception er){
+            System.out.println("Erro: " + er.getMessage());
+        }
+        return lista;
+    }
+    
     public int getCod_compra() {
         return cod_compra;
     }
