@@ -15,6 +15,7 @@ import com.krupique.bedusystem.controladoras.CtrFornecedor;
 import com.krupique.bedusystem.controladoras.CtrProdutos;
 import com.krupique.bedusystem.interfaces.basicas.CadFornecedorController;
 import com.krupique.bedusystem.interfaces.basicas.CadProdutosController;
+import com.krupique.bedusystem.interfaces.buscas.BuscaComprasController;
 import com.krupique.bedusystem.interfaces.buscas.BuscaFornecedorController;
 import com.krupique.bedusystem.interfaces.buscas.BuscaProdutoController;
 import com.krupique.bedusystem.utilidades.CorSistema;
@@ -39,6 +40,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -124,7 +126,7 @@ public class RegistrarCompraController implements Initializable {
     private Object[] objFornec;
     private Object[] objProd;
     private double valorTotal;
-    
+    private Object[] retorno;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -147,6 +149,13 @@ public class RegistrarCompraController implements Initializable {
             cbProdutos.getSelectionModel().select((String)objProd[1]);
             habilitarBotoes(false, true, true, true, true);
         }
+        else if(BuscaComprasController.getFlag() == 1)
+        {
+            limparCampos();
+            habilitarBotoes(false, false, true, true, true);
+            retorno = BuscaComprasController.getRetorno();
+            setarCampos(retorno);
+        }
         else
         {
             habilitarBotoes(true, false, false, true, true);
@@ -160,6 +169,12 @@ public class RegistrarCompraController implements Initializable {
             listProdsCompra = new ArrayList<>();
             table = new ArrayList<>();
         }
+        
+    }
+    
+    private void setarCampos(Object[] obj)
+    {
+        //cbProdutos.getSelectionModel().select((String)obj[1]); //Arrumar
         
     }
     
@@ -466,7 +481,17 @@ public class RegistrarCompraController implements Initializable {
             objParcela[6] = (int) -1;//Cod compra
             
             CtrCompra ctrCompra = new CtrCompra();
-            ctrCompra.salvar(objCompra, objParcela, listProdsCompra);
+            if(ctrCompra.salvar(objCompra, objParcela, listProdsCompra))
+            {
+                limparCampos();
+                habilitarBotoes(true, false, false, true, true);
+                habilitarCampos(false);
+                tableview = new TableView<>();
+                listProdsCompra = new ArrayList<>();
+                
+                Alert a = new Alert(Alert.AlertType.INFORMATION, "Compra realizada com sucesso!", ButtonType.OK);
+                a.showAndWait();
+            }
             
             
         }catch(Exception er){
@@ -478,6 +503,19 @@ public class RegistrarCompraController implements Initializable {
 
     @FXML
     private void evtBuscar(ActionEvent event) {
+        try
+        {
+            Stage stage = (Stage)paneprincipal.getScene().getWindow();
+            stage.setResizable(false);
+
+            Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/buscas/BuscaCompras.fxml"));
+            paneprincipal.getChildren().clear();
+            paneprincipal.getChildren().add(root);
+
+        }catch(Exception er){
+            Alert a = new Alert(Alert.AlertType.ERROR, "Erro ao abrir tela de Busca de Contas à Pagar! \nErro: " + er.getMessage(), ButtonType.OK);
+            a.showAndWait();
+        }
     }
 
     @FXML

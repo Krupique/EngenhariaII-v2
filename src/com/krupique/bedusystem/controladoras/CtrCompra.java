@@ -62,4 +62,25 @@ public class CtrCompra {
         return false;
         
     }
+    
+    public ArrayList<Object[]> buscar(String str)
+    {
+        Compra compra = new Compra();
+        ParcelaCompra parcela_compra = new ParcelaCompra();
+        
+        ArrayList<Object[]> list_prods = compra.buscar(str);
+        ArrayList<Object[]> list_parcelas;
+        
+        for (int i = 0; i < list_prods.size(); i++) {
+            list_parcelas = new ArrayList<>();
+            list_parcelas = parcela_compra.buscar((int)list_prods.get(i)[0]);
+            if(list_parcelas.get(i)[3] == null)
+                list_parcelas.get(i)[3] = "nulo";
+            if(list_parcelas.get(i)[4] == null)
+                list_parcelas.get(i)[4] = 1;
+            list_prods.get(i)[5] = list_parcelas;
+        }
+        
+        return list_prods;
+    }
 }

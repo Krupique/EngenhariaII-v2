@@ -76,6 +76,14 @@ public class Objeto {
         this.param6 = param6;
         this.param7 = param7;
     }
+
+    public Objeto(String param1, String param2, String param3, String param4, String param5) {
+        this.param1 = param1;
+        this.param2 = param2;
+        this.param3 = param3;
+        this.param4 = param4;
+        this.param5 = param5;
+    }
     
     
     

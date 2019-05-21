@@ -237,5 +237,4 @@ public class BuscaProdutoController implements Initializable {
     public static Object[] getRetorno() {
         return retorno;
     }
-    
 }

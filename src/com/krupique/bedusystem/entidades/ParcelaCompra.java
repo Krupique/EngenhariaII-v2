@@ -6,7 +6,9 @@
 package com.krupique.bedusystem.entidades;
 
 import com.krupique.bedusystem.utilidades.Banco;
+import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  *
@@ -21,6 +23,9 @@ public class ParcelaCompra {
     private double valor_pago;
     private int cod_compra;
 
+    public ParcelaCompra() {
+    }
+    
     public ParcelaCompra(int cod_parcela, int status_parcela, LocalDate data_vencimento, int numero_parcela, LocalDate data_pagamento, double valor_pago, int cod_compra) {
         this.cod_parcela = cod_parcela;
         this.status_parcela = status_parcela;
@@ -55,6 +60,35 @@ public class ParcelaCompra {
         System.out.println("SQL: " + sql);
         
         return Banco.con.manipular(sql);
+    }
+    
+    public ArrayList<Object[]> buscar(int cod)
+    {
+        String sql = "select * from parcela_compra where parc_compra_compra_cod = " + cod;
+        System.out.println(sql);
+        ResultSet rs;
+        ArrayList<Object[]> list = new ArrayList<>();
+        Object[] obj;
+        
+        try
+        {
+            rs = Banco.con.consultar(sql);
+            while(rs.next())
+            {
+                obj = new Object[5];
+                obj[0] = rs.getInt("parc_compra_codigo");
+                obj[1] = rs.getInt("parc_compra_status");
+                obj[2] = rs.getString("parc_compra_dtvencimento");
+                obj[3] = rs.getString("parc_compra_dtpagamento");
+                obj[4] = rs.getDouble("parc_compra_vlrpago");
+                
+                list.add(obj);
+            }
+        }catch(Exception er)
+        {
+            System.out.println("Erro: " + er.getMessage());
+        }
+        return list;
     }
 
     public int getCod_parcela() {
