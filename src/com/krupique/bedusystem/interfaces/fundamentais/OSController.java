@@ -24,7 +24,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
@@ -32,8 +34,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import org.controlsfx.control.textfield.TextFields;
 
 /**
@@ -44,9 +50,11 @@ import org.controlsfx.control.textfield.TextFields;
 public class OSController implements Initializable
 {
     private ArrayList<String> nomes = new ArrayList<>();
+    private ArrayList<Double> valores = new ArrayList<>();
     private ArrayList<String> status = new ArrayList<>();
     private final Tooltip t = new Tooltip();
     public static int cod,acao;
+    public static Objeto os;
     
     @FXML
     private JFXTextField tf_codigo;
@@ -92,6 +100,8 @@ public class OSController implements Initializable
     private JFXButton btHelp;
     @FXML
     private JFXButton btConfirmar;
+    @FXML
+    private BorderPane paneprincipal;
 
     /**
      * Initializes the controller class.
@@ -163,6 +173,7 @@ public class OSController implements Initializable
             obj = new Objeto(String.valueOf(list.get(i)[0]),String.valueOf(list.get(i)[1]),(String)list.get(i)[2],
                     String.valueOf(list.get(i)[3]),(String)list.get(i)[4],(String)list.get(i)[5],(String)list.get(i)[6]);
             obsList.add(obj);
+            valores.add((Double)list.get(i)[8]);
         }
         tv_os.setItems(FXCollections.observableArrayList(obsList));
     }
@@ -214,6 +225,21 @@ public class OSController implements Initializable
     {
         acao = 3;
         altera_campos(true, false, true, true, true);
+        GerarContasReceberController.os = tv_os.getSelectionModel().getSelectedItem();
+        GerarContasReceberController.valor = valores.get(tv_os.getSelectionModel().getSelectedIndex());
+        try
+        {
+            Stage stage = (Stage)paneprincipal.getScene().getWindow();
+            stage.setResizable(false);
+
+            Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/fundamentais/GerarContasReceber.fxml"));
+            paneprincipal.getChildren().clear();
+            paneprincipal.getChildren().add(root);
+
+        }catch(Exception er){
+            Alert a = new Alert(Alert.AlertType.ERROR, "Erro ao abrir tela de Busca de Fornecedores! \nErro: " + er.getMessage(), ButtonType.OK);
+            a.showAndWait();
+        }
     }
 
     @FXML
@@ -289,6 +315,15 @@ public class OSController implements Initializable
         else
             alert = new Alert(Alert.AlertType.ERROR, "Erro na alteração da OS", ButtonType.OK);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void clickFuncionario(KeyEvent event)
+    {
+        if(event.getCode().equals(KeyCode.ENTER))
+        {
+            
+        }
     }
 
 }

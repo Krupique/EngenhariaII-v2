@@ -104,17 +104,11 @@ public class TelaInicialController implements Initializable {
         */
         
         //inicializa();
-        /*if(nivel != 0)
+        if(nivel != 0)
         {
-            menu_admin.setDisable(true);
-            menu_usuarios.setDisable(true);
-            if(nivel != 1)
-            {
-                menu_fornecedor.setDisable(true);
-                menu_funcionario.setDisable(true);
-                menu_produtos.setDisable(true);
-            }
-        }*/
+            if(nivel == 2)
+                panecadastros.setDisable(true);
+        }
     }    
     
     

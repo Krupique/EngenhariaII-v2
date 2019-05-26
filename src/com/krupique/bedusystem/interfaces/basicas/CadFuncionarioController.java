@@ -183,12 +183,26 @@ public class CadFuncionarioController implements Initializable
     {
         tf_nome.setText(funcionario.getParam2());
         tf_funcao.setText(funcionario.getParam3());
-        tf_telefone.setText(funcionario.getParam4());
-        tf_celular.setText(funcionario.getParam5());
-        tf_email.setText(funcionario.getParam6());
+        if(funcionario.getParam4() != null)
+            tf_telefone.setText(funcionario.getParam4());
+        else
+            tf_telefone.setText("");
+        if(funcionario.getParam5() != null)
+            tf_celular.setText(funcionario.getParam5());
+        else
+            tf_celular.setText("");
+        if(funcionario.getParam6() != null)
+            tf_email.setText(funcionario.getParam6());
+        else
+            tf_email.setText("");
         String aux = funcionario.getParam7();
-        tf_rua.setText(aux.substring(0, aux.indexOf (",")));
-        tf_numero.setText(aux.substring(aux.indexOf(",") + 1));
+        if(aux.contains(","))
+        {
+            tf_rua.setText(aux.substring(0, aux.indexOf (",")));
+            tf_numero.setText(aux.substring(aux.indexOf(",") + 1));
+        }
+        else
+            tf_rua.setText(aux);
         tf_bairro.setText(funcionario.getParam8());
         tf_cidade.setText(funcionario.getParam9());
         if(funcionario.getParam11().equals(true))

@@ -85,6 +85,10 @@ public class TelaCadastroController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         inicializaEstilo();
+        if(TelaInicialController.nivel == 1)
+        {
+            paneUsers.setDisable(true);
+        }
     }    
 
     //################################# PARTE DE ESTILO DA TELA #################################//

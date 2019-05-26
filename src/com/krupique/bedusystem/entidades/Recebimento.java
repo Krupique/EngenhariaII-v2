@@ -1,6 +1,7 @@
 package com.krupique.bedusystem.entidades;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class Recebimento
 {
@@ -10,6 +11,7 @@ public class Recebimento
     private double valor;
     private Funcionário funcionario;
     private Caixa caixa;
+    private ParcelaRecebimento parcela;
 
     public Recebimento()
     {
@@ -23,6 +25,7 @@ public class Recebimento
         this.funcionario = funcionario;
         this.caixa = caixa;
         this.descricao = "";
+        this.parcela = new ParcelaRecebimento();
     }
 
     public Recebimento(int codigo, String descricao, Date data, double valor, Funcionário funcionario, Caixa caixa)
@@ -34,7 +37,7 @@ public class Recebimento
         this.funcionario = funcionario;
         this.caixa = caixa;
     }
-
+    
     public int getCodigo()
     {
         return codigo;
@@ -93,6 +96,16 @@ public class Recebimento
     public void setCaixa(Caixa caixa)
     {
         this.caixa = caixa;
+    }
+
+    public ParcelaRecebimento getParcela()
+    {
+        return parcela;
+    }
+
+    public void setParcela(ParcelaRecebimento parcela)
+    {
+        this.parcela = parcela;
     }
     
 }

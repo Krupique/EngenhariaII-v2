@@ -114,6 +114,13 @@ public class Objeto {
         this.param1 = param1;
         this.param2 = param2;
     }
+    
+    public Objeto(String param1,Double param,String param3)
+    {
+        this.param1 = param1;
+        this.param2 = String.valueOf(param2);
+        this.param3 = param3;
+    }
 
     public Objeto(String valueOf, String valueOf0, String string, String valueOf1, String string0, String string1, String valueOf2, String valueOf3, String valueOf4)
     {
@@ -129,6 +136,11 @@ public class Objeto {
     }
 
     public String getParam2() {
+        return param2;
+    }
+    
+    public String getParam2_1()
+    {
         return param2;
     }
 

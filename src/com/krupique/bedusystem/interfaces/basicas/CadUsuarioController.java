@@ -228,6 +228,7 @@ public class CadUsuarioController implements Initializable
             }
             else
                 alert = new Alert(Alert.AlertType.ERROR, res, ButtonType.NO);
+            alert.showAndWait();
         }
         else if(acao == 2)//alterar
         {

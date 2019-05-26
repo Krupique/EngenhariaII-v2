@@ -52,7 +52,7 @@ public class ctrOS
         
         for (int i = 0; i < aux.size(); i++)
         {
-            obj = new Object[8];
+            obj = new Object[9];
 
             obj[0] = aux.get(i).getCodigo();
             obj[1] = aux.get(i).getData();
@@ -71,6 +71,7 @@ public class ctrOS
                 obj[6] = "";
                 obj[7] = "";
             }
+            obj[8] = aux.get(i).getOrcamento().getValorTotal();
             usuarios.add(obj);
         }
         return usuarios;

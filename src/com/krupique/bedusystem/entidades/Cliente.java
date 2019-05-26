@@ -338,6 +338,31 @@ public class Cliente
         //pegar os veiculos
         return a;
     }
+    
+    public Cliente getC(String filtro)
+    {
+        String sql = "select *from cliente where cli_nome  = '" + filtro + "'";
+        ResultSet rs = Banco.getCon().consultar(sql);
+        Cliente cli = new Cliente(filtro);
+        try
+        {
+            while (rs.next())
+            {
+                cli.setCodigo(rs.getInt("cli_cod"));
+                cli.setCpf(rs.getString("cli_cpf"));
+                cli.setRg(rs.getString("cli_rg"));
+                cli.setTelefone(rs.getString("cli_telefone"));
+                cli.setEmail(rs.getString("cli_email"));
+                cli.setEndereco(rs.getString("cli_endereco"));
+                cli.setCep(rs.getString("cli_cep"));
+                cli.setDtCadastro(rs.getDate("cli_datacadastro"));
+            }
+        } catch (SQLException ex)
+        {
+            
+        }
+        return cli;
+    }
 
     public ArrayList<Object> GetAvancado(String f1, String f2)
     {
@@ -417,5 +442,20 @@ public class Cliente
     public void addVeiculos(Veiculo v)
     {
         veiculos.add(v);
+    }
+    
+    public static int buscaCodigo(String nome)
+    {
+        ResultSet rs = Banco.getCon().consultar("select cli_cod from cliente where cli_nome = '" + nome + "'");
+        try
+        {
+            if(rs != null && rs.next())            
+                return rs.getInt("cli_cod");
+        } 
+        catch (SQLException ex)
+        {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 }

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="paneprincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.krupique.bedusystem.interfaces.fundamentais.GerarContasReceberController">
+   <top>
+      <HBox alignment="CENTER" prefHeight="59.0" prefWidth="600.0" style="-fx-background-color: #E1E1E1;" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Fechamento OS">
+               <font>
+                  <Font name="System Bold" size="28.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <AnchorPane prefHeight="341.0" prefWidth="552.0" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane layoutX="13.0" layoutY="279.0" prefHeight="287.0" prefWidth="854.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="279.0">
+               <children>
+                  <JFXTextField fx:id="tf_valor" editable="false" labelFloat="true" layoutX="50.0" layoutY="35.0" prefHeight="25.0" prefWidth="161.0" promptText="Valor Total" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="665.0" />
+                  <AnchorPane layoutX="582.0" layoutY="14.0" prefHeight="66.0" prefWidth="218.0" style="-fx-background-color: #D1D1D1;">
+                     <children>
+                        <JFXRadioButton fx:id="rb_avista" layoutX="15.0" layoutY="13.0" onAction="#clickFormaPagamento" text="À vista" AnchorPane.leftAnchor="15.0" />
+                        <JFXRadioButton fx:id="rb_parcelado" layoutX="15.0" layoutY="38.0" onAction="#clickFormaPagamento" text="Parcelado" AnchorPane.leftAnchor="15.0" />
+                        <JFXComboBox fx:id="cb_parcelas" labelFloat="true" layoutX="126.0" layoutY="11.0" onAction="#clickFormaPagamento" promptText="Parcelas" />
+                     </children>
+                  </AnchorPane>
+                  <TableView fx:id="tv_pagmento" layoutX="25.0" layoutY="99.0" prefHeight="182.0" prefWidth="602.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+                    <columns>
+                      <TableColumn fx:id="tc_parcela" prefWidth="206.0" text="Parcela" />
+                      <TableColumn fx:id="tc_valor" prefWidth="273.0" text="Valor" />
+                        <TableColumn fx:id="tc_data" prefWidth="270.0" text="Data de Vencimento" />
+                    </columns>
+                  </TableView>
+                  <JFXDatePicker fx:id="dp_data" layoutX="262.0" layoutY="34.0" onAction="#clickFormaPagamento" prefHeight="28.0" prefWidth="218.0" promptText="Data do Primeiro Pagamento" AnchorPane.leftAnchor="262.0" AnchorPane.rightAnchor="369.0" />
+               </children>
+            </AnchorPane>
+            <Label layoutX="15.0" layoutY="258.0" text="Informações de Pagamento" AnchorPane.leftAnchor="15.0">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER" layoutX="15.0" layoutY="566.0" prefHeight="41.0" prefWidth="852.0" spacing="20.0">
+               <children>
+                  <JFXButton fx:id="bt_confirmar" buttonType="RAISED" onAction="#clickConfirmar" style="-fx-background-color: #347E65;" text="Confirmar" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="bt_cancelar" buttonType="RAISED" onAction="#clickCancelar" style="-fx-background-color: #347E65;" text="Cancelar" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <AnchorPane fx:id="info_cliente" layoutX="22.0" layoutY="38.0" prefHeight="195.0" prefWidth="850.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="22.0">
+               <children>
+                  <JFXTextField fx:id="tf_cliente" labelFloat="true" layoutX="20.0" layoutY="21.0" prefHeight="25.0" prefWidth="219.0" promptText="Nome" />
+                  <JFXTextField fx:id="tf_veiculo" labelFloat="true" layoutX="479.0" layoutY="21.0" prefHeight="25.0" prefWidth="224.0" promptText="Veículo" />
+                  <JFXTextField fx:id="tf_telefone" labelFloat="true" layoutX="20.0" layoutY="85.0" prefHeight="25.0" prefWidth="220.0" promptText="Telefone" />
+                  <JFXTextField fx:id="tf_email" labelFloat="true" layoutX="267.0" layoutY="85.0" prefHeight="25.0" prefWidth="225.0" promptText="Email" />
+                  <JFXTextField fx:id="tf_cpf" labelFloat="true" layoutX="267.0" layoutY="21.0" prefHeight="25.0" prefWidth="176.0" promptText="CPF" />
+                  <JFXTextField fx:id="tf_endereco" labelFloat="true" layoutX="20.0" layoutY="142.0" prefHeight="25.0" prefWidth="304.0" promptText="Endereço" />
+                  <JFXTextField fx:id="tf_cep" labelFloat="true" layoutX="372.0" layoutY="142.0" prefHeight="25.0" prefWidth="107.0" promptText="CEP" />
+               </children>
+            </AnchorPane>
+            <Label layoutX="14.0" layoutY="2.0" text="Informações do Cliente">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

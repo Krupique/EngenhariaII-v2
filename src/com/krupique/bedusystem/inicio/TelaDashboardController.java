@@ -54,6 +54,8 @@ public class TelaDashboardController implements Initializable {
     private Pane paneCtReceber;
     @FXML
     private ImageView imgCtReceber;
+    @FXML
+    private Pane pane_para;
     /**
      * Initializes the controller class.
      */
@@ -61,6 +63,8 @@ public class TelaDashboardController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         inicializaEstilo();
+        if(TelaInicialController.nivel != 0)
+          pane_para.setDisable(true);
     }    
     //################################# PARTE DE ESTILO DA TELA #################################//
     private void inicializaEstilo()

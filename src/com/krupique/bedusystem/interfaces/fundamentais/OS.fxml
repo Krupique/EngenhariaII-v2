@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.krupique.bedusystem.interfaces.fundamentais.OSController">
+<BorderPane fx:id="paneprincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.krupique.bedusystem.interfaces.fundamentais.OSController">
    <top>
       <HBox alignment="CENTER" prefHeight="80.0" prefWidth="880.0" style="-fx-background-color: #E1E1E1;" BorderPane.alignment="CENTER">
          <children>
@@ -31,7 +31,7 @@
             <AnchorPane layoutX="21.0" layoutY="35.0" prefHeight="246.0" prefWidth="528.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="35.0">
                <children>
                   <JFXTextField fx:id="tf_codigo" editable="false" labelFloat="true" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="79.0" promptText="Código OS" AnchorPane.topAnchor="20.0" />
-                  <JFXTextField fx:id="tf_funcionario" labelFloat="true" layoutX="14.0" layoutY="74.0" prefHeight="25.0" prefWidth="183.0" promptText="Funconário" AnchorPane.topAnchor="74.0" />
+                  <JFXTextField fx:id="tf_funcionario" labelFloat="true" layoutX="14.0" layoutY="74.0" onKeyReleased="#clickFuncionario" prefHeight="25.0" prefWidth="183.0" promptText="Funconário" AnchorPane.topAnchor="74.0" />
                   <JFXComboBox fx:id="cb_status" labelFloat="true" layoutX="246.0" layoutY="20.0" prefHeight="25.0" prefWidth="184.0" promptText="Status Manutenção" AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="98.0" AnchorPane.topAnchor="20.0" />
                   <JFXTextArea fx:id="ta_descricao" labelFloat="true" layoutX="14.0" layoutY="121.0" prefHeight="103.0" prefWidth="423.0" promptText="Observações" AnchorPane.leftAnchor="14.0" />
                   
