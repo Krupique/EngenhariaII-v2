@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.krupique.bedusystem.controladoras;
 
 import com.jfoenix.controls.JFXComboBox;
@@ -11,7 +7,7 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.krupique.bedusystem.entidades.Funcionário;
 import com.krupique.bedusystem.entidades.OS;
-import com.krupique.bedusystem.entidades.Orçamento;
+import com.krupique.bedusystem.entidades.Orcamento;
 import com.krupique.bedusystem.entidades.Status;
 import com.krupique.bedusystem.entidades.StatusOS;
 import java.sql.Date;

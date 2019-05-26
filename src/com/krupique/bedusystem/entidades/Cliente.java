@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import com.krupique.bedusystem.utilidades.Banco;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class Cliente 
@@ -338,31 +336,6 @@ public class Cliente
         //pegar os veiculos
         return a;
     }
-    
-    public Cliente getC(String filtro)
-    {
-        String sql = "select *from cliente where cli_nome  = '" + filtro + "'";
-        ResultSet rs = Banco.getCon().consultar(sql);
-        Cliente cli = new Cliente(filtro);
-        try
-        {
-            while (rs.next())
-            {
-                cli.setCodigo(rs.getInt("cli_cod"));
-                cli.setCpf(rs.getString("cli_cpf"));
-                cli.setRg(rs.getString("cli_rg"));
-                cli.setTelefone(rs.getString("cli_telefone"));
-                cli.setEmail(rs.getString("cli_email"));
-                cli.setEndereco(rs.getString("cli_endereco"));
-                cli.setCep(rs.getString("cli_cep"));
-                cli.setDtCadastro(rs.getDate("cli_datacadastro"));
-            }
-        } catch (SQLException ex)
-        {
-            
-        }
-        return cli;
-    }
 
     public ArrayList<Object> GetAvancado(String f1, String f2)
     {
@@ -408,30 +381,6 @@ public class Cliente
         }
         return c;
     }
-    
-    public void busca()
-    {
-        ResultSet rs = Banco.getCon().consultar("select * from veiculo where cli_cod = " + codigo);
-        
-        try
-        {
-            if(rs != null && rs.next())            
-            {
-                this.setCep(rs.getString("cli_cep"));
-                this.setCpf(rs.getString("cli_cpf"));
-                this.setDtCadastro(rs.getDate("cli_datacadastro"));
-                this.setEmail(rs.getString("cli_email"));
-                this.setEndereco(rs.getString("cli_endereco"));
-                this.setNome(rs.getString("cli_nome"));
-                this.setRg(rs.getString("cli_rg"));
-                this.setTelefone(rs.getString("cli_telefone"));
-            }
-        } 
-        catch (SQLException ex)
-        {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     @Override
     public String toString()
@@ -442,20 +391,5 @@ public class Cliente
     public void addVeiculos(Veiculo v)
     {
         veiculos.add(v);
-    }
-    
-    public static int buscaCodigo(String nome)
-    {
-        ResultSet rs = Banco.getCon().consultar("select cli_cod from cliente where cli_nome = '" + nome + "'");
-        try
-        {
-            if(rs != null && rs.next())            
-                return rs.getInt("cli_cod");
-        } 
-        catch (SQLException ex)
-        {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
     }
 }

@@ -129,20 +129,4 @@ public class CtrCliente
         }
         return a;
     }
-    
-    public void get(JFXTextField nome, JFXTextField cpf, JFXTextField telefone, 
-            JFXTextField email, JFXTextField endereco, JFXTextField cep)
-    {
-        Cliente c = new Cliente().getC(nome.getText());
-        cpf.setText(c.getCpf());
-        telefone.setText(c.getTelefone());
-        email.setText(c.getEmail());
-        endereco.setText(c.getEndereco());
-        cep.setText(c.getCep());
-    }
-    
-    public Cliente getCodigo(String nome)
-    {
-        return new Cliente().getC(nome);
-    }
 }

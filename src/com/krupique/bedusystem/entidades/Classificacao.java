@@ -1,29 +1,31 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.krupique.bedusystem.entidades;
 
 import com.krupique.bedusystem.utilidades.Banco;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-/**
- *
- * @author Henrique K. Secchi
- */
+
 public class Classificacao {
     private int cod;
     private String descricao;
 
-    public Classificacao() {
+    public Classificacao() 
+    {
+        
     }
+    
+    public Classificacao(int cod) 
+    {
+        this.cod = cod;
+    }
+    
 
     public Classificacao(int cod, String descricao) {
         this.cod = cod;
         this.descricao = descricao;
     }
+
 
     public ArrayList<Classificacao> buscar()
     {

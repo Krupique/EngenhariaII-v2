@@ -44,6 +44,11 @@ public class CtrProdutos {
         return list;
     }
     
+    public ArrayList<Object> buscarArmando(String s)
+    {
+        return new Produto().get(s);
+    }
+    
     public boolean excluir(int cod)
     {
         prod = new Produto(cod);

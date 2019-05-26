@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.krupique.bedusystem.interfaces.fundamentais;
 
 import com.jfoenix.controls.JFXButton;
@@ -34,11 +30,6 @@ import java.util.ArrayList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
-/**
- * FXML Controller class
- *
- * @author Caique
- */
 public class GerarContasReceberController implements Initializable
 {
     private final ToggleGroup group = new ToggleGroup();
@@ -85,9 +76,6 @@ public class GerarContasReceberController implements Initializable
     @FXML
     private AnchorPane info_cliente;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {

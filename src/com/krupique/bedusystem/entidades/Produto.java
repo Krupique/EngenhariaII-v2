@@ -2,6 +2,7 @@ package com.krupique.bedusystem.entidades;
 
 import com.krupique.bedusystem.utilidades.Banco;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Produto
@@ -13,6 +14,16 @@ public class Produto
     private double preco;
 
     public Produto(){}
+
+    public Produto(int codigo, String nome, int quantidade, Classificacao classificacao, double preco) {
+        this.codigo = codigo;
+        this.nome = nome;
+        this.quantidade = quantidade;
+        this.classificacao = classificacao;
+        this.preco = preco;
+    }
+    
+    
 
     public Produto(int codigo, String nome, double preco, int quantidade, Classificacao classificacao)
     {
@@ -145,6 +156,33 @@ public class Produto
     public void setPreco(double preco)
     {
         this.preco = preco;
+    }
+    
+            public ArrayList<Object> get(String filtro)
+    {
+        String sql = "select *from produto";
+        ResultSet rs = null;
+        ArrayList<Object> a = new ArrayList<>();
+            sql += " Where prod_nome like '%" + filtro + "%'";
+        
+        rs = Banco.getCon().consultar(sql);
+        try
+        {
+            while (rs.next())
+            {
+                a.add(new Produto(rs.getInt("prod_codigo"), rs.getString("prod_nome"),rs.getInt("prod_quantidade"),
+                        new Classificacao(rs.getInt("class_codigo")),rs.getDouble("prod_preco")));
+            }
+        } catch (SQLException ex)
+        {
+            a = null;
+        }
+        return a;
+    }
+
+    @Override
+    public String toString() {
+        return  nome;
     }
     
 }
