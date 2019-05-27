@@ -106,7 +106,7 @@ public class GerarContasReceberController implements Initializable
             valor *= 10;
         tf_valor.setText(String.valueOf(valor));
         CtrCliente o = CtrCliente.instancia();
-        o.get(tf_cliente, tf_cpf, tf_telefone, tf_email, tf_endereco, tf_cep);
+        o.get(tf_cpf,tf_cliente, tf_telefone, tf_email, tf_endereco, tf_cep);
         info_cliente.setDisable(true);
     }
 

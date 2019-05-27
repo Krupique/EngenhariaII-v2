@@ -68,7 +68,7 @@ public class CtrCliente
         return c != null;
     }
     
-    public static boolean get(JFXTextField txcpf, JFXTextField txcodigocliente, JFXTextField txnomecliente, JFXTextField txrgcliente)
+    public static boolean get(JFXTextField txcpf, JFXTextField txnomecliente, JFXTextField txtelefonecliente, JFXTextField txemailcliente, JFXTextField txendcliente, JFXTextField txcepcliente)
     {
         Cliente c = null;
         try
@@ -76,9 +76,12 @@ public class CtrCliente
             c = (Cliente) new Cliente().Get_Por_cpf(txcpf.getText());
             if (c != null)
             {
-                txcodigocliente.setText(Integer.toString(c.getCodigo()));
+                txcpf.setText(c.getCpf());
                 txnomecliente.setText(c.getNome());
-                txrgcliente.setText(c.getRg());
+                txtelefonecliente.setText(c.getTelefone());
+                txemailcliente.setText(c.getEmail());
+                txendcliente.setText(c.getEndereco());
+                txcepcliente.setText(c.getCep());
             }
         } catch (SQLException ex)
         {
