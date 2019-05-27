@@ -67,6 +67,25 @@ public class CtrCliente
         }
         return c != null;
     }
+    
+    public static boolean get(JFXTextField txcpf, JFXTextField txcodigocliente, JFXTextField txnomecliente, JFXTextField txrgcliente)
+    {
+        Cliente c = null;
+        try
+        {
+            c = (Cliente) new Cliente().Get_Por_cpf(txcpf.getText());
+            if (c != null)
+            {
+                txcodigocliente.setText(Integer.toString(c.getCodigo()));
+                txnomecliente.setText(c.getNome());
+                txrgcliente.setText(c.getRg());
+            }
+        } catch (SQLException ex)
+        {
+            c = null;
+        }
+        return c != null;
+    }
 
     public static boolean SalvarCliente(String nome, String cpf, String rg, String telefone, String email, String endereco, String cep, String pais, String estado, String cidade, String bairro, Date dtCadastro)
     {

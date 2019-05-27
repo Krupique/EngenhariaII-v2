@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.krupique.bedusystem.utilidades.Banco;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Cliente 
@@ -380,6 +382,30 @@ public class Cliente
                     rs.getString("cli_email"), rs.getString("cli_endereco"), rs.getString("cli_cep"), rs.getDate("cli_datacadastro"));
         }
         return c;
+    }
+    
+        public void busca()
+    {
+        ResultSet rs = Banco.getCon().consultar("select * from veiculo where cli_cod = " + codigo);
+        
+        try
+        {
+            if(rs != null && rs.next())            
+            {
+                this.setCep(rs.getString("cli_cep"));
+                this.setCpf(rs.getString("cli_cpf"));
+                this.setDtCadastro(rs.getDate("cli_datacadastro"));
+                this.setEmail(rs.getString("cli_email"));
+                this.setEndereco(rs.getString("cli_endereco"));
+                this.setNome(rs.getString("cli_nome"));
+                this.setRg(rs.getString("cli_rg"));
+                this.setTelefone(rs.getString("cli_telefone"));
+            }
+        } 
+        catch (SQLException ex)
+        {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

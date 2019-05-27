@@ -15,6 +15,7 @@ public class Orcamento
     private Date dtvalidade;
     private Double total;
     private String obsformapagamento;
+    private Veiculo veiculo;
     private Funcionário usuarioid;
     private Cliente cliente;
     private ArrayList<ItemOrcamentoProduto> produtosOrcamento;
@@ -122,6 +123,11 @@ public class Orcamento
     public Funcionário getUsuarioid()
     {
         return usuarioid;
+    }
+    
+        public Veiculo getVeiculo()
+    {
+        return veiculo;
     }
 
     public void setUsuarioid(Funcionário usuarioid)
@@ -444,11 +450,4 @@ public class Orcamento
         return null;
     }
 
-    public Object getVeiculo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public Object getValorTotal() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }
