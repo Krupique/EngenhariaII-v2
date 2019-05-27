@@ -160,7 +160,7 @@ public class GerarContasReceberController implements Initializable
         Alert alert;
         if(tv_pagmento.getItems().size() > 0)
         {
-            if(new ctrRecebimento().gravar(new ArrayList<>(tv_pagmento.getItems()),tf_cliente))
+            if(ctrRecebimento.instancia().gravar(new ArrayList<>(tv_pagmento.getItems()),tf_cliente))
                 alert = new Alert(Alert.AlertType.INFORMATION, "Parcela(s) inserida(s) com sucesso", ButtonType.OK);
             else
                 alert = new Alert(Alert.AlertType.ERROR, "Erro na inserção de parcelas", ButtonType.OK);

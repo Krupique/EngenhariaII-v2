@@ -1,6 +1,9 @@
 package com.krupique.bedusystem.entidades;
 
+import com.krupique.bedusystem.utilidades.Banco;
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Recebimento
@@ -17,6 +20,7 @@ public class Recebimento
     {
     }
 
+    
     public Recebimento(int codigo, Date data, double valor, Funcionário funcionario, Caixa caixa)
     {
         this.codigo = codigo;
@@ -106,6 +110,33 @@ public class Recebimento
     public void setParcela(ParcelaRecebimento parcela)
     {
         this.parcela = parcela;
+    }
+    
+    
+        public ArrayList<Recebimento> get()
+    {
+        String sql = "select *from recebimento";
+        ResultSet rs = null;
+        ArrayList<Recebimento> a = new ArrayList<>();
+
+        rs = Banco.getCon().consultar(sql);
+        try
+        {
+            while (rs.next())
+            {
+                
+                //    private int codigo;String descricao;Date data;double valor;Funcionário funcionario;
+                //Caixa caixa; ParcelaRecebimento parcela;
+                a.add(new Recebimento(rs.getInt("rec_codigo"), rs.getString("rec_descricao"),
+                        rs.getDate("rec_data"),rs.getDouble("rec_valor"),new Funcionário().get(rs.getInt("func_codigo")),
+                        new Caixa(rs.getInt("caixa_codigo"))));
+                        
+            }
+        } catch (SQLException ex)
+        {
+            a = null;
+        }
+        return a;
     }
     
 }

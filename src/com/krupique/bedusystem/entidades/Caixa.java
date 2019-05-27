@@ -15,6 +15,12 @@ public class Caixa
         this.valor = valor;
     }
 
+    public Caixa(int codigo) {
+        this.codigo = codigo;
+    }
+
+
+
     public int getCodigo()
     {
         return codigo;
