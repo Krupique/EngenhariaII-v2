@@ -151,4 +151,9 @@ public class CtrCliente
         }
         return a;
     }
+    
+    public Cliente getCodigo(String nome)
+    {
+        return new Cliente().getC(nome);
+    }
 }

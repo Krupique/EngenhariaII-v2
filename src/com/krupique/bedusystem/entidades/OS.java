@@ -14,7 +14,7 @@ public class OS
     private String descricao;
     private Date data;
     private ArrayList<StatusOS> status;
-    private Orcamento orcamento;
+    private Orçamento orcamento;
     
     public OS()
     {
@@ -29,7 +29,7 @@ public class OS
         this.status = new ArrayList<>();
     }
 
-    public OS(int codigo, String descricao, Date data, ArrayList<StatusOS> status, Orcamento orcamento)
+    public OS(int codigo, String descricao, Date data, ArrayList<StatusOS> status, Orçamento orcamento)
     {
         this.codigo = codigo;
         this.descricao = descricao;
@@ -58,12 +58,12 @@ public class OS
         this.descricao = descricao;
     }
 
-    public Orcamento getOrcamento()
+    public Orçamento getOrcamento()
     {
         return orcamento;
     }
 
-    public void setOrcamento(Orcamento orcamento)
+    public void setOrcamento(Orçamento orcamento)
     {
         this.orcamento = orcamento;
     }
@@ -108,7 +108,7 @@ public class OS
             while(rs != null && rs.next())            
             {
                 os = new OS(rs.getInt("os_codigo"), rs.getString("os_descricao"), rs.getDate("os_data"));
-                Orcamento o = new Orcamento().busca(rs.getInt("orc_codigo"));
+                Orçamento o = new Orçamento().busca(rs.getInt("orc_codigo"));
                 os.setOrcamento(o);
                 
                 rsAux = Banco.getCon().consultar("select status.stat_codigo,stat_descricao,stat_os_codigo,funcionario.func_codigo "

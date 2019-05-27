@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.krupique.bedusystem.utilidades.Banco;
+import java.sql.Date;
 
 public class Orçamento
 {
@@ -13,6 +14,9 @@ public class Orçamento
     private Funcionário funcionario;
     private Cliente cliente;
     private Veiculo veiculo;
+    private double valorTotal;
+    private Date dataOrcamento;
+    private Date dataValidade;
 
     public Orçamento()
     {
@@ -50,6 +54,18 @@ public class Orçamento
         this.veiculo = veiculo;
     }
 
+    public Orçamento(int codigo, String descricao, Funcionário funcionario, Cliente cliente, Veiculo veiculo, double valorTotal, Date dataOrcamento, Date dataValidade)
+    {
+        this.codigo = codigo;
+        this.descricao = descricao;
+        this.funcionario = funcionario;
+        this.cliente = cliente;
+        this.veiculo = veiculo;
+        this.valorTotal = valorTotal;
+        this.dataOrcamento = dataOrcamento;
+        this.dataValidade = dataValidade;
+    }
+    
     public int getCodigo()
     {
         return codigo;
@@ -99,6 +115,36 @@ public class Orçamento
     {
         this.veiculo = veiculo;
     }
+
+    public double getValorTotal()
+    {
+        return valorTotal;
+    }
+
+    public void setValorTotal(double valorTotal)
+    {
+        this.valorTotal = valorTotal;
+    }
+
+    public Date getDataOrcamento()
+    {
+        return dataOrcamento;
+    }
+
+    public void setDataOrcamento(Date dataOrcamento)
+    {
+        this.dataOrcamento = dataOrcamento;
+    }
+
+    public Date getDataValidade()
+    {
+        return dataValidade;
+    }
+
+    public void setDataValidade(Date dataValidade)
+    {
+        this.dataValidade = dataValidade;
+    }
     
     
     public Orçamento busca(int filtro)
@@ -119,6 +165,7 @@ public class Orçamento
                 c.busca();
                 
                 o = new Orçamento(filtro, rs.getString("orc_descricao"), f, c, v);
+                o.setValorTotal(rs.getDouble("valor_tot"));
             }
         } 
         catch (SQLException ex)
