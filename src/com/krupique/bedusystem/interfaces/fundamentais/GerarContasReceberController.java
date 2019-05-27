@@ -118,7 +118,8 @@ public class GerarContasReceberController implements Initializable
             if(rb_avista.isSelected())
             {
                 cb_parcelas.setDisable(true);
-                Objeto o = new Objeto(String.valueOf(1), String.valueOf(tf_valor.getText()), 
+                double valor = Double.parseDouble(tf_valor.getText().replace(",", "."));
+                Objeto o = new Objeto(String.valueOf(1), String.valueOf(valor * 0.95), 
                         String.valueOf(dp_data.getValue()));
                 tv_pagmento.setItems(FXCollections.observableArrayList(o));
             }

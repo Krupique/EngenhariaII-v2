@@ -52,6 +52,7 @@ public class TelaLoginController implements Initializable {
     @FXML
     private Label lb_erro;
     private final Tooltip t = new Tooltip();
+    private static boolean flag = false;
 
     /**
      * Initializes the controller class.
@@ -89,6 +90,7 @@ public class TelaLoginController implements Initializable {
                     {
                         TelaInicialController.nivel = user.getNivel();
                         //Platform.exit();
+                        flag = true;
                         abrirTelaPrincipal();
                     }
                     else
@@ -153,7 +155,7 @@ public class TelaLoginController implements Initializable {
 
     @FXML
     private void evtEnter(KeyEvent event) {
-        if(event.getCode().equals(KeyCode.ENTER))
+        if(event.getCode().equals(KeyCode.ENTER) && !flag)
             evtEntrar(new ActionEvent());
     }
 
