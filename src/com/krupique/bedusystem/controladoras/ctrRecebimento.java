@@ -8,6 +8,7 @@ import com.krupique.bedusystem.utilidades.Objeto;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -55,6 +56,27 @@ public class ctrRecebimento
     {
         ArrayList<Recebimento> a = new ArrayList<>();
         a = new Recebimento().get();
+        ObservableList<Recebimento> ob = FXCollections.observableArrayList(a);
+        return ob;
+    }
+    public final ObservableList<Recebimento> getCliente(String nome)
+    {
+        ArrayList<Recebimento> a = new ArrayList<>();
+        a = new Recebimento().getCliente(nome);
+        ObservableList<Recebimento> ob = FXCollections.observableArrayList(a);
+        return ob;
+    }
+      public final ObservableList<Recebimento> getDia(LocalDate data)
+    {
+        ArrayList<Recebimento> a = new ArrayList<>();
+        a = new Recebimento().getDia(data);
+        ObservableList<Recebimento> ob = FXCollections.observableArrayList(a);
+        return ob;
+    }
+         public final ObservableList<Recebimento> getAte(LocalDate data)
+    {
+        ArrayList<Recebimento> a = new ArrayList<>();
+        a = new Recebimento().getAte(data);
         ObservableList<Recebimento> ob = FXCollections.observableArrayList(a);
         return ob;
     }

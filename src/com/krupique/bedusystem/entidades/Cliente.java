@@ -419,7 +419,32 @@ public class Cliente
         veiculos.add(v);
     }
     
-    public Cliente getC(String filtro)
+    public Cliente getCliente(String filtro)
+    {
+        String sql = "select *from cliente Where cli_nome = '" + filtro + "'";
+        ResultSet rs = Banco.getCon().consultar(sql);
+        Cliente cli = new Cliente();
+        try
+        {
+            while (rs.next())
+            {
+                cli.setCodigo(rs.getInt("cli_cod"));
+                cli.setNome(rs.getString("cli_nome"));
+                cli.setCpf(rs.getString("cli_cpf"));
+                cli.setRg(rs.getString("cli_rg"));
+                cli.setTelefone(rs.getString("cli_telefone"));
+                cli.setEmail(rs.getString("cli_email"));
+                cli.setEndereco(rs.getString("cli_endereco"));
+                cli.setCep(rs.getString("cli_cep"));
+                cli.setDtCadastro(rs.getDate("cli_datacadastro"));
+            }
+        } catch (SQLException ex)
+        {
+            
+        }
+        return cli;
+    }
+        public Cliente getC(String filtro)
     {
         String sql = "select *from cliente where cli_nome  = '" + filtro + "'";
         ResultSet rs = Banco.getCon().consultar(sql);

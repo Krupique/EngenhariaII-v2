@@ -7,6 +7,9 @@ package com.krupique.bedusystem.entidades;
 
 import com.krupique.bedusystem.utilidades.Banco;
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -26,6 +29,19 @@ public class ParcelaRecebimento
     public ParcelaRecebimento()
     {
     }
+
+    public ParcelaRecebimento(int codigo, int status, Date vencimento, Date pagamento, int numero, double valor_pago, double valor, Cliente cliente) {
+        this.codigo = codigo;
+        this.status = status;
+        this.vencimento = vencimento;
+        this.pagamento = pagamento;
+        this.numero = numero;
+        this.valor_pago = valor_pago;
+        this.valor = valor;
+        this.cliente = cliente;
+    }
+    
+    
 
     public ParcelaRecebimento(int codigo)
     {
@@ -150,6 +166,33 @@ public class ParcelaRecebimento
         String sql = "delete from parcela_recebimento where parc_receb_codigo = " + codigo;
         
         return Banco.getCon().manipular(sql);
+    }
+    
+     public ArrayList<ParcelaRecebimento> get(int codigo)
+    {
+        String sql = "select *from parcela_recebimento where parcela_recebimento.rec_codigo =" + codigo;
+        ResultSet rs = null;
+        ArrayList<ParcelaRecebimento> a = new ArrayList<>();
+
+        rs = Banco.getCon().consultar(sql);
+        try
+        {
+            while (rs.next())
+            {
+                
+        // int codigo;int status; Date vencimento;Date pagamento;int numero;
+        //double valor_pago;double valor;
+                
+                a.add(new ParcelaRecebimento(rs.getInt("parc_receb_codigo"), rs.getInt("parc_receb_status"),
+                        rs.getDate("parc_receb_dtVencimento"),rs.getDate("parc_receb_dtPagamento"),rs.getInt("parc_receb_numero"),
+                        rs.getDouble("parc_receb_vlrPago"),rs.getDouble("parc_receb_valor"),new Cliente(rs.getInt("rec_codigo"))));
+                        
+            }
+        } catch (SQLException ex)
+        {
+            a = null;
+        }
+        return a;
     }
     
 }
