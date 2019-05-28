@@ -22,6 +22,7 @@ public class ParcelaCompra {
     private LocalDate data_pagamento;
     private double valor_pago;
     private int cod_compra;
+    private double vlr_parcela;
 
     public ParcelaCompra() {
     }
@@ -36,12 +37,13 @@ public class ParcelaCompra {
         this.cod_compra = cod_compra;
     }
 
-    public ParcelaCompra(int cod_parcela, int status_parcela, LocalDate data_vencimento, int numero_parcela, int cod_compra) {
+    public ParcelaCompra(int cod_parcela, int status_parcela, LocalDate data_vencimento, int numero_parcela, int cod_compra, double vlrParcela) {
         this.cod_parcela = cod_parcela;
         this.status_parcela = status_parcela;
         this.data_vencimento = data_vencimento;
         this.numero_parcela = numero_parcela;
         this.cod_compra = cod_compra;
+        this.vlr_parcela = vlrParcela;
     }
 
     public ParcelaCompra(int cod) {
@@ -52,14 +54,15 @@ public class ParcelaCompra {
     
     public boolean salvar()
     {
-        String sql = "insert into parcela_compra (parc_compra_codigo, parc_compra_status, parc_compra_dtvencimento, parc_compra_numero, parc_compra_compra_cod)"
-                + "values ($1, $2, '$3', $4, $5)";
+        String sql = "insert into parcela_compra (parc_compra_codigo, parc_compra_status, parc_compra_dtvencimento, parc_compra_numero, parc_compra_compra_cod, parc_compra_vlrparcela)"
+                + "values ($1, $2, '$3', $4, $5, $6)";
         
         sql = sql.replace("$1", "" + cod_parcela);
         sql = sql.replace("$2", "" + status_parcela);
         sql = sql.replace("$3", "" + data_vencimento);
         sql = sql.replace("$4", "" + numero_parcela);
         sql = sql.replace("$5", "" + cod_compra);
+        sql = sql.replace("$6", "" + vlr_parcela);
         
         System.out.println("SQL: " + sql);
         
@@ -84,7 +87,7 @@ public class ParcelaCompra {
                 obj[1] = rs.getInt("parc_compra_status");
                 obj[2] = rs.getString("parc_compra_dtvencimento");
                 obj[3] = rs.getString("parc_compra_dtpagamento");
-                obj[4] = rs.getDouble("parc_compra_vlrpago");
+                obj[4] = rs.getDouble("parc_compra_vlrparcela");
                 
                 list.add(obj);
             }

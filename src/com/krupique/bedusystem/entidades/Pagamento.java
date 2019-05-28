@@ -1,6 +1,9 @@
 package com.krupique.bedusystem.entidades;
 
+import com.krupique.bedusystem.utilidades.Banco;
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.time.LocalDate;
 
 public class Pagamento
 {
@@ -14,6 +17,7 @@ public class Pagamento
     public Pagamento()
     {
     }
+    
 
     public Pagamento(int codigo, Date data, double valor, Funcionário funcionario, Caixa caixa)
     {
@@ -33,6 +37,75 @@ public class Pagamento
         this.valor = valor;
         this.funcionario = funcionario;
         this.caixa = caixa;
+    }
+
+    public boolean pagar(int cod_parcela, int cod_compra, int cod_func, double valor) {
+        
+        int cod_caixa = Banco.con.getMaxPK("Caixa", "caixa_codigo");
+        String sql = "insert into Pagamento (pag_codigo, pag_data, pag_valor, func_codigo, caixa_codigo, comp_codigo)"
+                + "values (nextval('seq_pagamento'), '$1', $2, $3, $4, $5)";
+        sql = sql.replace("$1", "" + LocalDate.now());
+        sql = sql.replace("$2", "" + valor);
+        sql = sql.replace("$3", "" + cod_func);
+        sql = sql.replace("$4", "" + cod_caixa);
+        sql = sql.replace("$5", "" + cod_compra);
+        System.out.println("SQL: " + sql);
+        
+        if(Banco.con.manipular(sql))
+        {
+            //Atualizar caixa;
+            //Setar parcela com status paga
+            if(atualizarCaixa(cod_caixa, valor))
+                return setarParcela(cod_parcela, cod_compra, valor);
+            
+        }
+        return false;
+    }
+    
+    private boolean setarParcela(int cod_parcela, int cod_compra, double valor)
+    {
+        /*
+        //Atualizar o valor pago
+        String sql = "select * from parcela_compra where parc_compra_codigo = " + cod_parcela +
+                " and parc_compra_compra_cod = " + cod_compra;
+        ResultSet rs;
+      
+        double vl_temp = 0;
+        try
+        {
+            
+        }catch(Exception er)
+        {
+            
+        }*/
+        
+        String sql = "update parcela_compra set parc_compra_status = 1 where parc_compra_codigo = " + cod_parcela +
+                "and parc_compra_compra_cod = " + cod_compra;
+        return Banco.con.manipular(sql);
+    }
+    
+    private boolean atualizarCaixa(int cod_caixa, double valor) {
+        String sql = "select * from caixa where caixa_codigo = " + cod_caixa;
+        ResultSet rs;
+        double vl_temp = 0;
+        try
+        {
+            rs = Banco.con.consultar(sql);
+            if(rs.next())
+                vl_temp = rs.getDouble("caixa_valor");
+            
+            valor = vl_temp - valor;
+            sql = "update caixa set caixa_valor = " + valor + " where caixa_codigo = " + cod_caixa;
+            return Banco.con.manipular(sql);
+        }catch(Exception er){
+            System.out.println("Erro: " + er.getMessage());
+        }
+        return false;
+    }
+    
+    public boolean pagar()
+    {
+        return true;
     }
 
     public int getCodigo()
@@ -94,5 +167,7 @@ public class Pagamento
     {
         this.caixa = caixa;
     }
+
+    
     
 }

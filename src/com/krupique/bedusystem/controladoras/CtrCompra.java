@@ -48,8 +48,9 @@ public class CtrCompra {
                 ParcelaCompra parc;
                 LocalDate data = (LocalDate)obj_parcela[2];
                 int qtdParcelas = (int)obj_compra[3];
+                double valor_parcela = (double)obj_compra[5] / (int)obj_compra[3];
                 for (int i = 0; i < qtdParcelas; i++) {
-                    parc = new ParcelaCompra(i + 1, (int)obj_parcela[1], data, i + 1, cod);
+                    parc = new ParcelaCompra(i + 1, (int)obj_parcela[1], data, i + 1, cod, valor_parcela);
                     parc.salvar();
                     data = data.getMonthValue() == 12 ? 
                             LocalDate.of(data.getYear() + 1, 1, data.getDayOfMonth()):
