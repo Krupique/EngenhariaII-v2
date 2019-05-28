@@ -15,11 +15,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="paneprincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.krupique.bedusystem.interfaces.fundamentais.QuitarContasReceberController">
+<BorderPane fx:id="paneprincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.krupique.bedusystem.interfaces.fundamentais.QuitarContasReceberController">
    <top>
       <HBox alignment="CENTER" prefHeight="80.0" prefWidth="880.0" style="-fx-background-color: #E1E1E1;" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Quitar Contas à Receber">
+            <Label text="Quitar Contas a Receber">
                <font>
                   <Font name="System Bold" size="28.0" />
                </font>

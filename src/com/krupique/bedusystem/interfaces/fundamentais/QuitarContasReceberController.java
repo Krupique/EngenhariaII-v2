@@ -11,17 +11,23 @@ import com.krupique.bedusystem.entidades.Cliente;
 import com.krupique.bedusystem.entidades.Funcionário;
 import com.krupique.bedusystem.entidades.ParcelaRecebimento;
 import com.krupique.bedusystem.entidades.Recebimento;
+import com.krupique.bedusystem.utilidades.MaskFieldUtil;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -101,6 +107,8 @@ public class QuitarContasReceberController implements Initializable {
         
         CarregaTabelaRecebimento("");
         rb_dia.setSelected(true);
+        btPagar.setDisable(true);
+        brRemover.setDisable(true);
         dtBusca.setValue(LocalDate.now());
         
     }  
@@ -120,7 +128,26 @@ public class QuitarContasReceberController implements Initializable {
     @FXML
     private void evtPagar(ActionEvent event) 
     {
-        
+        String res ="";
+        double valorpg;
+        TextField tx = new TextField();
+         TextInputDialog a = new TextInputDialog(); 
+         a.setTitle("Pagamento");
+         a.setHeaderText("Digite o valor que deseja pagar!!!");  
+         a.setContentText("Valor:");
+         tx = a.getEditor();
+         MaskFieldUtil.monetaryField(tx);
+         Optional <String> resultado =  a.showAndWait();
+    
+         if(resultado.isPresent())
+         {
+            res = resultado.get();
+            res = res.replace(".", "");
+            res = res.replace(",",".");
+
+            valorpg = Double.parseDouble(res);
+             System.out.println(valorpg);
+         }
     }
 
     @FXML
@@ -185,6 +212,8 @@ public class QuitarContasReceberController implements Initializable {
     private void evtClickRecebimento(MouseEvent event) 
     {
         CarregaTabelaParcela(tab_reb.getSelectionModel().getSelectedItem().getCodigo());
+        btPagar.setDisable(false);
+        brRemover.setDisable(false);
     }
 
     @FXML
