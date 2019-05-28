@@ -10,6 +10,7 @@ import com.krupique.bedusystem.entidades.OS;
 import com.krupique.bedusystem.entidades.Orcamento;
 import com.krupique.bedusystem.entidades.Status;
 import com.krupique.bedusystem.entidades.StatusOS;
+import com.krupique.bedusystem.interfaces.basicas.TelaLoginController;
 import java.sql.Date;
 import java.util.ArrayList;
 import javafx.scene.control.DatePicker;
@@ -36,6 +37,13 @@ public class ctrOS
                 new Funcionário().get_nome(funcionario.getText()).getCodigo());
     }
     
+    public boolean alterar(String status, String funcionario, String desc, DatePicker data,int cod)
+    {
+        StatusOS s = new StatusOS();
+        Status sta = new Status().buscaStatus(status);
+        return s.gravar(cod,sta.getCodigo(),Date.valueOf(data.getValue()),desc,1);
+    }
+    
     public ArrayList<Object[]> procurar(int filtro)
     {
         ArrayList<Object[]> usuarios = new ArrayList<>();
@@ -45,6 +53,15 @@ public class ctrOS
         Status s;
         
         aux = new OS().busca(filtro);
+        
+        for (int i = 0; i < aux.size(); i++)
+        {
+            if(aux.get(i).getMax().getStatus().getDescricao().equals("fechado"))
+            {
+                aux.remove(i);
+                i--;
+            }
+        }
         
         for (int i = 0; i < aux.size(); i++)
         {

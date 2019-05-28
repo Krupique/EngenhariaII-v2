@@ -6,6 +6,7 @@
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -28,24 +29,53 @@
    <center>
       <AnchorPane prefHeight="341.0" prefWidth="552.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane layoutX="13.0" layoutY="279.0" prefHeight="287.0" prefWidth="854.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="279.0">
+            <AnchorPane layoutX="13.0" layoutY="279.0" prefHeight="296.0" prefWidth="850.0" style="-fx-background-color: #E1E1E1;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="279.0">
                <children>
-                  <JFXTextField fx:id="tf_valor" editable="false" labelFloat="true" layoutX="50.0" layoutY="35.0" prefHeight="25.0" prefWidth="161.0" promptText="Valor Total" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="665.0" />
-                  <AnchorPane layoutX="582.0" layoutY="14.0" prefHeight="66.0" prefWidth="218.0" style="-fx-background-color: #D1D1D1;">
+                  <JFXTextField fx:id="tf_valor" editable="false" labelFloat="true" layoutX="20.0" layoutY="22.0" prefHeight="25.0" prefWidth="113.0" promptText="Valor Total" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="717.0" />
+                  <AnchorPane layoutX="272.0" layoutY="22.0" prefHeight="66.0" prefWidth="218.0" style="-fx-background-color: #D1D1D1;">
                      <children>
                         <JFXRadioButton fx:id="rb_avista" layoutX="15.0" layoutY="13.0" onAction="#clickFormaPagamento" text="À vista" AnchorPane.leftAnchor="15.0" />
                         <JFXRadioButton fx:id="rb_parcelado" layoutX="15.0" layoutY="38.0" onAction="#clickFormaPagamento" text="Parcelado" AnchorPane.leftAnchor="15.0" />
                         <JFXComboBox fx:id="cb_parcelas" labelFloat="true" layoutX="126.0" layoutY="11.0" onAction="#clickFormaPagamento" promptText="Parcelas" />
                      </children>
                   </AnchorPane>
-                  <TableView fx:id="tv_pagmento" layoutX="25.0" layoutY="99.0" prefHeight="182.0" prefWidth="602.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+                  <TableView fx:id="tv_pagmento" layoutX="14.0" layoutY="99.0" prefHeight="162.0" prefWidth="810.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
                     <columns>
                       <TableColumn fx:id="tc_parcela" prefWidth="206.0" text="Parcela" />
                       <TableColumn fx:id="tc_valor" prefWidth="273.0" text="Valor" />
-                        <TableColumn fx:id="tc_data" prefWidth="270.0" text="Data de Vencimento" />
+                        <TableColumn fx:id="tc_data" prefWidth="330.0" text="Data de Vencimento" />
                     </columns>
                   </TableView>
-                  <JFXDatePicker fx:id="dp_data" layoutX="262.0" layoutY="34.0" onAction="#clickFormaPagamento" prefHeight="28.0" prefWidth="218.0" promptText="Data do Primeiro Pagamento" AnchorPane.leftAnchor="262.0" AnchorPane.rightAnchor="369.0" />
+                  <JFXDatePicker fx:id="dp_data" layoutX="20.0" layoutY="62.0" onAction="#clickFormaPagamento" prefHeight="28.0" prefWidth="218.0" promptText="Data do Primeiro Pagamento" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="600.0" />
+                  <JFXTextField fx:id="tf_desconto" labelFloat="true" layoutX="148.0" layoutY="22.0" onKeyReleased="#alterarDesconto" prefHeight="25.0" prefWidth="100.0" promptText="Desconto à vista" />
+                  <Label layoutX="272.0" layoutY="6.0" text="Gerar parcelas automaticamente">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="490.0" layoutY="-1.0" orientation="VERTICAL" prefHeight="99.0" prefWidth="34.0" />
+                  <AnchorPane layoutX="518.0" layoutY="22.0" prefHeight="69.0" prefWidth="199.0" style="-fx-background-color: #D1D1D1;" AnchorPane.bottomAnchor="205.0">
+                     <children>
+                        <JFXTextField fx:id="tf_numeroParcela" labelFloat="true" layoutX="9.0" layoutY="11.0" prefHeight="25.0" prefWidth="74.0" promptText="Nº Parcela" />
+                        <JFXTextField fx:id="tf_valorParcela" labelFloat="true" layoutX="93.0" layoutY="11.0" prefHeight="25.0" prefWidth="104.0" promptText="Valor Parcela" />
+                        <JFXButton fx:id="btAdd" buttonType="RAISED" layoutX="66.0" layoutY="43.0" onAction="#btAdd" style="-fx-background-color: #347E65;" text="Adicionar" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </AnchorPane>
+                  <Label layoutX="518.0" layoutY="6.0" text="Gerar parcelas manualmente">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <JFXTextField fx:id="tf_valorRestante" labelFloat="true" layoutX="726.0" layoutY="64.0" prefHeight="25.0" prefWidth="90.0" promptText="Valor Restante" AnchorPane.leftAnchor="726.0" AnchorPane.rightAnchor="20.0" />
+                  <JFXButton fx:id="bt_limpar" buttonType="RAISED" layoutX="20.0" layoutY="266.0" onAction="#clickLimpar" style="-fx-background-color: #347E65;" text="Limpar Parcelas" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </JFXButton>
                </children>
             </AnchorPane>
             <Label layoutX="15.0" layoutY="258.0" text="Informações de Pagamento" AnchorPane.leftAnchor="15.0">
@@ -53,7 +83,7 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <HBox alignment="CENTER" layoutX="15.0" layoutY="566.0" prefHeight="41.0" prefWidth="852.0" spacing="20.0">
+            <HBox alignment="CENTER" layoutX="15.0" layoutY="566.0" prefHeight="41.0" prefWidth="852.0" spacing="20.0" AnchorPane.bottomAnchor="0.0">
                <children>
                   <JFXButton fx:id="bt_confirmar" buttonType="RAISED" onAction="#clickConfirmar" style="-fx-background-color: #347E65;" text="Confirmar" textFill="WHITE">
                      <font>

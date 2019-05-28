@@ -1,4 +1,3 @@
-
 package com.krupique.bedusystem.controladoras;
 
 import com.jfoenix.controls.JFXTextField;
@@ -7,7 +6,6 @@ import com.krupique.bedusystem.entidades.Recebimento;
 import com.krupique.bedusystem.utilidades.Objeto;
 import java.sql.Date;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
@@ -15,10 +13,10 @@ import javafx.collections.ObservableList;
 
 public class ctrRecebimento
 {
-    
+
     private static ctrRecebimento con;
 
-    private ctrRecebimento()
+    public ctrRecebimento()
     {
     }
 
@@ -30,7 +28,8 @@ public class ctrRecebimento
         }
         return con;
     }
-    public final boolean gravar(ArrayList<Objeto>parcelas,JFXTextField cliente)
+
+    public final boolean gravar(ArrayList<Objeto> parcelas, JFXTextField cliente)
     {
         ParcelaRecebimento parcela;
         boolean flag = true;
@@ -42,23 +41,25 @@ public class ctrRecebimento
             parcela.setCliente(CtrCliente.instancia().getCodigo(cliente.getText()));
             flag = flag && parcela.gravar();
         }
-        if(!flag)
+        if (!flag)
+        {
             for (; i > 0; i--)
             {
                 parcela = new ParcelaRecebimento(Integer.parseInt(parcelas.get(i).getParam1()));
                 parcela.remover();
             }
+        }
         return flag;
     }
-    
-    
-        public final ObservableList<Recebimento> getTodos()
+
+    public final ObservableList<Recebimento> getTodos()
     {
         ArrayList<Recebimento> a = new ArrayList<>();
         a = new Recebimento().get();
         ObservableList<Recebimento> ob = FXCollections.observableArrayList(a);
         return ob;
     }
+
     public final ObservableList<Recebimento> getCliente(String nome)
     {
         ArrayList<Recebimento> a = new ArrayList<>();
@@ -66,14 +67,16 @@ public class ctrRecebimento
         ObservableList<Recebimento> ob = FXCollections.observableArrayList(a);
         return ob;
     }
-      public final ObservableList<Recebimento> getDia(LocalDate data)
+
+    public final ObservableList<Recebimento> getDia(LocalDate data)
     {
         ArrayList<Recebimento> a = new ArrayList<>();
         a = new Recebimento().getDia(data);
         ObservableList<Recebimento> ob = FXCollections.observableArrayList(a);
         return ob;
     }
-         public final ObservableList<Recebimento> getAte(LocalDate data)
+
+    public final ObservableList<Recebimento> getAte(LocalDate data)
     {
         ArrayList<Recebimento> a = new ArrayList<>();
         a = new Recebimento().getAte(data);

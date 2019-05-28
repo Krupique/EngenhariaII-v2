@@ -132,6 +132,7 @@ public class OSController implements Initializable
         TextFields.bindAutoCompletion(tf_funcionario, nomes);
         
         ObservableList<String> data = FXCollections.observableArrayList(new ctrStatus().buscaTodos());
+        data.remove("fechado");
         cb_status.setItems(data);
         cb_status.getSelectionModel().select(0);
         
@@ -140,7 +141,7 @@ public class OSController implements Initializable
         acao = 0;
         limpa();
         procura(0);
-        btFinalizar.setText("Finalizar");
+        btFinalizar.setText("Fechar OS");
         btIniciar.setText("Iniciar");
     }
     
@@ -261,8 +262,10 @@ public class OSController implements Initializable
             
             if(tv_os.getSelectionModel().getSelectedItem().getParam7().equals("não iniciado"))
                 altera_campos(true,true, false, true, true);
-            else
-                altera_campos(true,true, true, false, false);
+            else if(!tv_os.getSelectionModel().getSelectedItem().getParam7().equals("finalizado"))
+                altera_campos(true,true, true, false, true);
+            else if(tv_os.getSelectionModel().getSelectedItem().getParam7().equals("finalizado"))
+                altera_campos(true,true, true, true, false);
             
             cod = Integer.parseInt(tv_os.getSelectionModel().getSelectedItem().getParam1());
             tf_codigo.setText(String.valueOf(cod));
@@ -271,14 +274,6 @@ public class OSController implements Initializable
             if(tv_os.getSelectionModel().getSelectedItem().getParam2() != null)
                 dp_data.setValue(LocalDate.parse(tv_os.getSelectionModel().getSelectedItem().getParam2()));
             recuperaHistorico(cod);
-            
-            if(cb_status.getSelectionModel().getSelectedItem().equals("finalizado"))
-            {
-                btFinalizar.setText("Fechar OS");
-                altera_campos(true,true, true, true, false);
-            }
-            else
-                btFinalizar.setText("Finalizar");
         }
     }
 
@@ -310,6 +305,7 @@ public class OSController implements Initializable
         if(flag && new ctrOS().alterar(cb_status, tf_funcionario, ta_descricao, dp_data, cod))
         {
             alert = new Alert(Alert.AlertType.INFORMATION, "OS alterada com sucesso", ButtonType.NO);
+            recuperaHistorico(cod);
             clickCancelar(event);
         }
         else

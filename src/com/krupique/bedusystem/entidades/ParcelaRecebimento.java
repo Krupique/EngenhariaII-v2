@@ -17,6 +17,7 @@ import java.util.ArrayList;
  */
 public class ParcelaRecebimento
 {
+
     private int codigo;
     private int status;
     private Date vencimento;
@@ -30,7 +31,8 @@ public class ParcelaRecebimento
     {
     }
 
-    public ParcelaRecebimento(int codigo, int status, Date vencimento, Date pagamento, int numero, double valor_pago, double valor, Cliente cliente) {
+    public ParcelaRecebimento(int codigo, int status, Date vencimento, Date pagamento, int numero, double valor_pago, double valor, Cliente cliente)
+    {
         this.codigo = codigo;
         this.status = status;
         this.vencimento = vencimento;
@@ -40,8 +42,6 @@ public class ParcelaRecebimento
         this.valor = valor;
         this.cliente = cliente;
     }
-    
-    
 
     public ParcelaRecebimento(int codigo)
     {
@@ -65,7 +65,7 @@ public class ParcelaRecebimento
         this.vencimento = vencimento;
         this.valor = valor;
     }
-    
+
     public int getCodigo()
     {
         return codigo;
@@ -145,30 +145,30 @@ public class ParcelaRecebimento
     {
         this.cliente = cliente;
     }
-    
+
     public boolean gravar()
     {
         String sql = "insert into parcela_recebimento(parc_receb_status,parc_receb_dtvencimento,parc_receb_numero,"
                 + "parc_receb_vlrpago,parc_receb_valor,cli_cod) values ($2,'$3',$4,$5,$6,$1)";
-        
+
         sql = sql.replace("$2", String.valueOf(status));
-        sql = sql.replace("$3",String.valueOf(vencimento));
+        sql = sql.replace("$3", String.valueOf(vencimento));
         sql = sql.replace("$4", String.valueOf(numero));
-        sql = sql.replace("$5",String.valueOf(valor_pago));
-        sql = sql.replace("$6",String.valueOf(valor));
-        sql = sql.replace("$1",String.valueOf(cliente.getCodigo()));
-        
+        sql = sql.replace("$5", String.valueOf(valor_pago));
+        sql = sql.replace("$6", String.valueOf(valor));
+        sql = sql.replace("$1", String.valueOf(cliente.getCodigo()));
+
         return Banco.getCon().manipular(sql);
     }
 
     public boolean remover()
     {
         String sql = "delete from parcela_recebimento where parc_receb_codigo = " + codigo;
-        
+
         return Banco.getCon().manipular(sql);
     }
-    
-     public ArrayList<ParcelaRecebimento> get(int codigo)
+
+    public ArrayList<ParcelaRecebimento> get(int codigo)
     {
         String sql = "select *from parcela_recebimento where parcela_recebimento.rec_codigo =" + codigo;
         ResultSet rs = null;
@@ -179,14 +179,13 @@ public class ParcelaRecebimento
         {
             while (rs.next())
             {
-                
-        // int codigo;int status; Date vencimento;Date pagamento;int numero;
-        //double valor_pago;double valor;
-                
+
+                // int codigo;int status; Date vencimento;Date pagamento;int numero;
+                //double valor_pago;double valor;
                 a.add(new ParcelaRecebimento(rs.getInt("parc_receb_codigo"), rs.getInt("parc_receb_status"),
-                        rs.getDate("parc_receb_dtVencimento"),rs.getDate("parc_receb_dtPagamento"),rs.getInt("parc_receb_numero"),
-                        rs.getDouble("parc_receb_vlrPago"),rs.getDouble("parc_receb_valor"),new Cliente(rs.getInt("rec_codigo"))));
-                        
+                        rs.getDate("parc_receb_dtVencimento"), rs.getDate("parc_receb_dtPagamento"), rs.getInt("parc_receb_numero"),
+                        rs.getDouble("parc_receb_vlrPago"), rs.getDouble("parc_receb_valor"), new Cliente(rs.getInt("rec_codigo"))));
+
             }
         } catch (SQLException ex)
         {
@@ -194,5 +193,5 @@ public class ParcelaRecebimento
         }
         return a;
     }
-    
+
 }

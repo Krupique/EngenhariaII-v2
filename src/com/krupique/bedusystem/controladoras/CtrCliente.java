@@ -90,6 +90,17 @@ public class CtrCliente
         return c != null;
     }
 
+    public static boolean get2(JFXTextField cpf, JFXTextField nome, JFXTextField telefone, JFXTextField email, JFXTextField endereco, JFXTextField cep)
+    {
+        Cliente c = new Cliente().getC(nome.getText());
+        cpf.setText(c.getCpf());
+        telefone.setText(c.getTelefone());
+        email.setText(c.getEmail());
+        endereco.setText(c.getEndereco());
+        cep.setText(c.getCep());
+        return c != null;
+    }
+    
     public static boolean SalvarCliente(String nome, String cpf, String rg, String telefone, String email, String endereco, String cep, String pais, String estado, String cidade, String bairro, Date dtCadastro)
     {
         Cliente c = new Cliente(nome, cpf, rg, telefone, email, endereco, cep, pais, estado, cidade, bairro, dtCadastro);
