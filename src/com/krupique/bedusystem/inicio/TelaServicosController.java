@@ -55,6 +55,12 @@ public class TelaServicosController implements Initializable {
     private String corPaneExit;
     private String corFolderEnter;
     private String corFolderExit;
+    @FXML
+    private Pane paneAprovar;
+    @FXML
+    private ImageView imgAprovar;
+    @FXML
+    private Pane folderAprovar;
     /**
      * Initializes the controller class.
      */
@@ -92,7 +98,8 @@ public class TelaServicosController implements Initializable {
         imgOS.setImage(img);
         img = new Image(caminho + "orcamento.png");
         imgOrc.setImage(img);
-        
+        img = new Image(caminho + "aprovar_orcamento.png");
+        imgAprovar.setImage(img);
     }
 
     @FXML
@@ -123,6 +130,17 @@ public class TelaServicosController implements Initializable {
     @FXML
     private void enterOrc(MouseEvent event) {
         Estilo.setEstiloPane(folderOrc, paneOrc, corFolderEnter, corPaneEnter);
+    }
+     @FXML
+    private void exitAprovar(MouseEvent event)
+    {
+        Estilo.setEstiloPane(folderAprovar, paneAprovar, corFolderExit, corPaneExit);
+    }
+
+    @FXML
+    private void enterAprovar(MouseEvent event)
+    {
+        Estilo.setEstiloPane(folderAprovar, paneAprovar, corFolderEnter, corPaneEnter);
     }
     
     //################################# PARTE DE FUNCIONALIDADES DA TELA #################################//
@@ -178,6 +196,22 @@ public class TelaServicosController implements Initializable {
         }
     }
     
-    
+    @FXML
+    private void clickAprovar(MouseEvent event)
+    {
+        try
+        {
+            Stage stage = (Stage)paneprincipal.getScene().getWindow();
+            stage.setResizable(false);
+
+            Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/fundamentais/AprovarOrcamento.fxml"));
+            paneprincipal.getChildren().clear();
+            paneprincipal.getChildren().add(root);
+
+        }catch(Exception er){
+            Alert a = new Alert(Alert.AlertType.ERROR, "Erro ao abrir tela de Compras! \nErro: " + er.getMessage(), ButtonType.OK);
+            a.showAndWait();
+        }
+    }
     //################################# PARTES DO SISTEMA QUE NÃO SEI SE AINDA É ÚTIL #################################//
 }

@@ -7,7 +7,6 @@ import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import com.krupique.bedusystem.controladoras.CtrCliente;
 import com.krupique.bedusystem.controladoras.ctrOS;
-import com.krupique.bedusystem.controladoras.ctrParcelaRecebimento;
 import com.krupique.bedusystem.utilidades.MaskFieldUtil;
 import com.krupique.bedusystem.utilidades.Objeto;
 import java.math.RoundingMode;
@@ -98,7 +97,7 @@ public class GerarContasReceberController implements Initializable
         tc_valor.setCellValueFactory(new PropertyValueFactory<>("param2_1"));
         tc_data.setCellValueFactory(new PropertyValueFactory<>("param3"));
 
-        ObservableList<String> data = FXCollections.observableArrayList("2x", "3x", "4x", "5x", "6x",
+        ObservableList<String> data = FXCollections.observableArrayList("1","2x", "3x", "4x", "5x", "6x",
                 "7x", "8x", "9x", "10x", "11x", "12x");
         cb_parcelas.setItems(data);
 
@@ -133,6 +132,17 @@ public class GerarContasReceberController implements Initializable
         CtrCliente o = CtrCliente.instancia();
         o.get2(tf_cpf, tf_cliente, tf_telefone, tf_email, tf_endereco, tf_cep);
         info_cliente.setDisable(true);
+        
+        inicializa_tabela();
+    }
+    
+    public void inicializa_tabela()
+    {
+        tf_valorRestante.setText(tf_valor.getText());
+        rb_avista.setSelected(false);
+        rb_parcelado.setSelected(false);
+        tf_numeroParcela.setText("1");
+        tv_pagmento.setItems(FXCollections.observableArrayList());
     }
 
     @FXML
@@ -142,24 +152,32 @@ public class GerarContasReceberController implements Initializable
         {
             if (rb_avista.isSelected())
             {
+                inicializa_tabela();
+                rb_avista.setSelected(true);
+                String v = tf_valor.getText();
+                double valor = Double.parseDouble(v.replace(",", ".")),desconto = 1.0;
                 cb_parcelas.setDisable(true);
-                double valor = Double.parseDouble(tf_valorRestante.getText().replace(",", ".")), desconto = 1.00;
+                
                 if (Integer.parseInt(tf_desconto.getText()) > 0)
-                {
                     desconto = 1.00 - (Double.parseDouble(tf_desconto.getText()) / 100);
-                }
+                
                 DecimalFormat df2 = new DecimalFormat("#.##");
                 df2.setRoundingMode(RoundingMode.DOWN);
                 valor = Double.parseDouble(df2.format(valor * desconto).replace(",", "."));
+                
                 Objeto o = new Objeto(String.valueOf(1), String.valueOf(valor),
                         String.valueOf(dp_data.getValue()));
+                
                 tv_pagmento.setItems(FXCollections.observableArrayList(o));
+                tf_valorRestante.setText("0");
             }
             else if (rb_parcelado.isSelected())
             {
                 cb_parcelas.setDisable(false);
                 if (cb_parcelas.getSelectionModel().getSelectedIndex() >= 0 && !tf_valorRestante.equals("0"))
                 {
+                    if(tf_valorRestante.getText().equals("0"))
+                        clickLimpar(new ActionEvent());
                     ObservableList<Objeto> forma = tv_pagmento.getItems().size() > 0? tv_pagmento.getItems() : FXCollections.observableArrayList();
                     int meses = 0,i,q,max;    
                     
@@ -311,9 +329,6 @@ public class GerarContasReceberController implements Initializable
     @FXML
     private void clickLimpar(ActionEvent event)
     {
-        tv_pagmento.setItems(FXCollections.observableArrayList());
-        rb_avista.setSelected(false);
-        rb_parcelado.setSelected(false);
-        tf_valorRestante.setText(String.valueOf(valor));
+        inicializa_tabela();
     }
 }
