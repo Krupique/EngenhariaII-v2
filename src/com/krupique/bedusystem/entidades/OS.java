@@ -4,6 +4,7 @@ import com.krupique.bedusystem.utilidades.Banco;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,6 +38,11 @@ public class OS
         this.status = status;
         this.orcamento = orcamento;
     }    
+
+    public OS(int orc)
+    {
+        this.orcamento = new Orçamento(orc);
+    }
     
     public int getCodigo()
     {
@@ -157,5 +163,14 @@ public class OS
     {
         
         return true;
+    }
+
+    public boolean gravar()
+    {
+        String sql = "insert into ordem_de_servico (os_data,orc_codigo) values('$1',$2)";
+        sql = sql.replace("$1", String.valueOf(LocalDate.now()));
+        sql = sql.replace("$2", String.valueOf(orcamento.getCodigo()));
+        
+        return Banco.getCon().manipular(sql);
     }
 }

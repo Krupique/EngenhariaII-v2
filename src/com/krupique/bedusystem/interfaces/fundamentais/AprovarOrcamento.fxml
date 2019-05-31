@@ -34,11 +34,11 @@
                      <children>
                         <AnchorPane layoutX="18.0" layoutY="35.0" prefHeight="199.0" prefWidth="332.0" style="-fx-background-color: #D1D1D1;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="360.0">
                            <children>
-                              <JFXTextField fx:id="tf_nomeCliente" labelFloat="true" layoutX="14.0" layoutY="26.0" promptText="Nome" AnchorPane.leftAnchor="15.0" />
-                              <JFXTextField fx:id="tf_cpf" labelFloat="true" layoutX="171.0" layoutY="26.0" promptText="CPF" AnchorPane.leftAnchor="171.0" AnchorPane.rightAnchor="15.0" />
-                              <JFXTextField fx:id="tf_telefone" labelFloat="true" layoutX="14.0" layoutY="76.0" promptText="Telefone" AnchorPane.leftAnchor="15.0" />
-                              <JFXTextField fx:id="tf_email" labelFloat="true" layoutX="171.0" layoutY="76.0" promptText="Email" AnchorPane.leftAnchor="171.0" AnchorPane.rightAnchor="15.0" />
-                              <JFXTextField fx:id="tf_endereco" labelFloat="true" layoutX="14.0" layoutY="131.0" prefHeight="25.0" prefWidth="294.0" promptText="Endereço" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+                              <JFXTextField fx:id="tf_nomeCliente" editable="false" labelFloat="true" layoutX="14.0" layoutY="26.0" promptText="Nome" AnchorPane.leftAnchor="15.0" />
+                              <JFXTextField fx:id="tf_cpf" editable="false" labelFloat="true" layoutX="171.0" layoutY="26.0" promptText="CPF" AnchorPane.leftAnchor="171.0" AnchorPane.rightAnchor="15.0" />
+                              <JFXTextField fx:id="tf_telefone" editable="false" labelFloat="true" layoutX="14.0" layoutY="76.0" promptText="Telefone" AnchorPane.leftAnchor="15.0" />
+                              <JFXTextField fx:id="tf_email" editable="false" labelFloat="true" layoutX="171.0" layoutY="76.0" promptText="Email" AnchorPane.leftAnchor="171.0" AnchorPane.rightAnchor="15.0" />
+                              <JFXTextField fx:id="tf_endereco" editable="false" labelFloat="true" layoutX="14.0" layoutY="131.0" prefHeight="25.0" prefWidth="294.0" promptText="Endereço" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
                            </children>
                         </AnchorPane>
                         <Label layoutX="18.0" layoutY="18.0" prefHeight="19.0" prefWidth="147.0" text="Informações do Cliente" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="543.0">
@@ -48,11 +48,11 @@
                         </Label>
                         <AnchorPane layoutX="380.0" layoutY="35.0" prefHeight="199.0" prefWidth="309.0" style="-fx-background-color: #D1D1D1;" AnchorPane.leftAnchor="375.0" AnchorPane.rightAnchor="15.0">
                            <children>
-                              <JFXTextField fx:id="tf_placa" labelFloat="true" layoutX="14.0" layoutY="26.0" prefHeight="25.0" prefWidth="140.0" promptText="Placa" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="160.0" />
-                              <JFXTextField fx:id="tf_modelo" labelFloat="true" layoutX="169.0" layoutY="26.0" prefHeight="25.0" prefWidth="73.0" promptText="Modelo" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="15.0" />
-                              <JFXTextField fx:id="tf_marca" labelFloat="true" layoutX="14.0" layoutY="76.0" promptText="Marca" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="160.0" />
-                              <JFXTextField fx:id="tf_ano" labelFloat="true" layoutX="169.0" layoutY="76.0" promptText="Ano" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="15.0" />
-                              <JFXTextField labelFloat="true" layoutX="14.0" layoutY="131.0" promptText="Cor" AnchorPane.leftAnchor="15.0" />
+                              <JFXTextField fx:id="tf_placa" editable="false" labelFloat="true" layoutX="14.0" layoutY="26.0" prefHeight="25.0" prefWidth="140.0" promptText="Placa" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="160.0" />
+                              <JFXTextField fx:id="tf_modelo" editable="false" labelFloat="true" layoutX="169.0" layoutY="26.0" prefHeight="25.0" prefWidth="73.0" promptText="Modelo" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="15.0" />
+                              <JFXTextField fx:id="tf_marca" editable="false" labelFloat="true" layoutX="14.0" layoutY="76.0" promptText="Marca" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="160.0" />
+                              <JFXTextField fx:id="tf_ano" editable="false" labelFloat="true" layoutX="169.0" layoutY="76.0" promptText="Ano" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="15.0" />
+                              <JFXTextField fx:id="tf_cor" editable="false" labelFloat="true" layoutX="14.0" layoutY="131.0" promptText="Cor" AnchorPane.leftAnchor="15.0" />
                            </children>
                         </AnchorPane>
                         <Label layoutX="380.0" layoutY="18.0" text="Informações do Veiculo">
@@ -76,7 +76,7 @@
                                                       <TableColumn fx:id="tc_precoPreca" prefWidth="134.0" text="PREÇO UNITÁRIO" />
                                                   </columns>
                                                 </TableView>
-                                                <JFXTextField fx:id="tf_subtotalPeca" editable="false" labelFloat="true" layoutX="577.0" layoutY="15.0" prefHeight="25.0" prefWidth="82.0" promptText="SubTotal" AnchorPane.rightAnchor="10.0" />
+                                                <JFXTextField fx:id="tf_subtotalPeca" editable="false" labelFloat="true" layoutX="577.0" layoutY="15.0" prefHeight="25.0" prefWidth="85.0" promptText="SubTotal" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="15.0" />
                                              </children>
                                           </AnchorPane>
                                     </content>
@@ -85,14 +85,14 @@
                                     <content>
                                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                              <children>
-                                                <TableView fx:id="tv_servicos" layoutX="14.0" layoutY="22.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="10.0">
+                                                <TableView fx:id="tv_servicos" layoutX="14.0" layoutY="22.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="15.0">
                                                   <columns>
                                                     <TableColumn fx:id="tc_codServico" prefWidth="70.0" text="COD" />
                                                     <TableColumn fx:id="tc_descricaoServico" prefWidth="329.0" text="DESCRIÇÃO" />
                                                       <TableColumn fx:id="tc_precoServico" prefWidth="145.0" text="PREÇO" />
                                                   </columns>
                                                 </TableView>
-                                                <JFXTextField fx:id="tf_subtotalServico" labelFloat="true" layoutX="561.0" layoutY="10.0" prefHeight="25.0" prefWidth="85.0" promptText="SubTotal" AnchorPane.rightAnchor="10.0" />
+                                                <JFXTextField fx:id="tf_subtotalServico" editable="false" labelFloat="true" layoutX="561.0" layoutY="10.0" prefHeight="25.0" prefWidth="85.0" promptText="SubTotal" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="15.0" />
                                              </children>
                                           </AnchorPane>
                                     </content>
@@ -106,7 +106,7 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="tf_total" labelFloat="true" layoutX="555.0" layoutY="244.0" promptText="Total" />
+                        <JFXTextField fx:id="tf_total" editable="false" labelFloat="true" layoutX="555.0" layoutY="244.0" promptText="Total" />
                      </children>
                   </AnchorPane>
                   <HBox alignment="CENTER" layoutY="614.0" prefHeight="67.0" prefWidth="707.0" spacing="20.0">

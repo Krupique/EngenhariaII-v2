@@ -127,6 +127,21 @@ public class Objeto {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public Objeto(String param1, String param2, String param3, String param4, String param5, String param6, String param7, String param8, String param9, String param10, String param11)
+    {
+        this.param1 = param1;
+        this.param2 = param2;
+        this.param3 = param3;
+        this.param4 = param4;
+        this.param5 = param5;
+        this.param6 = param6;
+        this.param7 = param7;
+        this.param8 = param8;
+        this.param9 = param9;
+        this.param10 = param10;
+        this.param11 = param11;
+    }
+    
     public String getParam1() {
         return param1;
     }

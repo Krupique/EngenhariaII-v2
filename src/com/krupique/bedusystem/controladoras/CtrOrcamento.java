@@ -11,6 +11,8 @@ import com.krupique.bedusystem.entidades.Servico;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import com.krupique.bedusystem.entidades.Orçamento;
+import com.krupique.bedusystem.utilidades.Objeto;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 
 public class CtrOrcamento
@@ -257,6 +260,62 @@ public class CtrOrcamento
         ObservableList<Object> ob = FXCollections.observableArrayList(a);
         return ob;
     }
+    
+    public static ArrayList<Object[]> getInfoTabela(ListView<String> l)
+    {
+        ArrayList<Orçamento> a = new Orçamento().getAvancado();
+        ArrayList<String> cods = new ArrayList<>();
+        ArrayList<Object[]> ret = new ArrayList<>();
+        Object[] obj,objP,objS,objaux;
+        for (int i = 0; i < a.size(); i++)
+        {
+            cods.add(String.valueOf(a.get(i).getCodigo()));
+            
+            obj = new Object[11];
+            
+            obj[0] = a.get(i).getCliente().getNome();
+            obj[1] = a.get(i).getCliente().getCpf();
+            obj[2] = a.get(i).getCliente().getTelefone();
+            obj[3] = a.get(i).getCliente().getEmail();
+            obj[4] = a.get(i).getCliente().getEndereco();
+            
+            obj[5] = a.get(i).getVeiculo().getVei_placa();
+            obj[6] = a.get(i).getVeiculo().getVei_modelo();
+            obj[7] = a.get(i).getVeiculo().getVei_marca();
+            obj[8] = a.get(i).getVeiculo().getVei_ano();
+            obj[9] = a.get(i).getVeiculo().getVei_cor();
+            
+            obj[10] = a.get(i).getValorTotal();
+            
+            /*objP = new Object[a.get(i).getProdutosOrcamento().size()];
+            for (int j = 0; j < a.get(i).getProdutosOrcamento().size(); j++)
+            {
+                objaux = new Object[4];
+                
+                objaux[0] = a.get(i).getProdutosOrcamento().get(j).getProduto().getCodigo();
+                objaux[1] = a.get(i).getProdutosOrcamento().get(j).getProduto().getNome();
+                objaux[2] = a.get(i).getProdutosOrcamento().get(j).getQtd();
+                objaux[3] = a.get(i).getProdutosOrcamento().get(j).getValor();
+                objP[j] = objaux;
+            }
+            obj[11] = objP;
+            
+            objS = new Object[a.get(i).getServicosOrcamento().size()];
+            for (int j = 0; j < a.get(i).getServicosOrcamento().size(); j++)
+            {
+                objaux = new Object[3];
+                
+                objaux[0] = a.get(i).getServicosOrcamento().get(j).getServico().getCodigo_servico();
+                objaux[1] = a.get(i).getServicosOrcamento().get(j).getServico().getNome();
+                objaux[2] = a.get(i).getServicosOrcamento().get(j).getValor();
+                objS[j] = objaux;
+            }
+            obj[12] = objS;*/
+            ret.add(obj);
+        }
+        l.setItems(FXCollections.observableArrayList(cods));
+        return ret;
+    }
 
     public static ObservableList<Object> getInfoTabelaAvancado(String cliente_cpf, String funcionario_nome, BooleanProperty considerardatas, Date inicio, Date fim)
     {
@@ -274,5 +333,75 @@ public class CtrOrcamento
     {
         return (io != null && io instanceof Produto) ? new ItemOrcamentoProduto((Produto) io) : null;
     }
+    
+    public ArrayList<Object[]> getProdutos_Servicos(int cod,int tipo)
+    {
+        ArrayList<Object[]> ret = new ArrayList<>();
+        Orçamento o = new Orçamento(cod);
+        Object[] obj;
+        if(tipo == 0)
+        {
+            ArrayList<ItemOrcamentoProduto> produtos = o.getProdutosOrcamento();
+        
+            for (int i = 0; i < produtos.size(); i++)
+            {
+                obj = new Object[4];
 
+                obj[0] = produtos.get(i).getProduto().getCodigo();
+                obj[1] = produtos.get(i).getProduto().getNome();
+                obj[2] = produtos.get(i).getQtd();
+                obj[3] = produtos.get(i).getValor();
+                ret.add(obj);
+            }
+        }
+        else
+        {
+            ArrayList<ItemOrcamentoServico> servicos = o.getServicosOrcamento();
+            for (int i = 0; i < servicos.size(); i++)
+            {
+                obj = new Object[3];
+
+                obj[0] = servicos.get(i).getServico().getCodigo_servico();
+                obj[1] = servicos.get(i).getServico().getNome();
+                obj[2] = servicos.get(i).getValor();
+                ret.add(obj);
+            }
+        }
+        return ret;
+    }
+
+    public ArrayList<Object[]> getProdutos(int cod)
+    {
+        ArrayList<ItemOrcamentoProduto> produtos = new Orçamento(cod).getProdutosOrcamento();
+        ArrayList<Object[]> ret = new ArrayList<>();
+        Object[] obj;
+        for (int i = 0; i < produtos.size(); i++)
+        {
+            obj = new Object[4];
+            
+            obj[0] = produtos.get(i).getProduto().getCodigo();
+            obj[1] = produtos.get(i).getProduto().getNome();
+            obj[2] = produtos.get(i).getQtd();
+            obj[3] = produtos.get(i).getValor();
+            ret.add(obj);
+        }
+        return ret;
+    }
+
+    public ArrayList<Object[]> getServicos(int cod)
+    {
+        ArrayList<ItemOrcamentoServico> servicos = new Orçamento(cod).getServicosOrcamento();
+        ArrayList<Object[]> ret = new ArrayList<>();
+        Object[] obj;
+        for (int i = 0; i < servicos.size(); i++)
+        {
+            obj = new Object[3];
+            
+            obj[0] = servicos.get(i).getServico().getCodigo_servico();
+            obj[1] = servicos.get(i).getServico().getNome();
+            obj[2] = servicos.get(i).getValor();
+            ret.add(obj);
+        }
+        return ret;
+    }
 }

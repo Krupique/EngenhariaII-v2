@@ -19,6 +19,12 @@ public class Serviço
         this.descricao = "";
     }
 
+    public Serviço(int codigo, String descricao)
+    {
+        this.codigo = codigo;
+        this.descricao = descricao;
+    }
+    
     public Serviço(int codigo, String descricao, double preco, Funcionário funcionario)
     {
         this.codigo = codigo;

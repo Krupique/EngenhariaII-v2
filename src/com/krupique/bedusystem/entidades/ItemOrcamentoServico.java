@@ -11,6 +11,7 @@ public class ItemOrcamentoServico
     private Servico servico;
     private Double valor;
     private Integer qtd;
+    private Serviço serviço;
 
     public ItemOrcamentoServico()
     {
@@ -41,6 +42,12 @@ public class ItemOrcamentoServico
         this.qtd = qtd;
     }
 
+    public ItemOrcamentoServico(Serviço servico, Double valor)
+    {
+        this.serviço = servico;
+        this.valor = valor;
+    }
+    
     public ItemOrcamentoServico(int orc_cod)
     {
         this.orcamento = new Orcamento();

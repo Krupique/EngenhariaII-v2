@@ -22,8 +22,14 @@ public class Produto
         this.classificacao = classificacao;
         this.preco = preco;
     }
-    
-    
+
+    public Produto(int codigo, String nome, int quantidade, double preco)
+    {
+        this.codigo = codigo;
+        this.nome = nome;
+        this.quantidade = quantidade;
+        this.preco = preco;
+    }
 
     public Produto(int codigo, String nome, double preco, int quantidade, Classificacao classificacao)
     {
@@ -42,6 +48,12 @@ public class Produto
 
     public Produto(int cod) {
         this.codigo = cod;
+    }
+
+    public Produto(int codigo, String nome)
+    {
+        this.codigo = codigo;
+        this.nome = nome;
     }
     
     public boolean salvar(int flag)

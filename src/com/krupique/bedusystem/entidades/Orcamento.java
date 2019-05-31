@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
 
 public class Orcamento 
@@ -449,5 +451,5 @@ public class Orcamento
         }
         return null;
     }
-
+    
 }

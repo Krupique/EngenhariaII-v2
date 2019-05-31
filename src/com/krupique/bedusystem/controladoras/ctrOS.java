@@ -11,7 +11,9 @@ import com.krupique.bedusystem.entidades.Orcamento;
 import com.krupique.bedusystem.entidades.Status;
 import com.krupique.bedusystem.entidades.StatusOS;
 import com.krupique.bedusystem.interfaces.basicas.TelaLoginController;
+import com.krupique.bedusystem.utilidades.Banco;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.scene.control.DatePicker;
 
@@ -27,6 +29,12 @@ public class ctrOS
                 new Status().buscaStatus(cb.getSelectionModel().getSelectedItem().toString()));
         return o.alterar();*/
         return true;
+    }
+    
+    public boolean gravar(int orc)
+    {
+        return new OS(orc).gravar() && 
+        new StatusOS().gravar(Banco.getCon().getMaxPK("ordem_de_servico", "os_codigo"), 1, Date.valueOf(LocalDate.now()), "", 1);
     }
     
     public boolean alterar(JFXComboBox cb, JFXTextField funcionario, JFXTextArea desc, DatePicker data,int cod)
