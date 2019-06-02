@@ -97,7 +97,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <TableView fx:id="tab_par" prefHeight="500.0" prefWidth="850.0">
+                  <TableView fx:id="tab_par" onMouseClicked="#evtClickParcela" prefHeight="500.0" prefWidth="850.0">
                      <columns>
                         <TableColumn fx:id="colcodigop" prefWidth="75.0" text="Codigo" />
                         <TableColumn fx:id="colnum" prefWidth="100.0" text="Número" />
@@ -119,11 +119,6 @@
                </font>
             </JFXButton>
             <JFXButton fx:id="brRemover" buttonType="RAISED" onAction="#evtRemover" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Estornar" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="btCancelar" buttonType="RAISED" onAction="#evtCancelar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Cancelar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>

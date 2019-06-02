@@ -11,7 +11,9 @@ import com.krupique.bedusystem.entidades.Cliente;
 import com.krupique.bedusystem.entidades.Funcionário;
 import com.krupique.bedusystem.entidades.ParcelaRecebimento;
 import com.krupique.bedusystem.entidades.Recebimento;
+import static com.krupique.bedusystem.interfaces.fundamentais.TelaGenOrcamentoController.stage;
 import com.krupique.bedusystem.utilidades.MaskFieldUtil;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -21,7 +23,10 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -33,6 +38,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 public class QuitarContasReceberController implements Initializable {
 
@@ -42,8 +48,6 @@ public class QuitarContasReceberController implements Initializable {
     private JFXButton btPagar;
     @FXML
     private JFXButton brRemover;
-    @FXML
-    private JFXButton btCancelar;
     @FXML
     private JFXButton btBuscar;
     @FXML
@@ -121,11 +125,15 @@ public class QuitarContasReceberController implements Initializable {
     
     private void CarregaTabelaRecebimento(String string)
     {
+        btPagar.setDisable(true);
+        brRemover.setDisable(true);
         tab_reb.getItems().clear();
+        tab_par.getItems().clear();
         tab_reb.setItems(ctrRecebimento.instancia().getTodos());
     }
     private void CarregaTabelaParcela(int codigo)
     {
+
         tab_par.getItems().clear();
         tab_par.setItems(ctrParcelaRecebimento.instancia().get(codigo));
     }
@@ -162,11 +170,6 @@ public class QuitarContasReceberController implements Initializable {
         
     }
 
-    @FXML
-    private void evtCancelar(ActionEvent event) 
-    {
-        
-    }
 
     @FXML
     private void evtBuscar(ActionEvent event) 
@@ -202,9 +205,15 @@ public class QuitarContasReceberController implements Initializable {
     }
 
     @FXML
-    private void evtVoltar(ActionEvent event) 
+    private void evtVoltar(ActionEvent event) throws IOException 
     {
-        
+
+            Stage stage = (Stage)paneprincipal.getScene().getWindow();
+            stage.setResizable(false);
+
+            Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/inicio/TelaDashboard.fxml"));
+            paneprincipal.getChildren().clear();
+            paneprincipal.getChildren().add(root);
     }
 
     @FXML
@@ -218,8 +227,8 @@ public class QuitarContasReceberController implements Initializable {
     private void evtClickRecebimento(MouseEvent event) 
     {
         CarregaTabelaParcela(tab_reb.getSelectionModel().getSelectedItem().getCodigo());
-        btPagar.setDisable(false);
-        brRemover.setDisable(false);
+
+
     }
 
     @FXML
@@ -252,6 +261,13 @@ public class QuitarContasReceberController implements Initializable {
         lbfinal.setVisible(true);
         dtFinal.setValue(LocalDate.now().plusDays(1));
         
+    }
+
+    @FXML
+    private void evtClickParcela(MouseEvent event)
+    {
+        btPagar.setDisable(false);
+        brRemover.setDisable(false);
     }
     
 }

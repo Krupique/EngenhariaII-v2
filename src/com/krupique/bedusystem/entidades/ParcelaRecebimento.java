@@ -26,11 +26,13 @@ public class ParcelaRecebimento
     private double valor_pago;
     private double valor;
     private Cliente cliente;
+    private int OScodigo;
 
     public ParcelaRecebimento()
     {
     }
 
+    
     public ParcelaRecebimento(int codigo, int status, Date vencimento, Date pagamento, int numero, double valor_pago, double valor, Cliente cliente)
     {
         this.codigo = codigo;
@@ -42,6 +44,23 @@ public class ParcelaRecebimento
         this.valor = valor;
         this.cliente = cliente;
     }
+
+    public ParcelaRecebimento(int codigo, Date vencimento, Date pagamento, double valor, int OScodigo) {
+        this.codigo = codigo;
+        this.vencimento = vencimento;
+        this.pagamento = pagamento;
+        this.valor = valor;
+        this.OScodigo = OScodigo;
+    }
+
+    public ParcelaRecebimento(int codigo, Date vencimento, Date pagamento, int numero, double valor) {
+        this.codigo = codigo;
+        this.vencimento = vencimento;
+        this.pagamento = pagamento;
+        this.numero = numero;
+        this.valor = valor;
+    }
+    
 
     public ParcelaRecebimento(int codigo)
     {
@@ -146,6 +165,16 @@ public class ParcelaRecebimento
         this.cliente = cliente;
     }
 
+    public int getOScodigo() {
+        return OScodigo;
+    }
+
+    public void setOScodigo(int OScodigo) {
+        this.OScodigo = OScodigo;
+    }
+    
+    
+
     public boolean gravar()
     {
         String sql = "insert into parcela_recebimento(parc_receb_status,parc_receb_dtvencimento,parc_receb_numero,"
@@ -170,7 +199,7 @@ public class ParcelaRecebimento
 
     public ArrayList<ParcelaRecebimento> get(int codigo)
     {
-        String sql = "select *from parcela_recebimento where parcela_recebimento.rec_codigo =" + codigo;
+        String sql = "select *from parcela_recebimento where parcela_recebimento.os_codigo =" + codigo +"order by parc_receb_dtVencimento";
         ResultSet rs = null;
         ArrayList<ParcelaRecebimento> a = new ArrayList<>();
 
@@ -182,9 +211,9 @@ public class ParcelaRecebimento
 
                 // int codigo;int status; Date vencimento;Date pagamento;int numero;
                 //double valor_pago;double valor;
-                a.add(new ParcelaRecebimento(rs.getInt("parc_receb_codigo"), rs.getInt("parc_receb_status"),
-                        rs.getDate("parc_receb_dtVencimento"), rs.getDate("parc_receb_dtPagamento"), rs.getInt("parc_receb_numero"),
-                        rs.getDouble("parc_receb_vlrPago"), rs.getDouble("parc_receb_valor"), new Cliente(rs.getInt("rec_codigo"))));
+                a.add(new ParcelaRecebimento(rs.getInt("parc_receb_codigo"),
+                        rs.getDate("parc_receb_dtVencimento"), rs.getDate("parc_receb_dtPagamento"),
+                        rs.getInt("parc_receb_numero"),rs.getDouble("parc_receb_valor")));
 
             }
         } catch (SQLException ex)
