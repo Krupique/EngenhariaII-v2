@@ -30,4 +30,13 @@ public class ctrParcelaRecebimento
         ObservableList<ParcelaRecebimento> ob = FXCollections.observableArrayList(a);
         return ob;
     }
+    
+    public boolean estornar(int codigo,double valor)
+    {
+       return new ParcelaRecebimento().estorno(codigo,valor);
+    }
+    public boolean pagar(int codigo,double valor)
+    {
+       return new ParcelaRecebimento().pagar(codigo,valor);
+    }
 }

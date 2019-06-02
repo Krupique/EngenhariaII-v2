@@ -79,9 +79,9 @@ public class QuitarContasReceberController implements Initializable {
     @FXML
     private TableColumn<ParcelaRecebimento, Cliente> colcliente;
     @FXML
-    private TableColumn<ParcelaRecebimento, Double> colvalor;
+    private TableColumn<ParcelaRecebimento, Float> colvalor;
     @FXML
-    private TableColumn<Recebimento, Double> coltotal;
+    private TableColumn<Recebimento, Float> coltotal;
     @FXML
     private ToggleGroup Group;
     @FXML
@@ -103,13 +103,13 @@ public class QuitarContasReceberController implements Initializable {
         colcodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
         coldescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
         coldata.setCellValueFactory(new PropertyValueFactory<>("data"));
-        coltotal.setCellValueFactory(new PropertyValueFactory<Recebimento, Double>("valor"));
+        coltotal.setCellValueFactory(new PropertyValueFactory<Recebimento, Float>("valor"));
         colfunc.setCellValueFactory(new PropertyValueFactory<Recebimento, Funcionário>("funcionario"));
         
         colcodigop.setCellValueFactory(new PropertyValueFactory<ParcelaRecebimento, Integer>("codigo"));
         colnum.setCellValueFactory(new PropertyValueFactory<ParcelaRecebimento, Integer>("numero"));
         colvenc.setCellValueFactory((new PropertyValueFactory<ParcelaRecebimento, Date>("vencimento")));
-        colvalor.setCellValueFactory(new PropertyValueFactory<ParcelaRecebimento, Double>("valor"));
+        colvalor.setCellValueFactory(new PropertyValueFactory<ParcelaRecebimento, Float>("valor"));
         colpagamento.setCellValueFactory(new PropertyValueFactory<ParcelaRecebimento, Date>("pagamento"));
         colcliente.setCellValueFactory(new PropertyValueFactory<ParcelaRecebimento, Cliente>("cliente"));
         lbfinal.setText("Data Final:");
@@ -142,32 +142,102 @@ public class QuitarContasReceberController implements Initializable {
     @FXML
     private void evtPagar(ActionEvent event) 
     {
+        
         String res ="";
         double valorpg;
         TextField tx = new TextField();
-         TextInputDialog a = new TextInputDialog(); 
-         a.setTitle("Pagamento");
-         a.setHeaderText("Digite o valor que deseja pagar!!!");  
-         a.setContentText("Valor:");
-         tx = a.getEditor();
-         MaskFieldUtil.monetaryField(tx);
-         Optional <String> resultado =  a.showAndWait();
-    
-         if(resultado.isPresent())
-         {
-            res = resultado.get();
-            res = res.replace(".", "");
-            res = res.replace(",",".");
+        
+        if(tab_par.getSelectionModel().getSelectedItem().getPagamento() == null)
+        {
+            
+            TextInputDialog a = new TextInputDialog(); 
+            a.setTitle("Pagamento");
+            a.setHeaderText("Digite o valor que deseja pagar!!!");  
+            a.setContentText("Valor:");
+            double d = tab_par.getSelectionModel().getSelectedItem().getValor(); 
+            tx = a.getEditor();
+            
+            MaskFieldUtil.monetaryField(tx);
+            tx.setText(Double.toString(d));
+            Optional <String> resultado =  a.showAndWait();
 
-            valorpg = Double.parseDouble(res);
-             System.out.println(valorpg);
-         }
+            if(resultado.isPresent())
+            {
+               res = resultado.get();
+               res = res.replace(".", "");
+               res = res.replace(",",".");
+
+               valorpg = Double.parseDouble(res);
+               if(valorpg <= tab_par.getSelectionModel().getSelectedItem().getValor())
+               {
+                   if(ctrParcelaRecebimento.instancia().pagar(tab_par.getSelectionModel().getSelectedItem().getCodigo(),valorpg))
+                    {
+                        Alert b = new Alert(Alert.AlertType.INFORMATION);
+                        b.setContentText("Pagamento efetuado com sucesso!!!");
+                        b.show();
+                        btPagar.setDisable(true);
+                        brRemover.setDisable(true);
+                        CarregaTabelaParcela(tab_reb.getSelectionModel().getSelectedItem().getCodigo());
+                        
+                    }
+                   else
+                    {
+                        Alert b = new Alert(Alert.AlertType.ERROR);
+                        b.setContentText("Erro no Pagamento!!!");
+                        b.show();
+                    }
+               }
+               else
+               {
+                    Alert b = new Alert(Alert.AlertType.ERROR);
+                    b.setContentText("Valor digitado foi maior do que a parcela!!!");
+                    b.show();
+               }
+            }
+        }
+        else
+        {
+            Alert a = new Alert(Alert.AlertType.WARNING);
+            a.setContentText("Parcela ja foi paga!!!");
+            a.show();
+        }
+        
+
     }
 
     @FXML
     private void evtRemover(ActionEvent event) 
     {
-        
+        if(tab_par.getSelectionModel().getSelectedItem().getPagamento() != null)
+        {
+                Alert c = new Alert(Alert.AlertType.CONFIRMATION);
+                c.setContentText("Estorno feito com sucesso!!!");
+                c.show();
+               // if(c.resultProperty().getValue())
+              //  {
+                    if(ctrParcelaRecebimento.instancia().estornar(tab_par.getSelectionModel().getSelectedItem().getCodigo(),tab_par.getSelectionModel().getSelectedItem().getValor()))
+                   {
+
+                       Alert b = new Alert(Alert.AlertType.INFORMATION);
+                       b.setContentText("Estorno feito com sucesso!!!");
+                       b.show();
+                       CarregaTabelaParcela(tab_reb.getSelectionModel().getSelectedItem().getCodigo());
+                   }
+                   else
+                   {
+                       Alert b = new Alert(Alert.AlertType.ERROR);
+                       b.setContentText("Erro no estorno!!!");
+                       b.show();
+                   }
+               // }
+            
+        }
+        else
+        {
+            Alert b = new Alert(Alert.AlertType.ERROR);
+            b.setContentText("Parcela ainda não foi paga para ter estorno!!!");
+            b.show();
+        }
     }
 
 
@@ -226,6 +296,8 @@ public class QuitarContasReceberController implements Initializable {
     @FXML
     private void evtClickRecebimento(MouseEvent event) 
     {
+        btPagar.setDisable(true);
+        brRemover.setDisable(true);
         CarregaTabelaParcela(tab_reb.getSelectionModel().getSelectedItem().getCodigo());
 
 

@@ -9,6 +9,7 @@ import com.krupique.bedusystem.utilidades.Banco;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -52,6 +53,16 @@ public class ParcelaRecebimento
         this.valor = valor;
         this.OScodigo = OScodigo;
     }
+
+    public ParcelaRecebimento(int codigo, Date vencimento, Date pagamento, int numero, double valor, int OScodigo) {
+        this.codigo = codigo;
+        this.vencimento = vencimento;
+        this.pagamento = pagamento;
+        this.numero = numero;
+        this.valor = valor;
+        this.OScodigo = OScodigo;
+    }
+    
 
     public ParcelaRecebimento(int codigo, Date vencimento, Date pagamento, int numero, double valor) {
         this.codigo = codigo;
@@ -222,5 +233,64 @@ public class ParcelaRecebimento
         }
         return a;
     }
+        public ParcelaRecebimento getParcela(int codigo)
+    {
+        String sql = "select *from parcela_recebimento where parcela_recebimento.parc_receb_codigo  =" + codigo;
+        ResultSet rs = null;
+       rs = Banco.getCon().consultar(sql);
+        try
+        {
+            while (rs.next())
+            {
+
+                // int codigo;int status; Date vencimento;Date pagamento;int numero;
+                //double valor_pago;double valor;
+                return new ParcelaRecebimento(rs.getInt("parc_receb_codigo"),
+                        rs.getDate("parc_receb_dtVencimento"), rs.getDate("parc_receb_dtPagamento"),
+                        rs.getInt("parc_receb_numero"),rs.getDouble("parc_receb_valor"),rs.getInt("os_codigo"));
+
+            }
+        } catch (SQLException ex)
+        {
+            return null;
+        }
+        return null;
+    }
+    
+    public boolean estorno(int codigo,double valor)
+    {
+        String sql = "UPDATE parcela_recebimento SET parc_receb_dtPagamento = $1 WHERE parc_receb_codigo = " + codigo;
+        sql = sql.replace("$1", "null");
+        return Banco.getCon().manipular(sql);
+    }
+    public boolean pagar(int codigo,double valor)
+    {
+        boolean flag;
+        ParcelaRecebimento pb = new ParcelaRecebimento().getParcela(codigo);
+        if(valor == pb.getValor())
+        {
+        String sql = "UPDATE parcela_recebimento SET parc_receb_dtPagamento = '$1' WHERE parc_receb_codigo = " + codigo;
+        sql = sql.replace("$1", LocalDate.now().toString());
+        return Banco.getCon().manipular(sql);
+        }
+        else
+        {
+        String sql = "UPDATE parcela_recebimento SET parc_receb_dtPagamento = '$1',parc_receb_valor = $2 WHERE parc_receb_codigo = " + codigo;
+        sql = sql.replace("$1", LocalDate.now().toString());
+        sql = sql.replace("$2", Double.toString(valor));
+        flag = Banco.getCon().manipular(sql);
+        
+         sql = "insert into parcela_recebimento(parc_receb_numero,parc_receb_dtVencimento,"
+                + "parc_receb_valor,os_codigo ) values ($1,'$2',$4,$5)";
+
+        sql = sql.replace("$1", String.valueOf(pb.getNumero()));
+        sql = sql.replace("$2", String.valueOf(pb.getVencimento()));
+        sql = sql.replace("$4", String.valueOf((pb.getValor()- valor)));
+        sql = sql.replace("$5", String.valueOf(pb.getOScodigo()));
+        return flag && Banco.getCon().manipular(sql);
+        }
+     }
+        
+ 
 
 }

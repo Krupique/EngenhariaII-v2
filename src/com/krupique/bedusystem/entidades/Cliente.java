@@ -309,7 +309,6 @@ public class Cliente
                 .replace("$5", email).replace("$6", endereco)
                 .replace("$8", dtCadastro.toString())
                 .replace("$9", cep);
-        System.out.println(sql);
         return Banco.getCon().manipular(sql);
     }
 
