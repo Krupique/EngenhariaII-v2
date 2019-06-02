@@ -138,23 +138,31 @@ public class Recebimento
     
         public ArrayList<Recebimento> get()
     {
-        String sql = "select *from recebimento";
+        String sql = "select *from Ordem_de_Servico";
         ResultSet rs = null;
+        Orçamento orc ;
+        int i = 0;
         ArrayList<Recebimento> a = new ArrayList<>();
+        ArrayList<OS> os = new ArrayList<>();
 
         rs = Banco.getCon().consultar(sql);
         try
         {
             while (rs.next())
             {
-                
-                //    private int codigo;String descricao;Date data;double valor;Funcionário funcionario;
-                //Caixa caixa; ParcelaRecebimento parcela;
-                a.add(new Recebimento(rs.getInt("rec_codigo"), rs.getString("rec_descricao"),
-                        rs.getDate("rec_data"),rs.getDouble("rec_valor"),new Funcionário().get(rs.getInt("func_codigo")),
-                        new Caixa(rs.getInt("caixa_codigo")),new Cliente(rs.getInt("cli_cod"))));
-                        
+                os.add(new OS().busca(rs.getInt("os_codigo")).get(0));
             }
+        //    private int codigo;String descricao;Date data;double valor;Funcionário funcionario;
+        //Caixa caixa; ParcelaRecebimento parcela;
+        while(i < os.size())
+        {
+        orc = new Orçamento().busca(os.get(i).getOrcamento().getCodigo());
+        a.add(new Recebimento(os.get(i).getCodigo(), os.get(i).getDescricao(),
+        os.get(i).getData(),orc.getValorTotal(),orc.getFuncionario(),
+        new Caixa(1),orc.getCliente()));
+        i++;
+        }
+  
         } catch (SQLException ex)
         {
             a = null;
@@ -165,23 +173,29 @@ public class Recebimento
     public ArrayList<Recebimento> getCliente(String nome)
     {
         Cliente c = new Cliente().getCliente(nome);
-        String sql = "select *from recebimento where recebimento.cli_cod = "+c.getCodigo();
+        String sql = "select *from Orcamento where Orcamento.cli_cod = "+c.getCodigo();
         ResultSet rs = null;
+        OS os ;
+        int i = 0;
         ArrayList<Recebimento> a = new ArrayList<>();
+        ArrayList<Orçamento> orc = new ArrayList<>();
 
         rs = Banco.getCon().consultar(sql);
         try
         {
             while (rs.next())
             {
-                
-                //    private int codigo;String descricao;Date data;double valor;Funcionário funcionario;
-                //Caixa caixa; ParcelaRecebimento parcela;
-                a.add(new Recebimento(rs.getInt("rec_codigo"), rs.getString("rec_descricao"),
-                        rs.getDate("rec_data"),rs.getDouble("rec_valor"),new Funcionário().get(rs.getInt("func_codigo")),
-                        new Caixa(rs.getInt("caixa_codigo")),c));
-                        
+                orc.add(new Orçamento(rs.getInt("orc_codigo"), rs.getDate("dt_orcamento"), rs.getDate("dt_validade"), rs.getDouble("valor_tot"), rs.getString("orc_descricao"), rs.getInt("func_codigo"), rs.getInt("cli_cod")));      
             }
+            
+          while(i<orc.size())
+          {
+            os = new OS().buscaOrcamento(orc.get(i).getCodigo(),orc.get(i));
+            a.add(new Recebimento(os.getCodigo(), os.getDescricao(),
+            os.getData(),orc.get(i).getValorTotal(),orc.get(i).getFuncionario(),
+            new Caixa(1),orc.get(i).getCliente()));
+            i++;
+          }
         } catch (SQLException ex)
         {
             a = null;
@@ -190,24 +204,31 @@ public class Recebimento
     }
         public ArrayList<Recebimento> getDia(LocalDate data)
     {
-        System.out.println(data.toString().replaceAll("-", "/"));
-        String sql = "select *from recebimento where recebimento.rec_data = '"+data.toString().replaceAll("-", "/")+"'";
+        String sql = "select *from Ordem_de_Servico where Ordem_de_Servico.os_data = '"+data.toString().replaceAll("-", "/")+"'";
         ResultSet rs = null;
+        Orçamento orc ;
+        int i = 0;
         ArrayList<Recebimento> a = new ArrayList<>();
+        ArrayList<OS> os = new ArrayList<>();
 
         rs = Banco.getCon().consultar(sql);
         try
         {
             while (rs.next())
             {
-                
-                //    private int codigo;String descricao;Date data;double valor;Funcionário funcionario;
-                //Caixa caixa; ParcelaRecebimento parcela;
-                a.add(new Recebimento(rs.getInt("rec_codigo"), rs.getString("rec_descricao"),
-                        rs.getDate("rec_data"),rs.getDouble("rec_valor"),new Funcionário().get(rs.getInt("func_codigo")),
-                        new Caixa(rs.getInt("caixa_codigo")),new Cliente(rs.getInt("cli_cod"))));
-                        
+                os.add(new OS().busca(rs.getInt("os_codigo")).get(0));
             }
+            
+         while (i< os.size())
+         {
+            //    private int codigo;String descricao;Date data;double valor;Funcionário funcionario;
+            //Caixa caixa; ParcelaRecebimento parcela;
+        orc = new Orçamento().busca(os.get(i).getOrcamento().getCodigo());
+        a.add(new Recebimento(os.get(i).getCodigo(), os.get(i).getDescricao(),
+        os.get(i).getData(),orc.getValorTotal(),orc.getFuncionario(),
+        new Caixa(1),orc.getCliente()));
+        i++;
+         }
         } catch (SQLException ex)
         {
             a = null;
@@ -215,25 +236,31 @@ public class Recebimento
         return a;
     }
         
-            public ArrayList<Recebimento> getAte(LocalDate data)
+    public ArrayList<Recebimento> getAte(LocalDate datainicial ,LocalDate datafinal)
     {
-        String sql = "select *from recebimento where recebimento.rec_data BETWEEN '"+LocalDate.now()+"'"+" AND '"+data.toString().replaceAll("-", "/")+"'" ;
-        ResultSet rs = null;
+        String sql = "select *from Ordem_de_Servico where Ordem_de_Servico.os_data BETWEEN '"+datainicial+"'"+" AND '"+datafinal+"'" ;
+      ResultSet rs = null;
+        Orçamento orc ;
+        int i = 0;
         ArrayList<Recebimento> a = new ArrayList<>();
+        ArrayList<OS> os = new ArrayList<>();
 
         rs = Banco.getCon().consultar(sql);
         try
         {
             while (rs.next())
             {
-                
-                //    private int codigo;String descricao;Date data;double valor;Funcionário funcionario;
-                //Caixa caixa; ParcelaRecebimento parcela;
-                a.add(new Recebimento(rs.getInt("rec_codigo"), rs.getString("rec_descricao"),
-                        rs.getDate("rec_data"),rs.getDouble("rec_valor"),new Funcionário().get(rs.getInt("func_codigo")),
-                        new Caixa(rs.getInt("caixa_codigo")),new Cliente(rs.getInt("cli_cod"))));
-                        
+                os.add(new OS().busca(rs.getInt("os_codigo")).get(0));
             }
+
+        while(i < os.size())
+        {
+        orc = new Orçamento().busca(os.get(i).getOrcamento().getCodigo());
+        a.add(new Recebimento(os.get(i).getCodigo(), os.get(i).getDescricao(),
+        os.get(i).getData(),orc.getValorTotal(),orc.getFuncionario(),
+        new Caixa(1),orc.getCliente()));
+        i++;
+        }
         } catch (SQLException ex)
         {
             a = null;

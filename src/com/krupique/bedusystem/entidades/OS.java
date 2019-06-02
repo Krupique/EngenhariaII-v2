@@ -37,7 +37,13 @@ public class OS
         this.data = data;
         this.status = status;
         this.orcamento = orcamento;
-    }    
+    }   
+
+    public OS(int codigo, int orcamento) {
+        this.codigo = codigo;
+        this.orcamento = new Orçamento(orcamento);
+    }
+    
 
     public OS(int orc)
     {
@@ -172,5 +178,25 @@ public class OS
         sql = sql.replace("$2", String.valueOf(orcamento.getCodigo()));
         
         return Banco.getCon().manipular(sql);
+    }
+    
+    public OS buscaOrcamento(int codigo,Orçamento orc)
+    {
+        String sql = "select *from Ordem_de_Servico Where orc_codigo = " + codigo;
+        ResultSet rs = null;
+            
+        rs = Banco.getCon().consultar(sql);
+        try
+        {
+            while (rs.next())
+            {
+                OS os = new OS(rs.getInt("os_codigo"),rs.getString("os_descricao"),rs.getDate("os_data"));
+                os.setOrcamento(orc);
+                return os;
+            }
+        } catch (SQLException ex)
+        {
+        }
+        return null;
     }
 }

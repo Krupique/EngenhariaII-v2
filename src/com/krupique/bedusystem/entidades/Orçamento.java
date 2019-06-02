@@ -24,6 +24,8 @@ public class Orçamento
     public Orçamento()
     {
     }
+    
+    
 
     public Orçamento(int codigo)
     {
@@ -101,17 +103,19 @@ public class Orçamento
         this.veiculo = veiculo;
     }
 
-    public Orçamento(int codigo, String descricao, Funcionário funcionario, Cliente cliente, Veiculo veiculo, double valorTotal, Date dataOrcamento, Date dataValidade)
+    public Orçamento(int codigo,Date dataOrcamento,Date dataValidade,double valorTotal, String descricao, int funcionario, int cliente) 
     {
         this.codigo = codigo;
         this.descricao = descricao;
-        this.funcionario = funcionario;
-        this.cliente = cliente;
-        this.veiculo = veiculo;
+        this.funcionario = new Funcionário().get(funcionario);
+        this.cliente = new Cliente(cliente);
         this.valorTotal = valorTotal;
         this.dataOrcamento = dataOrcamento;
         this.dataValidade = dataValidade;
     }
+
+
+
     
     public int getCodigo()
     {

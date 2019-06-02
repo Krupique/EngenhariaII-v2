@@ -24,6 +24,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -68,8 +69,6 @@ public class QuitarContasReceberController implements Initializable {
     @FXML
     private TableColumn<ParcelaRecebimento, Integer> colnum;
     @FXML
-    private TableColumn<ParcelaRecebimento, Integer> colstatus;
-    @FXML
     private TableColumn<ParcelaRecebimento, Date> colvenc;
     @FXML
     private TableColumn<ParcelaRecebimento, Date> colpagamento;
@@ -87,6 +86,12 @@ public class QuitarContasReceberController implements Initializable {
     private JFXRadioButton rb_dia;
     @FXML
     private JFXRadioButton rb_atedia;
+    @FXML
+    private JFXDatePicker dtFinal;
+    @FXML
+    private Label lbinicio;
+    @FXML
+    private Label lbfinal;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) 
@@ -99,17 +104,18 @@ public class QuitarContasReceberController implements Initializable {
         
         colcodigop.setCellValueFactory(new PropertyValueFactory<ParcelaRecebimento, Integer>("codigo"));
         colnum.setCellValueFactory(new PropertyValueFactory<ParcelaRecebimento, Integer>("numero"));
-        colstatus.setCellValueFactory(new PropertyValueFactory<ParcelaRecebimento, Integer>("status"));
         colvenc.setCellValueFactory((new PropertyValueFactory<ParcelaRecebimento, Date>("vencimento")));
         colvalor.setCellValueFactory(new PropertyValueFactory<ParcelaRecebimento, Double>("valor"));
         colpagamento.setCellValueFactory(new PropertyValueFactory<ParcelaRecebimento, Date>("pagamento"));
         colcliente.setCellValueFactory(new PropertyValueFactory<ParcelaRecebimento, Cliente>("cliente"));
-        
+        lbfinal.setText("Data Final:");
+        lbinicio.setText("Data Incial:");
         CarregaTabelaRecebimento("");
         rb_dia.setSelected(true);
         btPagar.setDisable(true);
         brRemover.setDisable(true);
         dtBusca.setValue(LocalDate.now());
+        dtFinal.setVisible(false);
         
     }  
     
@@ -182,12 +188,12 @@ public class QuitarContasReceberController implements Initializable {
         else if(rb_atedia.isSelected())
         {
             tab_reb.getItems().clear();
-            if(Period.between(dtBusca.getValue(), LocalDate.now()).isNegative())
-                tab_reb.setItems(ctrRecebimento.instancia().getAte(dtBusca.getValue()));
+            if(!Period.between(dtBusca.getValue(), dtFinal.getValue()).isNegative())
+                tab_reb.setItems(ctrRecebimento.instancia().getAte(dtBusca.getValue(),dtFinal.getValue()));
            else
             {
             Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setContentText("Data não pode ser anterior ao dia de hoje!!!");
+            a.setContentText("Data Inicial não pode ser maior do que a Final!!!");
             a.show();
             dtBusca.setValue(LocalDate.now().plusDays(1));
             }
@@ -221,6 +227,9 @@ public class QuitarContasReceberController implements Initializable {
     {
         dtBusca.setVisible(false);
         txtBusca.setVisible(true);
+        dtFinal.setVisible(false);
+        lbinicio.setVisible(false);
+        lbfinal.setVisible(false);
     }
 
     @FXML
@@ -228,6 +237,21 @@ public class QuitarContasReceberController implements Initializable {
     {
         dtBusca.setVisible(true);
         txtBusca.setVisible(false);
+        dtFinal.setVisible(false);
+        lbinicio.setVisible(false);
+        lbfinal.setVisible(false);
+    }
+
+    @FXML
+    private void evtPeriodo(ActionEvent event) 
+    {
+        dtBusca.setVisible(true);
+        txtBusca.setVisible(false);
+        dtFinal.setVisible(true);
+        lbinicio.setVisible(true);
+        lbfinal.setVisible(true);
+        dtFinal.setValue(LocalDate.now().plusDays(1));
+        
     }
     
 }

@@ -76,10 +76,10 @@ public class ctrRecebimento
         return ob;
     }
 
-    public final ObservableList<Recebimento> getAte(LocalDate data)
+    public final ObservableList<Recebimento> getAte(LocalDate datainicial,LocalDate datafinal)
     {
         ArrayList<Recebimento> a = new ArrayList<>();
-        a = new Recebimento().getAte(data);
+        a = new Recebimento().getAte(datainicial,datafinal);
         ObservableList<Recebimento> ob = FXCollections.observableArrayList(a);
         return ob;
     }
