@@ -28,6 +28,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -154,11 +155,11 @@ public class QuitarContasReceberController implements Initializable {
             a.setTitle("Pagamento");
             a.setHeaderText("Digite o valor que deseja pagar!!!");  
             a.setContentText("Valor:");
-            double d = tab_par.getSelectionModel().getSelectedItem().getValor(); 
+            String d = String.format("%.2f", tab_par.getSelectionModel().getSelectedItem().getValor());
             tx = a.getEditor();
             
             MaskFieldUtil.monetaryField(tx);
-            tx.setText(Double.toString(d));
+            tx.setText(d);
             Optional <String> resultado =  a.showAndWait();
 
             if(resultado.isPresent())
@@ -189,7 +190,7 @@ public class QuitarContasReceberController implements Initializable {
                }
                else
                {
-                    Alert b = new Alert(Alert.AlertType.ERROR);
+                    Alert b = new Alert(Alert.AlertType.WARNING);
                     b.setContentText("Valor digitado foi maior do que a parcela!!!");
                     b.show();
                }
@@ -211,16 +212,15 @@ public class QuitarContasReceberController implements Initializable {
         if(tab_par.getSelectionModel().getSelectedItem().getPagamento() != null)
         {
                 Alert c = new Alert(Alert.AlertType.CONFIRMATION);
-                c.setContentText("Estorno feito com sucesso!!!");
-                c.show();
-               // if(c.resultProperty().getValue())
-              //  {
+                c.setContentText("Deseja realmente fazer o estorno dessa parcela?");
+                if(c.showAndWait().get() == ButtonType.OK)
+               {
                     if(ctrParcelaRecebimento.instancia().estornar(tab_par.getSelectionModel().getSelectedItem().getCodigo(),tab_par.getSelectionModel().getSelectedItem().getValor()))
                    {
 
-                       Alert b = new Alert(Alert.AlertType.INFORMATION);
-                       b.setContentText("Estorno feito com sucesso!!!");
-                       b.show();
+                       c = new Alert(Alert.AlertType.INFORMATION);
+                       c.setContentText("Estorno feito com sucesso!!!");
+                       c.showAndWait();
                        CarregaTabelaParcela(tab_reb.getSelectionModel().getSelectedItem().getCodigo());
                    }
                    else
@@ -229,12 +229,12 @@ public class QuitarContasReceberController implements Initializable {
                        b.setContentText("Erro no estorno!!!");
                        b.show();
                    }
-               // }
+                }
             
         }
         else
         {
-            Alert b = new Alert(Alert.AlertType.ERROR);
+            Alert b = new Alert(Alert.AlertType.WARNING);
             b.setContentText("Parcela ainda não foi paga para ter estorno!!!");
             b.show();
         }
