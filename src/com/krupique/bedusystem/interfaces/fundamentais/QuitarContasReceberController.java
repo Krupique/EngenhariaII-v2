@@ -18,6 +18,7 @@ import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -101,9 +102,11 @@ public class QuitarContasReceberController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
+
         colcodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
         coldescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
         coldata.setCellValueFactory(new PropertyValueFactory<>("data"));
+      
         coltotal.setCellValueFactory(new PropertyValueFactory<Recebimento, Float>("valor"));
         colfunc.setCellValueFactory(new PropertyValueFactory<Recebimento, Funcionário>("funcionario"));
         

@@ -1,5 +1,7 @@
 package com.krupique.bedusystem.entidades;
 
+import com.krupique.bedusystem.utilidades.Banco;
+
 public class Caixa 
 {
     private int codigo;
@@ -39,5 +41,12 @@ public class Caixa
     public void setValor(double valor)
     {
         this.valor = valor;
+    }
+    
+        public boolean atualizar(int codigo,double valor)
+    {
+        String sql = "UPDATE caixa SET caixa_valor = caixa_valor + $1 WHERE caixa_codigo = " + codigo;
+        sql = sql.replace("$1", String.valueOf(valor));
+        return Banco.getCon().manipular(sql);
     }
 }

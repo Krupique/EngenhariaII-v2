@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Recebimento
@@ -129,6 +130,7 @@ public class Recebimento
         this.cliente = cliente;
     }
     
+    
 
     public void setParcela(ParcelaRecebimento parcela)
     {
@@ -138,6 +140,8 @@ public class Recebimento
     
         public ArrayList<Recebimento> get()
     {
+        DateTimeFormatter myDateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        
         String sql = "select *from Ordem_de_Servico";
         ResultSet rs = null;
         Orçamento orc ;
@@ -152,8 +156,6 @@ public class Recebimento
             {
                 os.add(new OS().busca(rs.getInt("os_codigo")).get(0));
             }
-        //    private int codigo;String descricao;Date data;double valor;Funcionário funcionario;
-        //Caixa caixa; ParcelaRecebimento parcela;
         while(i < os.size())
         {
         orc = new Orçamento().busca(os.get(i).getOrcamento().getCodigo());

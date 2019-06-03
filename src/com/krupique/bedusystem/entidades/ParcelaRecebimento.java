@@ -261,7 +261,13 @@ public class ParcelaRecebimento
     {
         String sql = "UPDATE parcela_recebimento SET parc_receb_dtPagamento = $1 WHERE parc_receb_codigo = " + codigo;
         sql = sql.replace("$1", "null");
-        return Banco.getCon().manipular(sql);
+        if(Banco.getCon().manipular(sql))
+        {
+            Caixa caixa = new Caixa();
+            return caixa.atualizar(1, (-valor));
+        }
+            
+        return false;
     }
     public boolean pagar(int codigo,double valor)
     {
@@ -271,7 +277,11 @@ public class ParcelaRecebimento
         {
         String sql = "UPDATE parcela_recebimento SET parc_receb_dtPagamento = '$1' WHERE parc_receb_codigo = " + codigo;
         sql = sql.replace("$1", LocalDate.now().toString());
-        return Banco.getCon().manipular(sql);
+            if(Banco.getCon().manipular(sql))
+            {
+            Caixa caixa = new Caixa();
+            return caixa.atualizar(1, valor);
+            }
         }
         else
         {
@@ -287,8 +297,13 @@ public class ParcelaRecebimento
         sql = sql.replace("$2", String.valueOf(pb.getVencimento()));
         sql = sql.replace("$4", String.valueOf((pb.getValor()- valor)));
         sql = sql.replace("$5", String.valueOf(pb.getOScodigo()));
-        return flag && Banco.getCon().manipular(sql);
+        if(Banco.getCon().manipular(sql))
+        {
+            Caixa caixa = new Caixa();
+            return flag && caixa.atualizar(1, valor);
         }
+        }
+        return false;
      }
         
  
