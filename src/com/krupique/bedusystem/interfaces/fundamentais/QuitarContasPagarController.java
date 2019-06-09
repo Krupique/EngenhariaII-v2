@@ -212,6 +212,7 @@ public class QuitarContasPagarController implements Initializable {
         setRadioButtons(false, true, false, false);
         txtBusca.setVisible(true);
         dtBusca.setVisible(false);
+        
     }
 
     @FXML
