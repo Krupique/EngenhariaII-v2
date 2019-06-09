@@ -252,9 +252,20 @@ public class CadUsuarioController implements Initializable
                     inicializa();
                 }
                 else if(!res.equals(""))
-                    alert = new Alert(Alert.AlertType.INFORMATION,res,ButtonType.OK);
+                    alert = new Alert(Alert.AlertType.ERROR,res,ButtonType.OK);
                 else
-                    alert = new Alert(Alert.AlertType.INFORMATION,"Erro na alteração, por favor revise os campos",ButtonType.OK);
+                {
+                    boolean repetiu = false;
+                    for (int i = 0; i < tv_usuarios.getItems().size() && !repetiu; i++)
+                        repetiu = tv_usuarios.getItems().get(i).getParam1().equals(tf_login.getText());
+                    
+                    if(repetiu)
+                        res = "Login ja existente, por favor escolha outro";
+                    else
+                        res = "Erro na alteração, por favor revise os campos";
+                    alert = new Alert(Alert.AlertType.ERROR,res,ButtonType.OK);
+                }
+                    
                 alert.showAndWait();
             }
         }

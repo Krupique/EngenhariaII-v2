@@ -29,6 +29,7 @@ import com.krupique.bedusystem.controladoras.ctrRecebimento;
 import java.util.ArrayList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class GerarContasReceberController implements Initializable
@@ -97,7 +98,7 @@ public class GerarContasReceberController implements Initializable
         tc_valor.setCellValueFactory(new PropertyValueFactory<>("param2_1"));
         tc_data.setCellValueFactory(new PropertyValueFactory<>("param3"));
 
-        ObservableList<String> data = FXCollections.observableArrayList("1","2x", "3x", "4x", "5x", "6x",
+        ObservableList<String> data = FXCollections.observableArrayList("1x","2x", "3x", "4x", "5x", "6x",
                 "7x", "8x", "9x", "10x", "11x", "12x");
         cb_parcelas.setItems(data);
 
@@ -143,6 +144,7 @@ public class GerarContasReceberController implements Initializable
         rb_parcelado.setSelected(false);
         tf_numeroParcela.setText("1");
         tv_pagmento.setItems(FXCollections.observableArrayList());
+        cb_parcelas.getSelectionModel().select(-1);
     }
 
     @FXML
@@ -307,14 +309,11 @@ public class GerarContasReceberController implements Initializable
     @FXML
     private void alterarDesconto(KeyEvent event)
     {
-        if (Integer.parseInt(tf_desconto.getText()) > 100)
-        {
-            tf_desconto.setText("100");
-        }
-        if (Integer.parseInt(tf_desconto.getText()) < 0 || tf_desconto.getText().equals(""))
-        {
+        System.out.println("" + event.getCode().getName());
+        if(event.getCode() == KeyCode.BACK_SPACE && tf_desconto.getText().equals("") || Integer.parseInt(tf_desconto.getText()) < 0)
             tf_desconto.setText("0");
-        }
+        if (Integer.parseInt(tf_desconto.getText()) > 100)
+            tf_desconto.setText("100");
         clickFormaPagamento(new ActionEvent());
     }
 
