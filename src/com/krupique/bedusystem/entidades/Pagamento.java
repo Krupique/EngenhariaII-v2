@@ -64,23 +64,9 @@ public class Pagamento
     
     private boolean setarParcela(int cod_parcela, int cod_compra, double valor)
     {
-        /*
-        //Atualizar o valor pago
-        String sql = "select * from parcela_compra where parc_compra_codigo = " + cod_parcela +
-                " and parc_compra_compra_cod = " + cod_compra;
-        ResultSet rs;
-      
-        double vl_temp = 0;
-        try
-        {
-            
-        }catch(Exception er)
-        {
-            
-        }*/
-        
-        String sql = "update parcela_compra set parc_compra_status = 1 where parc_compra_codigo = " + cod_parcela +
+        String sql = "update parcela_compra set parc_compra_status = 1, parc_compra_dtpagamento = '$1' where parc_compra_codigo = " + cod_parcela +
                 "and parc_compra_compra_cod = " + cod_compra;
+        sql = sql.replace("$1", "" + LocalDate.now());
         return Banco.con.manipular(sql);
     }
     

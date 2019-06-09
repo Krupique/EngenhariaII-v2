@@ -12,6 +12,7 @@ import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import com.krupique.bedusystem.controladoras.CtrCompra;
 import com.krupique.bedusystem.controladoras.CtrFornecedor;
+import com.krupique.bedusystem.controladoras.CtrPagamento;
 import com.krupique.bedusystem.controladoras.CtrProdutos;
 import com.krupique.bedusystem.interfaces.basicas.CadFornecedorController;
 import com.krupique.bedusystem.interfaces.basicas.CadProdutosController;
@@ -144,22 +145,19 @@ public class RegistrarCompraController implements Initializable {
         inicializaEstilo();
         inicializaCombobox();
         iniciarColunas();
+        limparCampos();
+        habilitarCampos(false);
+        setRadioButton(true, false);
+        setRdPreco(true, false);
         if(BuscaComprasController.getFlag() == 1) //Vindo da busca de compras
         {
-            limparCampos();
-            habilitarBotoes(false, false, true, true, true, true, true);
-            habilitarCampos(false);
+            habilitarBotoes(false, false, true, true, true, true, true);   
             retorno = BuscaComprasController.getRetorno();
             setarCampos(retorno);
         }
         else //Inicio
         {
             habilitarBotoes(true, false, false, false, false, true, true);
-            limparCampos();
-            habilitarCampos(false);
-            setRadioButton(true, false);
-            setRdPreco(true, false);
-
             listCompra = new ArrayList<>();
             listProdsCompra = new ArrayList<>();
             table = new ArrayList<>();
@@ -199,6 +197,8 @@ public class RegistrarCompraController implements Initializable {
                 obs_list.add(obs_obj);
             }
         
+        lblTotalCompra.setVisible(true);
+        lblTotalCompra.setText(String.format("Total da Compra: R$ %.2f", valorTotal));
         tableview.setItems(FXCollections.observableArrayList(obs_list)); //Adicione observable list na tabela.
         codCompra = (int)obj[0];
     }
@@ -533,6 +533,7 @@ public class RegistrarCompraController implements Initializable {
         Object[] objCompra = new Object[7];
         Object[] objParcela = new Object[7];
         int aux_atu = 0;
+        String temp_str = "";
         try{
             if (ValidarErros())// -- faz tudo pra baixo. //Erros: campos nulos, datas e valores negativos, etc.
             {
@@ -587,11 +588,26 @@ public class RegistrarCompraController implements Initializable {
                     tableview = new TableView<>();
                     listProdsCompra = new ArrayList<>();
 
+                    if(rdAVista.isSelected())
+                    {
+                        int aux_cod = ctrCompra.getMaxPK();
+                        CtrPagamento pagamento = new CtrPagamento();
+                        Object[] obj = new Object[5];
+                        obj[0] = 1;
+                        obj[1] = aux_cod;
+                        obj[2] = 1; //Codigo funcionario
+                        obj[3] = valorTotal;
+                        
+                        if(pagamento.pagar(obj))
+                        {
+                            temp_str = "e paga";
+                        }
+                    }
                     Alert a;
                     if(aux_atu == 0) 
-                        a = new Alert(Alert.AlertType.INFORMATION, "Compra realizada com sucesso!", ButtonType.OK);
+                        a = new Alert(Alert.AlertType.INFORMATION, "Compra realizada " + temp_str + " com sucesso!", ButtonType.OK);
                     else //aux_atu == 1
-                        a = new Alert(Alert.AlertType.INFORMATION, "Compra alterada com sucesso!", ButtonType.OK);
+                        a = new Alert(Alert.AlertType.INFORMATION, "Compra alterada " + temp_str + " com sucesso!", ButtonType.OK);
                     a.showAndWait();
                 }
             }

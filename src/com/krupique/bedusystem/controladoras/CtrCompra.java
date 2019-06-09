@@ -113,4 +113,10 @@ public class CtrCompra {
         }
         return false;
     }
+    
+    public int getMaxPK()
+    {
+        Compra compra = new Compra();
+        return compra.getSequence();
+    }
 }

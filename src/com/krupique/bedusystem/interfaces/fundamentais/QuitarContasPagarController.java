@@ -176,6 +176,7 @@ public class QuitarContasPagarController implements Initializable {
                 if(pagamento.pagar(obj))
                 {
                     Alert a = new Alert(Alert.AlertType.INFORMATION, "Parcela paga com sucesso!", ButtonType.OK);
+                    a.showAndWait();
                 }
             }
             else
@@ -262,6 +263,7 @@ public class QuitarContasPagarController implements Initializable {
         ArrayList<Objeto> obslist_parc = new ArrayList<>();
         ArrayList<Object[]> arry_parc;
         String aux;
+        double temp_valor;
         
         for (int i = 0; i < lista.size(); i++) {
             temp = new Object[6];
@@ -269,10 +271,12 @@ public class QuitarContasPagarController implements Initializable {
             temp[1] = lista.get(i)[1]; //Funcionário
             temp[2] = lista.get(i)[2]; //Fornecedor
             temp[3] = lista.get(i)[3]; //Qtd. Parcelas
-            temp[4] = lista.get(i)[4]; //Valor total
+            temp_valor = (double)lista.get(i)[4]; //Valor total
+            aux = String.format("%.2f", temp_valor);
+            temp[4] = aux; //Valor total
             temp[5] = lista.get(i)[5]; //Data - tá errado
             obj_comp = new Objeto((String)temp[1], (String)temp[2], 
-                    String.valueOf((int)temp[3]), String.valueOf((double)temp[4]), (String)temp[5] + "");
+                    String.valueOf((int)temp[3]), (String)temp[4], (String)temp[5] + "");
             
             obslist_comp.add(obj_comp);
         }
