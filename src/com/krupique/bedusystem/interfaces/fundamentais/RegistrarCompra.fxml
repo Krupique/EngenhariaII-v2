@@ -34,11 +34,6 @@
                   <JFXComboBox fx:id="cbProdutos" labelFloat="true" layoutX="14.0" layoutY="27.0" onAction="#evtCbProds" prefHeight="30.0" prefWidth="200.0" promptText="Produtos" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="15.0" />
                   <JFXTextField fx:id="txtQuantidade" labelFloat="true" layoutX="346.0" layoutY="15.0" onKeyReleased="#evtMaskQuantidade" prefHeight="30.0" prefWidth="75.0" promptText="Quantidade" AnchorPane.leftAnchor="345.0" AnchorPane.topAnchor="15.0" />
                   <JFXTextField fx:id="txtValorPago" labelFloat="true" layoutX="448.0" layoutY="15.0" onKeyReleased="#evtMaskVlrPago" prefHeight="30.0" prefWidth="65.0" promptText="Valor Pago" AnchorPane.leftAnchor="555.0" AnchorPane.topAnchor="15.0" />
-                  <JFXButton fx:id="btBuscarProd" buttonType="RAISED" layoutX="238.0" layoutY="5.0" onAction="#evtBuscarProd" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Buscar" textFill="WHITE" AnchorPane.leftAnchor="245.0" AnchorPane.topAnchor="15.0">
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </JFXButton>
                   <JFXButton fx:id="btAddProd" buttonType="RAISED" layoutX="554.0" layoutY="16.0" onAction="#evtAddProd" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Adicionar" textFill="WHITE" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="15.0">
                      <font>
                         <Font name="System Bold" size="13.0" />
@@ -77,11 +72,11 @@
             <AnchorPane layoutY="436.0" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #E1E1E1;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                <children>
                   <JFXComboBox fx:id="cbFornec" labelFloat="true" layoutX="14.0" layoutY="18.0" prefHeight="30.0" prefWidth="200.0" promptText="Fornecedores" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
-                  <JFXButton fx:id="btBuscarFornec" buttonType="RAISED" layoutX="208.0" layoutY="20.0" onAction="#evtBuscarFornec" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Buscar" textFill="WHITE" AnchorPane.leftAnchor="245.0" AnchorPane.topAnchor="15.0">
+                  <Label fx:id="lblTotalCompra" layoutX="611.0" layoutY="22.0" prefHeight="19.0" prefWidth="230.0" text="Total da Compra: R$" AnchorPane.rightAnchor="5.0">
                      <font>
-                        <Font name="System Bold" size="13.0" />
+                        <Font name="System Bold Italic" size="13.0" />
                      </font>
-                  </JFXButton>
+                  </Label>
                </children>
             </AnchorPane>
             <AnchorPane layoutX="15.0" layoutY="276.0" prefHeight="60.0" prefWidth="360.0" style="-fx-background-color: #E1E1E1;" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">

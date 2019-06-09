@@ -18,6 +18,7 @@ import com.krupique.bedusystem.interfaces.basicas.CadProdutosController;
 import com.krupique.bedusystem.interfaces.buscas.BuscaComprasController;
 import com.krupique.bedusystem.interfaces.buscas.BuscaFornecedorController;
 import com.krupique.bedusystem.interfaces.buscas.BuscaProdutoController;
+import com.krupique.bedusystem.utilidades.ComboBoxAutoComplete;
 import com.krupique.bedusystem.utilidades.CorSistema;
 import com.krupique.bedusystem.utilidades.MaskFieldUtil;
 import com.krupique.bedusystem.utilidades.Objeto;
@@ -36,6 +37,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -80,8 +82,6 @@ public class RegistrarCompraController implements Initializable {
     @FXML
     private JFXDatePicker txtDateVenc;
     @FXML
-    private JFXButton btBuscarProd;
-    @FXML
     private JFXButton btAddProd;
     @FXML
     private JFXButton btRemoverProd;
@@ -89,8 +89,7 @@ public class RegistrarCompraController implements Initializable {
     private TableView<Objeto> tableview;
     @FXML
     private JFXComboBox<String> cbFornec;
-    @FXML
-    private JFXButton btBuscarFornec;
+    
     /*@FXML
     private JFXButton btAddFornec;
     @FXML
@@ -133,6 +132,8 @@ public class RegistrarCompraController implements Initializable {
     private Object[] retorno;
     private int flagAlter;
     private int codCompra;
+    @FXML
+    private Label lblTotalCompra;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -143,20 +144,7 @@ public class RegistrarCompraController implements Initializable {
         inicializaEstilo();
         inicializaCombobox();
         iniciarColunas();
-        
-        if(BuscaFornecedorController.getFlag() == 1) //Vindo da busca de fornecedores
-        {
-            objFornec = BuscaFornecedorController.getRetorno();
-            cbFornec.getSelectionModel().select((String)objFornec[2]);
-            habilitarBotoes(false, true, false, false, true, true, true);
-        }
-        else if(BuscaProdutoController.getFlag() == 1) //Vindo da busca de produto
-        {
-            objProd = BuscaProdutoController.getRetorno();
-            cbProdutos.getSelectionModel().select((String)objProd[1]);
-            habilitarBotoes(false, true, false, false, true, true, true);
-        }
-        else if(BuscaComprasController.getFlag() == 1) //Vindo da busca de compras
+        if(BuscaComprasController.getFlag() == 1) //Vindo da busca de compras
         {
             limparCampos();
             habilitarBotoes(false, false, true, true, true, true, true);
@@ -247,10 +235,8 @@ public class RegistrarCompraController implements Initializable {
         btBuscar.setStyle("-fx-background-color: " + cor);
         btVoltar.setStyle("-fx-background-color: " + cor);
         
-        btBuscarProd.setStyle("-fx-background-color: " + cor);
         btAddProd.setStyle("-fx-background-color: " + cor);
         btRemoverProd.setStyle("-fx-background-color: " + cor);
-        btBuscarFornec.setStyle("-fx-background-color: " + cor);
         rdUnidade.setStyle("-jfx-selected-color: "+ cor);
         rdTotal.setStyle("-jfx-selected-color: "+ cor);
         //btAddFornec.setStyle("-fx-background-color: " + cor);
@@ -264,6 +250,9 @@ public class RegistrarCompraController implements Initializable {
     }
     
     public void limparCampos(){
+        lblTotalCompra.setText("Total da Compra: R$");
+        lblTotalCompra.setVisible(false);
+        
         cbProdutos.getSelectionModel().select(-1);
         txtQuantidade.setText("");
         txtValorPago.setText("");
@@ -299,11 +288,9 @@ public class RegistrarCompraController implements Initializable {
         tableview.setDisable(value);
         cbFornec.setDisable(value);
         
-        btBuscarProd.setDisable(value);
         btAddProd.setDisable(value);
         btRemoverProd.setDisable(value);
         
-        btBuscarFornec.setDisable(value);
         //btAddFornec.setDisable(value);
         //btCancelForne.setDisable(value);
     }
@@ -323,17 +310,24 @@ public class RegistrarCompraController implements Initializable {
         ctrFornecedor = new CtrFornecedor();
         listProds = ctrProds.buscar("prod_nome ilike '%%'");
         listFornec = ctrFornecedor.buscar("forn_nome ilike '%%'");
-        String aux;
         
-        for (int i = 0; i < listProds.size(); i++) {
-            aux = (String)listProds.get(i)[1];
-            cbProdutos.getItems().add(aux);
-        }
+        ArrayList<String> listStrProds = new ArrayList<>();
+        ArrayList<String> listStrFornecs = new ArrayList<>();
+        for (int i = 0; i < listProds.size(); i++)
+            listStrProds.add((String)listProds.get(i)[1]);
+        cbProdutos.setTooltip(new Tooltip());
+        cbProdutos.setEditable(true);
+        cbProdutos.getItems().addAll(listStrProds);
+        new ComboBoxAutoComplete<String>(cbProdutos, 200, 100);
         
-        for (int i = 0; i < listFornec.size(); i++) {
-            aux = (String)listFornec.get(i)[2];
-            cbFornec.getItems().add(aux);
-        }
+        for (int i = 0; i < listFornec.size(); i++)
+            listStrFornecs.add((String)listFornec.get(i)[2]);
+        
+        cbFornec.setTooltip(new Tooltip());
+        cbFornec.setEditable(true);
+        cbFornec.getItems().addAll(listStrFornecs);
+        new ComboBoxAutoComplete<String>(cbFornec, 200, 520);
+        
     }
 
     @FXML
@@ -366,19 +360,7 @@ public class RegistrarCompraController implements Initializable {
         setRadioButton(false, true);
     }
 
-    @FXML
-    private void evtBuscarProd(ActionEvent event) {
-        try
-        {
-            Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/buscas/BuscaProduto.fxml"));
-
-            paneprincipal.getChildren().clear();
-            paneprincipal.getChildren().add(root);
-        }catch(Exception er){
-            Alert a = new Alert(Alert.AlertType.ERROR, "Erro ao abrir tela de Busca de Produtos! " + er.getLocalizedMessage(), ButtonType.OK);
-            a.showAndWait();
-        }
-    }
+    
     
     @FXML
     private void evtCbProds(ActionEvent event) {
@@ -423,20 +405,57 @@ public class RegistrarCompraController implements Initializable {
             }
             
             
-            listProdsCompra.add(prod);
-            valorTotal = 0;
+            if(listProdsCompra.size() > 0)
+            {
+                
+                int j = 0;
+                String aux = (String)listProdsCompra.get(j)[1];
+                String auxj = (String)prod[1];
+                while(j < listProdsCompra.size() && !aux.equals(auxj)){
+                    aux = (String)listProdsCompra.get(j)[1];
+                    j++;
+                }
             
+                j = j == 0 ? 0 : j - 1;
+                if(j < listProdsCompra.size() && aux.equals(auxj))
+                {
+                    int temp_qt = (int)prod[3] + (int)listProdsCompra.get(j)[3];
+                    double temp_total = (double)prod[4] + (double)listProdsCompra.get(j)[4];
+                    double temp_valor = temp_total / temp_qt;
+
+                    listProdsCompra.get(j)[2] = temp_valor;
+                    listProdsCompra.get(j)[3] = temp_qt;
+                    listProdsCompra.get(j)[4] = temp_total;
+                }
+                else
+                    listProdsCompra.add(prod);
+            }
+            else
+                listProdsCompra.add(prod);
+            
+            
+            valorTotal = 0;
+            double temp;
+            String total_temp;
+            String prec_temp;
             for (int i = 0; i < listProdsCompra.size(); i++) {
                 valorTotal += (double)listProdsCompra.get(i)[4];
+                temp = (double)listProdsCompra.get(i)[4];
+                total_temp = String.format("%.2f", temp).replace(",", ".");
+                temp = (double)listProdsCompra.get(i)[2];
+                prec_temp = String.format("%.2f", temp).replace(",", ".");
+                
                 obj = new Objeto((String)listProdsCompra.get(i)[1], 
-                        String.valueOf(listProdsCompra.get(i)[2]), 
+                        prec_temp, 
                         String.valueOf(listProdsCompra.get(i)[3]), 
-                        String.valueOf(listProdsCompra.get(i)[4]));
+                        total_temp);
                 obsList.add(obj);
             }
             
+            lblTotalCompra.setVisible(true);
+            lblTotalCompra.setText(String.format("Total da Compra: R$ %.2f", valorTotal));
             tableview.setItems(FXCollections.observableArrayList(obsList)); //Adicione observable list na tabela.
-            
+
         }catch(Exception er){
             Alert a = new Alert(Alert.AlertType.ERROR, "Erro ao inserir dados na tabela!\nErro: " + er.getMessage(), ButtonType.OK);
             a.showAndWait();
@@ -450,32 +469,29 @@ public class RegistrarCompraController implements Initializable {
         Objeto obj;
         if(index != -1)
         {
-           listProdsCompra.remove(index);
-           
-           for (int i = 0; i < listProdsCompra.size(); i++) {
+            listProdsCompra.remove(index);
+            valorTotal = 0;
+            double temp;
+            String total_temp;
+            String prec_temp;
+            for (int i = 0; i < listProdsCompra.size(); i++) {
                 valorTotal += (double)listProdsCompra.get(i)[4];
+                temp = (double)listProdsCompra.get(i)[4];
+                total_temp = String.format("%.2f", temp).replace(",", ".");
+                temp = (double)listProdsCompra.get(i)[2];
+                prec_temp = String.format("%.2f", temp).replace(",", ".");
+
                 obj = new Objeto((String)listProdsCompra.get(i)[1], 
-                        String.valueOf(listProdsCompra.get(i)[2]), 
+                        prec_temp, 
                         String.valueOf(listProdsCompra.get(i)[3]), 
-                        String.valueOf(listProdsCompra.get(i)[4]));
+                        total_temp);
                 obsList.add(obj);
-            }
+             }
+           
+            lblTotalCompra.setVisible(true);
+            lblTotalCompra.setText(String.format("Total da Compra: R$ %.2f", valorTotal));
            
            tableview.setItems(FXCollections.observableArrayList(obsList)); //Adicione observable list na tabela.
-        }
-    }
-
-    @FXML
-    private void evtBuscarFornec(ActionEvent event) {
-        try
-        {
-            Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/buscas/BuscaFornecedor.fxml"));
-
-            paneprincipal.getChildren().clear();
-            paneprincipal.getChildren().add(root);
-        }catch(Exception er){
-            Alert a = new Alert(Alert.AlertType.ERROR, "Erro ao abrir tela de Busca de Fornecedores! " + er.getLocalizedMessage(), ButtonType.OK);
-            a.showAndWait();
         }
     }
 
@@ -649,6 +665,8 @@ public class RegistrarCompraController implements Initializable {
     public static void setFlagVolta(int flagVolta) {
         RegistrarCompraController.flagVolta = flagVolta;
     }
+
+
 
     
     
