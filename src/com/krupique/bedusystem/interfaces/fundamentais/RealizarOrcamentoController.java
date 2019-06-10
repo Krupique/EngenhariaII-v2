@@ -8,7 +8,9 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.krupique.bedusystem.controladoras.CtrCliente;
 import com.krupique.bedusystem.controladoras.CtrOrcamento;
+import com.krupique.bedusystem.entidades.Cliente;
 import com.krupique.bedusystem.entidades.Funcionário;
+import com.krupique.bedusystem.entidades.Orcamento;
 import static com.krupique.bedusystem.interfaces.fundamentais.TelaGenOrcamentoController.stage;
 import com.krupique.bedusystem.utilidades.Banco;
 import com.krupique.bedusystem.utilidades.MaskFieldUtil;
@@ -48,9 +50,9 @@ public class RealizarOrcamentoController implements Initializable {
     @FXML
     private TableView<Object> tabela;
     @FXML
-    private TableColumn<Object, Object> colfuncionario;
+    private TableColumn<Object, Funcionário> colfuncionario;
     @FXML
-    private TableColumn<Object, Object> colcliente;
+    private TableColumn<Object, Cliente> colcliente;
     @FXML
     private TableColumn<Object, Date> coldtorca;
     @FXML
@@ -361,6 +363,8 @@ public class RealizarOrcamentoController implements Initializable {
         btnovo.setDisable(true);
         pndado.setDisable(false);
         disablu(false);
+        btexcluir.setDisable(true);
+        btalterar.setDisable(true);
         modo = 1;
     }
 
@@ -533,9 +537,9 @@ public class RealizarOrcamentoController implements Initializable {
 
     private void iniciacomponentes()
     {
-        colcliente.setCellValueFactory(new PropertyValueFactory<Object, Object>("cliente"));
+        colcliente.setCellValueFactory(new PropertyValueFactory<Object, Cliente>("cliente"));
         coldtorca.setCellValueFactory(new PropertyValueFactory<Object, Date>("dtorcamento"));
-        colfuncionario.setCellValueFactory(new PropertyValueFactory<Object, Object>("usuarioid"));
+        colfuncionario.setCellValueFactory(new PropertyValueFactory<Object, Funcionário>("usuarioid"));
         colvalidade.setCellValueFactory(new PropertyValueFactory<Object, Date>("dtvalidade"));
         coltotal.setCellValueFactory(new PropertyValueFactory<Object, Double>("total"));
 

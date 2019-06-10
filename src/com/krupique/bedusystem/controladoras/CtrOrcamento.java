@@ -52,6 +52,7 @@ public class CtrOrcamento
                 txcodigocliente.setText(Integer.toString(o.getCliente().getCodigo()));
                 txcpf.setText(o.getCliente().getCpf());
                 txfuncionario.setText(o.getUsuarioid().getNome());
+                txnomecliente.setText(o.getCliente().getNome());
                 txobs.setText(o.getObsformapagamento());
                 txrgcliente.setText(o.getCliente().getRg());
                 dtorcamento.setValue(o.getDtorcamento().toLocalDate());

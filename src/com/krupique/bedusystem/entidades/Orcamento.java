@@ -5,8 +5,6 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
 
 public class Orcamento 
@@ -171,7 +169,7 @@ public class Orcamento
     {
         boolean flag = false;
         String sqlb1;
-        String sql = "insert into Orcamento(cli_codigo, dt_orcamento, dt_validade, valor_tot, orc_descricao, func_codigo) VALUES('$1', '$2', '$3', '$4', '$5', '$6')";
+        String sql = "insert into Orcamento(cli_cod, dt_orcamento, dt_validade, valor_tot, orc_descricao, func_codigo) VALUES('$1', '$2', '$3', '$4', '$5', '$6')";
         sql = sql.replace("$1", Integer.toString(cliente.getCodigo())).replace("$2", dtorcamento.toString()).replace("$3", dtvalidade.toString())
                 .replace("$4", Double.toString(total)).replace("$5", obsformapagamento).replace("$6", Integer.toString(usuarioid.getCodigo()));
 
@@ -238,7 +236,7 @@ public class Orcamento
 
     private boolean altera()
     {
-        String sql = "insert into Orcamento(cli_codigo, dt_orcamento, dt_validade, valor_tot, orc_descricao, func_codigo) VALUES('$1', '$2', '$3', '$4', '$5', '$6')";
+        String sql = "insert into Orcamento(cli_cod, dt_orcamento, dt_validade, valor_tot, orc_descricao, func_codigo) VALUES('$1', '$2', '$3', '$4', '$5', '$6')";
         sql = sql.replace("$1", Integer.toString(cliente.getCodigo())).replace("$2", dtorcamento.toString()).replace("$3", dtvalidade.toString())
                 .replace("$4", Double.toString(total)).replace("$5", obsformapagamento).replace("$6", Integer.toString(usuarioid.getCodigo()));
         return Banco.getCon().manipular(sql);
@@ -256,7 +254,7 @@ public class Orcamento
         {
             while (rs.next())
             {
-                a.add(new Orcamento(rs.getInt("orc_codigo"), rs.getDate("dt_orcamento"), rs.getDate("dt_validade"), rs.getDouble("valor_tot"), rs.getString("orc_descricao"), rs.getInt("func_codigo"), rs.getInt("cli_codigo")));
+                a.add(new Orcamento(rs.getInt("orc_codigo"), rs.getDate("dt_orcamento"), rs.getDate("dt_validade"), rs.getDouble("valor_tot"), rs.getString("orc_descricao"), rs.getInt("func_codigo"), rs.getInt("cli_cod")));
             }
         } catch (Exception ex)
         {
@@ -274,7 +272,7 @@ public class Orcamento
         {
             if (tipo.equals("RG") && !filtro.isEmpty())
             {
-                sql += " INNER JOIN Cliente ON Orcamento.cli_codigo = Cliente.cli_cod AND Cliente.cli_rg = '" + filtro + "'";
+                sql += " INNER JOIN Cliente ON Orcamento.cli_cod = Cliente.cli_cod AND Cliente.cli_rg = '" + filtro + "'";
             } else if (tipo.equals("Ano") && !filtro.isEmpty())
             {
                 Integer t = null;
@@ -298,7 +296,7 @@ public class Orcamento
         {
             while (rs.next())
             {
-                a.add(new Orcamento(rs.getInt("orc_codigo"), rs.getDate("dt_orcamento"), rs.getDate("dt_validade"), rs.getDouble("valor_tot"), rs.getString("orc_descricao"), rs.getInt("func_codigo"), rs.getInt("cli_codigo")));
+                a.add(new Orcamento(rs.getInt("orc_codigo"), rs.getDate("dt_orcamento"), rs.getDate("dt_validade"), rs.getDouble("valor_tot"), rs.getString("orc_descricao"), rs.getInt("func_codigo"), rs.getInt("cli_cod")));
             }
         } catch (Exception ex)
         {
@@ -314,7 +312,7 @@ public class Orcamento
         try
         {
             Banco.getCon().getConnection().setAutoCommit(false);
-            String sql = "update Orcamento set cli_codigo = '$1', dt_orcamento = '$2', dt_validade = '$3', valor_tot = '$4', orc_descricao = '$5', func_codigo = '$6' WHERE orc_codigo = " + codigo;
+            String sql = "update Orcamento set cli_cod = '$1', dt_orcamento = '$2', dt_validade = '$3', valor_tot = '$4', orc_descricao = '$5', func_codigo = '$6' WHERE orc_codigo = " + codigo;
             sql = sql.replace("$1", Integer.toString(cliente.getCodigo())).replace("$2", dtorcamento.toString()).replace("$3", dtvalidade.toString())
                     .replace("$4", Double.toString(total)).replace("$5", obsformapagamento).replace("$6", Integer.toString(usuarioid.getCodigo()));
 
@@ -425,7 +423,7 @@ public class Orcamento
         {
             while (rs.next())
             {
-                a.add(new Orcamento(rs.getInt("orc_codigo"), rs.getDate("dt_orcamento"), rs.getDate("dt_validade"), rs.getDouble("valor_tot"), rs.getString("orc_descricao"), rs.getInt("func_codigo"), rs.getInt("cli_codigo")));
+                a.add(new Orcamento(rs.getInt("orc_codigo"), rs.getDate("dt_orcamento"), rs.getDate("dt_validade"), rs.getDouble("valor_tot"), rs.getString("orc_descricao"), rs.getInt("func_codigo"), rs.getInt("cli_cod")));
             }
         } catch (Exception ex)
         {
@@ -444,7 +442,7 @@ public class Orcamento
         {
             while (rs.next())
             {
-                return (new Orcamento(rs.getInt("orc_codigo"), rs.getDate("dt_orcamento"), rs.getDate("dt_validade"), rs.getDouble("valor_tot"), rs.getString("orc_descricao"), rs.getInt("func_codigo"), rs.getInt("cli_codigo")));
+                return (new Orcamento(rs.getInt("orc_codigo"), rs.getDate("dt_orcamento"), rs.getDate("dt_validade"), rs.getDouble("valor_tot"), rs.getString("orc_descricao"), rs.getInt("func_codigo"), rs.getInt("cli_cod")));
             }
         } catch (SQLException ex)
         {
