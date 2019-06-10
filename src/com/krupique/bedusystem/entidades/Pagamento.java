@@ -39,34 +39,67 @@ public class Pagamento
         this.caixa = caixa;
     }
 
-    public boolean pagar(int cod_parcela, int cod_compra, int cod_func, double valor) {
+    public boolean pagar(int cod_parcela, int cod_compra, int cod_func, double valor, int cod_caixa) {
         
-        int cod_caixa = Banco.con.getMaxPK("Caixa", "caixa_codigo");
-        String sql = "insert into Pagamento (pag_codigo, pag_data, pag_valor, func_codigo, caixa_codigo, comp_codigo)"
-                + "values (nextval('seq_pagamento'), '$1', $2, $3, $4, $5)";
+        String sql = "insert into Pagamento (pag_codigo, pag_data, pag_valor, func_codigo, caixa_codigo, comp_codigo, parc_codigo)"
+                + "values (nextval('seq_pagamento'), '$1', $2, $3, $4, $5, $6)";
+        
+        
         sql = sql.replace("$1", "" + LocalDate.now());
         sql = sql.replace("$2", "" + valor);
         sql = sql.replace("$3", "" + cod_func);
         sql = sql.replace("$4", "" + cod_caixa);
         sql = sql.replace("$5", "" + cod_compra);
-        System.out.println("SQL: " + sql);
+        sql = sql.replace("$6", "" + cod_parcela);
         
         if(Banco.con.manipular(sql))
         {
             //Atualizar caixa;
             //Setar parcela com status paga
             if(atualizarCaixa(cod_caixa, valor))
-                return setarParcela(cod_parcela, cod_compra, valor);
+                return setarParcela(cod_parcela, cod_compra, valor, 1);
             
         }
         return false;
     }
     
-    private boolean setarParcela(int cod_parcela, int cod_compra, double valor)
+    public boolean estornar(int cod_parcela, int cod_compra, double valor)
     {
-        String sql = "update parcela_compra set parc_compra_status = 1, parc_compra_dtpagamento = '$1' where parc_compra_codigo = " + cod_parcela +
-                "and parc_compra_compra_cod = " + cod_compra;
-        sql = sql.replace("$1", "" + LocalDate.now());
+        String sql = "select caixa_codigo from pagamento where comp_codigo = %1 and parc_codigo = %2";
+        sql = sql.replace("%1", "" + cod_compra);
+        sql = sql.replace("%2", "" + cod_parcela);
+        int cod_caixa = pegarCodCaixa(sql);
+        
+        if(atualizarCaixa(cod_caixa, -valor)){
+            return setarParcela(cod_parcela, cod_compra, valor, 0);
+        }
+        return false;
+    }
+    
+    public int pegarCodCaixa(String sql){
+        ResultSet rs;
+        int cod = -1;
+        try
+        {
+            rs = Banco.con.consultar(sql);
+            if(rs.next())
+                cod = rs.getInt("caixa_codigo");
+        }catch(Exception er){
+            System.out.println("Erro: " + er.getMessage());
+        }
+        return cod;
+    }
+    
+    private boolean setarParcela(int cod_parcela, int cod_compra, double valor, int stat)
+    {
+        String sql = "update parcela_compra set parc_compra_status = $2, parc_compra_dtpagamento = $1 where parc_compra_codigo = " + cod_parcela +
+                    "and parc_compra_compra_cod = " + cod_compra;
+        if(stat == 1)
+            sql = sql.replace("$1", "'" + LocalDate.now() + "'");
+        else
+            sql = sql.replace("$1", "NULL");
+        
+        sql = sql.replace("$2", "" + stat);
         return Banco.con.manipular(sql);
     }
     
@@ -78,10 +111,10 @@ public class Pagamento
         {
             rs = Banco.con.consultar(sql);
             if(rs.next())
-                vl_temp = rs.getDouble("caixa_valor");
+                vl_temp = rs.getDouble("caixa_valorfecha");
             
             valor = vl_temp - valor;
-            sql = "update caixa set caixa_valor = " + valor + " where caixa_codigo = " + cod_caixa;
+            sql = "update caixa set caixa_valorfecha = " + valor + " where caixa_codigo = " + cod_caixa;
             return Banco.con.manipular(sql);
         }catch(Exception er){
             System.out.println("Erro: " + er.getMessage());
@@ -153,7 +186,4 @@ public class Pagamento
     {
         this.caixa = caixa;
     }
-
-    
-    
 }

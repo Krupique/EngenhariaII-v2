@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class CtrCompra {
     
-    public boolean salvar(Object[] obj_compra, Object[] obj_parcela, ArrayList<Object[]> obj_itens){
+    public boolean salvar(Object[] obj_compra, Object[] obj_parcela, ArrayList<Object[]> obj_itens, boolean parc_manual, ArrayList<Object[]> parc_manuais){
         
         //Inserir compra
         Compra compra = new Compra((int)obj_compra[0], (int)obj_compra[1], (int)obj_compra[2], (int)obj_compra[3], (double)obj_compra[4], (double)obj_compra[5], (LocalDate)obj_compra[6]);
@@ -43,23 +43,34 @@ public class CtrCompra {
             }
             
             //Inserir parcelasCompra
-            try
+            if(parc_manual)//Parcelas manuais
             {
                 ParcelaCompra parc;
-                LocalDate data = (LocalDate)obj_parcela[2];
-                int qtdParcelas = (int)obj_compra[3];
-                double valor_parcela = (double)obj_compra[5] / (int)obj_compra[3];
-                for (int i = 0; i < qtdParcelas; i++) {
-                    parc = new ParcelaCompra(i + 1, (int)obj_parcela[1], data, i + 1, cod, valor_parcela);
+                for (int i = 0; i < parc_manuais.size(); i++) {
+                    parc = new ParcelaCompra(i + 1, 0, (LocalDate)parc_manuais.get(i)[1], i + 1, cod, (double)parc_manuais.get(i)[0]);
                     parc.salvar();
-                    data = data.getMonthValue() == 12 ? 
-                            LocalDate.of(data.getYear() + 1, 1, data.getDayOfMonth()):
-                            LocalDate.of(data.getYear(), data.getMonthValue() + 1, data.getDayOfMonth());
+                }
+            }else //Parcelas automaticas
+            {
+                try
+                {
+                    ParcelaCompra parc;
+                    LocalDate data = (LocalDate)obj_parcela[2];
+                    int qtdParcelas = (int)obj_compra[3];
+                    double valor_parcela = (double)obj_compra[5] / (int)obj_compra[3];
+                    for (int i = 0; i < qtdParcelas; i++) {
+                        parc = new ParcelaCompra(i + 1, (int)obj_parcela[1], data, i + 1, cod, valor_parcela);
+                        parc.salvar();
+                        data = data.getMonthValue() == 12 ? 
+                                LocalDate.of(data.getYear() + 1, 1, data.getDayOfMonth()):
+                                LocalDate.of(data.getYear(), data.getMonthValue() + 1, data.getDayOfMonth());
 
-            }
-            }catch(Exception er){
-                System.out.println("Erro gravar parcelasCompra\nErro: " + er.getMessage());
-                return false;
+                }
+                }catch(Exception er){
+                    System.out.println("Erro gravar parcelasCompra\nErro: " + er.getMessage());
+                    return false;
+                }
+                
             }
             
             return true;

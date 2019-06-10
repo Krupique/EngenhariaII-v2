@@ -167,17 +167,31 @@ public class BuscaComprasController implements Initializable {
     @FXML
     private void evtSelecionar(ActionEvent event) {
         try
-        {
-            if(tbvCompras.getSelectionModel().getSelectedIndex() != -1)
-            {
+        {if(tbvCompras.getSelectionModel().getSelectedIndex() != -1)
+            {   
                 flag = 1;
                 int index = tbvCompras.getSelectionModel().getSelectedIndex();
                 retorno = lista.get(index);
                 
-                Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/fundamentais/RegistrarCompra.fxml"));
+                int i = 0;
+                ArrayList<Object[]> temp_lista = (ArrayList<Object[]>)retorno[6];
+                while(i < temp_lista.size() && (int)temp_lista.get(i)[1] != 1)
+                {
+                    i++;
+                }
+                if(i < temp_lista.size() && (int)temp_lista.get(i)[1] == 1)
+                {
+                    Alert a = new Alert(Alert.AlertType.WARNING, "Esta conta já possui parcela paga!\nNão é possível alterá-la ou exluí-la!", ButtonType.OK);
+                    a.showAndWait();
+                }
+                else
+                {
+                    Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/fundamentais/RegistrarCompra.fxml"));
+
+                    paneprincipal.getChildren().clear();
+                    paneprincipal.getChildren().add(root);
+                }
                 
-                paneprincipal.getChildren().clear();
-                paneprincipal.getChildren().add(root);
             }
             else
             {

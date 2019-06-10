@@ -112,7 +112,7 @@ public class QuitarContasPagarController implements Initializable {
         
         ctrcompra = new CtrCompra();
         lista = ctrcompra.buscar("produto.peod_nome ilike '%%'");
-        exibir_tableview(lista, 0);
+        exibir_tableview(lista);
     }    
     
     private void inicializaEstilo()
@@ -163,8 +163,10 @@ public class QuitarContasPagarController implements Initializable {
     private void evtPagar(ActionEvent event) {
         try
         {
+            int log = 1;
             Object[] obj = new Object[4];
             int index = tbvParcelas.getSelectionModel().getSelectedIndex();
+            int aux_index = tbvCompras.getSelectionModel().getSelectedIndex();
             if(index != -1)
             {
                 ArrayList<Object[]> temp = (ArrayList<Object[]>)lista.get(pos)[6];
@@ -175,11 +177,38 @@ public class QuitarContasPagarController implements Initializable {
                 obj[3] = (double)temp.get(index)[4];
                 
                 CtrPagamento pagamento = new CtrPagamento();
-                if(pagamento.pagar(obj))
+                log = pagamento.pagar(obj);
+                if(log == 1) //Pode pagar
                 {
                     Alert a = new Alert(Alert.AlertType.INFORMATION, "Parcela paga com sucesso!", ButtonType.OK);
                     a.showAndWait();
+                    lista = ctrcompra.buscar("fornecedor.forn_nome ilike '%%'");
+                    if(ckExibirContasPagas.isSelected())
+                    {
+                        exibir_tableview(lista);
+                        exibirParcelas(aux_index, 1);
+                    }
+                    else{
+                        exibir_tableview(lista);
+                        exibirParcelas(aux_index, 1);
+                    }
                 }
+                else if(log == 0) //Caixa nao foi aberto ainda.
+                {
+                    Alert a = new Alert(Alert.AlertType.WARNING, "O Caixa não foi aberto ainda, portanto a conta não pode ser paga!", ButtonType.OK);
+                    a.showAndWait();
+                }
+                else if(log == -1) //Caixa ja foi fechado.
+                {
+                    Alert a = new Alert(Alert.AlertType.WARNING, "O Caixa já foi fechado, portanto a conta não pode ser paga!", ButtonType.OK);
+                    a.showAndWait();
+                }
+                else //Erro
+                {
+                    Alert a = new Alert(Alert.AlertType.WARNING, "Erro ao pagar a parcela!", ButtonType.OK);
+                    a.showAndWait();
+                }
+                
             }
             else
             {
@@ -253,23 +282,21 @@ public class QuitarContasPagarController implements Initializable {
         {
             lista = ctrcompra.buscarPeriodo(nome);
         }
-        exibir_tableview(lista, 0);
+        exibir_tableview(lista);
     }
 
     @FXML
     private void evtExibirContasPagas(ActionEvent event) {
          if(ckExibirContasPagas.isSelected())
-            exibir_tableview(lista, 1);
+            exibir_tableview(lista);
         else
-            exibir_tableview(lista, 0);
+            exibir_tableview(lista);
     }
     
-    private void exibir_tableview(ArrayList<Object[]> lista, int flag) {
-        Objeto obj_comp, obj_parc;
-        Object[] temp, temp2;
+    private void exibir_tableview(ArrayList<Object[]> lista) {
+        Objeto obj_comp;
+        Object[] temp;
         ArrayList<Objeto> obslist_comp = new ArrayList<>();
-        ArrayList<Objeto> obslist_parc = new ArrayList<>();
-        ArrayList<Object[]> arry_parc;
         String aux;
         double temp_valor;
         
@@ -290,7 +317,6 @@ public class QuitarContasPagarController implements Initializable {
         }
         
         tbvCompras.setItems(FXCollections.observableArrayList(obslist_comp));
-        //tbvParcelas.setItems(FXCollections.observableArrayList(obslist_parc));
     }
 
     private void exibirParcelas(int index, int flag)
@@ -342,6 +368,34 @@ public class QuitarContasPagarController implements Initializable {
 
     @FXML
     private void evtEstornar(ActionEvent event) {
+        int index = tbvParcelas.getSelectionModel().getSelectedIndex();
+        Object[] obj = new Object[4];
+        if(index != -1)
+        {
+            ArrayList<Object[]> temp = (ArrayList<Object[]>)lista.get(pos)[6];
+            int codigo_parc = (int)temp.get(index)[0];
+            obj[0] = codigo_parc;
+            obj[1] = codigo_compra;
+            obj[2] = 1; //Codigo funcionario
+            obj[3] = (double)temp.get(index)[4];
+            CtrPagamento pagamento = new CtrPagamento();
+            if(pagamento.estornar(obj))
+            {
+                Alert a = new Alert(Alert.AlertType.INFORMATION, "Parcela estornada com sucesso!", ButtonType.OK);
+                a.showAndWait();
+                int aux_index = tbvCompras.getSelectionModel().getSelectedIndex();
+                if(aux_index != -1)
+                {
+                    lista = ctrcompra.buscar("produto.peod_nome ilike '%%'");
+                    exibir_tableview(lista);
+                }
+            }
+            else
+            {
+                Alert a = new Alert(Alert.AlertType.ERROR, "Erro ao estornar parcela!", ButtonType.OK);
+                a.showAndWait();
+            }
+        }
     }
 
     @FXML

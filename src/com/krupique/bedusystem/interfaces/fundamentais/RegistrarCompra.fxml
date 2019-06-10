@@ -60,12 +60,12 @@
                      </children>
                   </HBox>
                   <TableView fx:id="tableview" prefWidth="850.0">
-                    <columns>
-                      <TableColumn fx:id="colProduto" prefWidth="300.0" text="Produto" />
-                      <TableColumn fx:id="colPreco" prefWidth="150.0" text="Preço" />
+                     <columns>
+                        <TableColumn fx:id="colProduto" prefWidth="300.0" text="Produto" />
+                        <TableColumn fx:id="colPreco" prefWidth="150.0" text="Preço" />
                         <TableColumn fx:id="colQuantidade" prefWidth="150.0" text="Quantidade" />
                         <TableColumn fx:id="colValorTotal" prefWidth="150.0" text="Valor Total" />
-                    </columns>
+                     </columns>
                   </TableView>
                </children>
             </VBox>
@@ -94,6 +94,12 @@
                   <JFXTextField fx:id="txtQtdParcelas" labelFloat="true" layoutX="220.0" layoutY="10.0" onKeyReleased="#evtMaskQtdParcelas" prefHeight="30.0" prefWidth="75.0" promptText="Qtd. Parcelas" AnchorPane.leftAnchor="245.0" AnchorPane.topAnchor="15.0" />
                   <JFXTextField fx:id="txtJuros" labelFloat="true" layoutX="279.0" layoutY="19.0" onKeyReleased="#evtMaskJuros" prefHeight="30.0" prefWidth="70.0" promptText="Valor Juros" AnchorPane.leftAnchor="345.0" AnchorPane.topAnchor="15.0" />
                   <JFXDatePicker fx:id="txtDateVenc" defaultColor="#003d8f" layoutX="390.0" layoutY="19.0" prefHeight="30.0" prefWidth="150.0" promptText="Primeiro Vencimento" AnchorPane.leftAnchor="440.0" AnchorPane.topAnchor="15.0" />
+                  <Label fx:id="lblParcManuais" layoutX="649.0" layoutY="22.0" prefHeight="17.0" prefWidth="159.0" text="Gerar Parcelas manualmente" />
+                  <JFXButton fx:id="btParcManuais" buttonType="RAISED" layoutX="809.0" layoutY="16.0" onAction="#evtBtParcManuais" style="-fx-background-color: #347E65;" text="V" textFill="WHITE" AnchorPane.rightAnchor="15.0">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
                </children>
             </AnchorPane>
          </children>
