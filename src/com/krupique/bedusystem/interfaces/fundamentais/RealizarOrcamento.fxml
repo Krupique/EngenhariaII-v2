@@ -64,9 +64,9 @@
                   <JFXTextField fx:id="txcodigo" disable="true" editable="false" focusTraversable="false" labelFloat="true" layoutX="13.0" layoutY="13.0" prefHeight="31.0" prefWidth="138.0" promptText="Código" />
                   <JFXDatePicker fx:id="dtorcamento" focusTraversable="false" layoutX="14.0" layoutY="54.0" onAction="#evtmudaData" promptText="Data do Orçamento(*)" />
                   <JFXDatePicker fx:id="dtvalidade" focusTraversable="false" layoutX="189.0" layoutY="54.0" onAction="#evtmudaData2" prefHeight="25.0" prefWidth="205.0" promptText="Validade(*)" />
-                  <JFXTextArea fx:id="txobs" focusTraversable="false" labelFloat="true" layoutX="34.0" layoutY="220.0" prefHeight="45.0" prefWidth="163.0" promptText="Observação Sobre Forma de Pagamento" />
+                  <JFXTextArea fx:id="txobs" focusTraversable="false" labelFloat="true" layoutX="14.0" layoutY="208.0" prefHeight="45.0" prefWidth="407.0" promptText="Observação Sobre Forma de Pagamento" />
                   <JFXTextField fx:id="txfuncionario" disable="true" focusTraversable="false" labelFloat="true" layoutX="191.0" layoutY="13.0" prefHeight="31.0" prefWidth="204.0" promptText="Funcionário(*)" />
-                  <TabPane layoutX="435.0" layoutY="13.0" prefHeight="293.0" prefWidth="445.0" tabClosingPolicy="UNAVAILABLE">
+                  <TabPane fx:id="tabpane" layoutX="435.0" layoutY="13.0" prefHeight="293.0" prefWidth="445.0" tabClosingPolicy="UNAVAILABLE">
                      <tabs>
                         <Tab text="Produto">
                            <content>
@@ -111,7 +111,7 @@
                      </tabs>
                   </TabPane>
                   <JFXTextField fx:id="txcpf" focusTraversable="false" labelFloat="true" layoutX="183.0" layoutY="96.0" promptText="(Obrigatorio*)" />
-                  <JFXButton focusTraversable="false" layoutX="360.0" layoutY="96.0" onAction="#evtBuscaCliente" style="-fx-background-color: #0076A3;" text="Buscar" />
+                  <JFXButton fx:id="btnbuscar" focusTraversable="false" layoutX="360.0" layoutY="96.0" onAction="#evtBuscaCliente" style="-fx-background-color: #0076A3;" text="Buscar" />
                   <JFXTextField fx:id="txcodigocliente" disable="true" editable="false" focusTraversable="false" labelFloat="true" layoutX="14.0" layoutY="161.0" prefHeight="25.0" prefWidth="83.0" promptText="Código" />
                   <JFXTextField fx:id="txnomecliente" disable="true" editable="false" focusTraversable="false" labelFloat="true" layoutX="116.0" layoutY="157.0" prefHeight="31.0" prefWidth="139.0" promptText="Nome" />
                   <JFXTextField fx:id="txrgcliente" disable="true" editable="false" focusTraversable="false" labelFloat="true" layoutX="284.0" layoutY="161.0" promptText="RG:" />
@@ -123,12 +123,12 @@
                   <Label fx:id="lerroCliente" layoutX="234.0" layoutY="253.0" visible="false" />
                   <Label layoutX="714.0" layoutY="337.0" text="Total(*):" />
                   <Label fx:id="lbltotal" layoutX="768.0" layoutY="337.0" text="0" />
-                  <RadioButton layoutX="13.0" layoutY="109.0" mnemonicParsing="false" text="CPF">
+                  <RadioButton fx:id="rbcpf" layoutX="13.0" layoutY="109.0" mnemonicParsing="false" text="CPF">
                      <toggleGroup>
                         <ToggleGroup fx:id="Group" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton layoutX="97.0" layoutY="109.0" mnemonicParsing="false" text="Nome" toggleGroup="$Group" />
+                  <RadioButton fx:id="rbnome" layoutX="97.0" layoutY="109.0" mnemonicParsing="false" text="Nome" toggleGroup="$Group" />
                </children>
             </AnchorPane>
          </children>

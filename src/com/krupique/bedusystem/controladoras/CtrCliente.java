@@ -68,6 +68,19 @@ public class CtrCliente
         return c != null;
     }
     
+        public static boolean getClienteNome(JFXTextField txcpf, JFXTextField txcodigocliente, JFXTextField txnomecliente, JFXTextField txrgcliente)
+    {
+        Cliente c = null;
+        c = (Cliente) new Cliente().getCliente(txcpf.getText());
+        if (c != null)
+        {
+            txcodigocliente.setText(Integer.toString(c.getCodigo()));
+            txnomecliente.setText(c.getNome());
+            txrgcliente.setText(c.getRg());
+        }
+        return c != null;
+    }
+    
     public static boolean get(JFXTextField txcpf, JFXTextField txnomecliente, JFXTextField txtelefonecliente, JFXTextField txemailcliente, JFXTextField txendcliente, JFXTextField txcepcliente)
     {
         Cliente c = null;

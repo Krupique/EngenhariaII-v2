@@ -26,6 +26,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
@@ -118,9 +120,16 @@ public class RealizarOrcamentoController implements Initializable {
     private Label lerroPS;
     private Label lerroProdutoC;
     private Label lerroServicoC;
-    private static Integer modo;
-
+    public static Integer modo;
     private Boolean flagTransicaodeData;
+    @FXML
+    private TabPane tabpane;
+    @FXML
+    private JFXButton btnbuscar;
+    @FXML
+    private RadioButton rbcpf;
+    @FXML
+    private RadioButton rbnome;
 
 
     @Override
@@ -129,14 +138,13 @@ public class RealizarOrcamentoController implements Initializable {
         iniciacomponentes();
         EstadoOriginal();
         CarregaTabela("");
+        rbnome.setSelected(true);
         flagTransicaodeData = false;
-        modo = 0;
         pega();
     }   
         private void pega()
     {
         Funcionário f = new Funcionário().get(1);
-        //txcodigo.setText(f.getCodigo()+"");
         txfuncionario.setText(f.getNome());
         
         
@@ -327,23 +335,32 @@ public class RealizarOrcamentoController implements Initializable {
     @FXML
     private void evtBuscaCliente(ActionEvent event) 
     {
-        if (!CtrCliente.getClienteSimples(txcpf, txcodigocliente, txnomecliente, txrgcliente))
+        if(rbcpf.isSelected())
         {
+         if (!CtrCliente.getClienteSimples(txcpf, txcodigocliente, txnomecliente, txrgcliente))
+            {
             Alert a = new Alert(Alert.AlertType.WARNING);
             a.setContentText("Cpf não cadastrado no sistema\nFavor Cadastrar o Cliente!!!");
             a.show();
+            }
+        }else if(rbnome.isSelected())
+        {
+            if(!CtrCliente.getClienteNome(txcpf, txcodigocliente, txnomecliente, txrgcliente))
+            {
+            Alert a = new Alert(Alert.AlertType.WARNING);
+            a.setContentText("Nome não encontrado no sistema\nFavor Cadastrar o Cliente!!!");
+            a.show();
+            }
         }
+
     }
 
     @FXML
     private void evtNovo(ActionEvent event) 
     {
-        pndado.setDisable(false);
-        //btalterar.setDisable(false);
-        //btexcluir.setDisable(false);
-        btconfirmar.setDisable(false);
-        btcancelar.setDisable(false);
         btnovo.setDisable(true);
+        pndado.setDisable(false);
+        disablu(false);
         modo = 1;
     }
 
@@ -450,7 +467,6 @@ public class RealizarOrcamentoController implements Initializable {
         txcodigocliente.setText("");
         txcpf.setText("");
         txnomecliente.setText("");
-        txnomecliente.setText("");
         txobs.setText("");
         txquantidadeproduto.setText("");
         txquantidadeservico.setText("");
@@ -458,26 +474,31 @@ public class RealizarOrcamentoController implements Initializable {
         txvalorproduto.setText("");
         txvalorservico.setText("");
         lbltotal.setText("0");
-        flagTransicaodeData = true;
-        dtorcamento.setValue(LocalDate.now());
-        dtvalidade.setValue(dtorcamento.getValue().plusDays(1));
+        dtorcamento.setValue(null);
+        dtvalidade.setValue(null);
         flagTransicaodeData = false;
-        //pndado.setDisable(true);
-        lerroCliente.setVisible(false);
-        //lerroPS.setVisible(false);
-        //lerroProdutoC.setVisible(false);
-        //lerroServicoC.setVisible(false);
         pega();
         tabelaProduto.getItems().clear();
         TabelaServico.getItems().clear();
-        btalterar.setDisable(true);
-        btcancelar.setDisable(true);
-        btconfirmar.setDisable(true);
-        btexcluir.setDisable(true);
         btnovo.setDisable(false);
-        modo = 0;
+        disablu(true);
         tabela.refresh();
     }
+        private void disablu(boolean b)
+        {
+        btalterar.setDisable(b);
+        btcancelar.setDisable(b);
+        btconfirmar.setDisable(b);
+        btexcluir.setDisable(b);
+        tabpane.setDisable(b);
+        dtorcamento.setDisable(b);
+        dtvalidade.setDisable(b);
+        rbcpf.setDisable(b);
+        rbnome.setDisable(b);
+        btnbuscar.setDisable(b);
+        txobs.setDisable(b);
+        txcpf.setDisable(b);
+        }
         
         private void ModoEdicao()
     {
@@ -527,7 +548,6 @@ public class RealizarOrcamentoController implements Initializable {
         colTSvalor.setCellValueFactory(new PropertyValueFactory<Object, Double>("valor"));
         cbbusca.getItems().addAll("RG", "Ano");
 
-        MaskFieldUtil.cpfField(txcpf);
         MaskFieldUtil.ignoreKeys(txBusca);
         MaskFieldUtil.numericField(txcodigo);
         MaskFieldUtil.numericField(txcodigocliente);
