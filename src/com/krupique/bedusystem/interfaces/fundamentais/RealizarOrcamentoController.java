@@ -173,28 +173,11 @@ public class RealizarOrcamentoController implements Initializable {
     @FXML
     private void evtmudaData(ActionEvent event) 
     {
-        
-        if (!flagTransicaodeData && Period.between(dtorcamento.getValue(), dtvalidade.getValue()).isNegative())
-        {
-            Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setContentText("Erro em Data\nData do Orçamento deve ser anterior a validade!!!\nDatas Redefinidas");
-            a.show();
-            dtorcamento.setValue(LocalDate.now());
-            dtvalidade.setValue(dtorcamento.getValue().plusDays(1));
-        }
     }
 
     @FXML
     private void evtmudaData2(ActionEvent event) 
     {
-      if (!flagTransicaodeData && Period.between(dtorcamento.getValue(), dtvalidade.getValue()).isNegative())
-        {
-            Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setContentText("Erro em Data\nData do Orçamento deve ser anterior a validade!!!\nDatas Redefinidas");
-            a.show();
-            dtorcamento.setValue(LocalDate.now());
-            dtvalidade.setValue(dtorcamento.getValue().plusDays(1));
-        }
     }
 
     @FXML
@@ -206,10 +189,10 @@ public class RealizarOrcamentoController implements Initializable {
     @FXML
     private void evtAdicionaProduto(ActionEvent event) 
     {
-                stage = new Stage();
+        stage = new Stage();
         try
         {
-            Parent root = FXMLLoader.load(getClass().getResource("/Interfaces/TelaAddProduto.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/fundamentais/TelaAddProduto.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setMaximized(false);
@@ -278,7 +261,7 @@ public class RealizarOrcamentoController implements Initializable {
                 stage = new Stage();
         try
         {
-            Parent root = FXMLLoader.load(getClass().getResource("/Interfaces/TelaAddServico.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/fundamentais/TelaAddServico.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setMaximized(false);
@@ -372,17 +355,28 @@ public class RealizarOrcamentoController implements Initializable {
     private void evtAlterar(ActionEvent event) 
     {
         ModoEdicao();
+        disablu(false);
         modo = 2;
     }
 
     @FXML
     private void evtConfirmar(ActionEvent event) 
     {
-                if (ValidaCampos())
+      if (ValidaCampos())
         {
             if (txcodigo.getText().isEmpty())//novo
             {
-                try
+                if (Period.between(dtorcamento.getValue(), dtvalidade.getValue()).isNegative())
+                    {
+                        Alert a = new Alert(Alert.AlertType.ERROR);
+                        a.setContentText("Erro em Data\nData do Orçamento deve ser anterior a validade!!!\nDatas Redefinidas");
+                        a.show();
+                        dtorcamento.setValue(LocalDate.now());
+                        dtvalidade.setValue(dtorcamento.getValue().plusDays(1));
+                    }
+                else
+                {
+                    try
                 {
                     if (CtrOrcamento.Adicionar(Integer.parseInt(txcodigocliente.getText()),
                             dtorcamento.getValue(), dtvalidade.getValue(),
@@ -406,6 +400,8 @@ public class RealizarOrcamentoController implements Initializable {
                     a.setContentText(ex.getMessage() + "\n" + Banco.getCon().getMensagemErro());
                     a.show();
                 }
+                }
+                
             } else if (modo == 2)
             {
                 if (CtrOrcamento.Alterar(Integer.parseInt(txcodigo.getText()), Integer.parseInt(txcodigocliente.getText()),
@@ -487,6 +483,7 @@ public class RealizarOrcamentoController implements Initializable {
         btnovo.setDisable(false);
         disablu(true);
         tabela.refresh();
+        txBusca.setDisable(false);
     }
         private void disablu(boolean b)
         {

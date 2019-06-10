@@ -63,7 +63,7 @@ public class Orcamento
         this.dtvalidade = dt_validade;
         this.total = valor_tot;
         this.obsformapagamento = obsformapag;
-        this.usuarioid = new Funcionário(usr_id);
+        this.usuarioid = new Funcionário().get(usr_id);
         this.cliente = new Cliente(cli_cod);
 
         this.produtosOrcamento = new ItemOrcamentoProduto(orc_cod).get();
@@ -296,7 +296,7 @@ public class Orcamento
         {
             while (rs.next())
             {
-                a.add(new Orcamento(rs.getInt("orc_codigo"), rs.getDate("dt_orcamento"), rs.getDate("dt_validade"), rs.getDouble("valor_tot"), rs.getString("orc_descricao"), rs.getInt("func_codigo"), rs.getInt("cli_cod")));
+                a.add(new Orcamento(rs.getInt("orc_codigo"), rs.getDate("dt_orcamento"), rs.getDate("dt_validade"), rs.getDouble("valor_tot"), rs.getString("orc_descricao"),rs.getInt("func_codigo"), rs.getInt("cli_cod")));
             }
         } catch (Exception ex)
         {

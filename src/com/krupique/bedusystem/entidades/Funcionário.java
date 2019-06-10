@@ -66,7 +66,9 @@ public class Funcionário
 
     public Funcionário(int codigo)
     {
+
         this.codigo = codigo;
+
     }
     
     public void valida()
