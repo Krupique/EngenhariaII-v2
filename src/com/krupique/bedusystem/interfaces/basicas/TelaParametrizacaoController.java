@@ -61,12 +61,6 @@ public class TelaParametrizacaoController implements Initializable {
     @FXML
     private JFXButton btSalvar;
     @FXML
-    private JFXButton btAlterar;
-    @FXML
-    private JFXButton btCancelar;
-    @FXML
-    private JFXButton btBuscar;
-    @FXML
     private JFXButton btVoltar;
     @FXML
     private JFXTextField tfNomeFantasia;
@@ -103,10 +97,7 @@ public class TelaParametrizacaoController implements Initializable {
     private Parametrizacao para; //Ta fora do MVC cara de égua
     @FXML
     private AnchorPane paneprincipal;
-    
-    /**
-     * Initializes the controller class.
-     */
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         inicializaEstilo();
@@ -166,10 +157,7 @@ public class TelaParametrizacaoController implements Initializable {
         String cor = CorSistema.getCorHex();
         
         btConsultar.setStyle("-fx-background-color: " + cor);
-        btAlterar.setStyle("-fx-background-color: " + cor);
         btSalvar.setStyle("-fx-background-color: " + cor);
-        btCancelar.setStyle("-fx-background-color: " + cor);
-        btBuscar.setStyle("-fx-background-color: " + cor);
         btVoltar.setStyle("-fx-background-color: " + cor);
     }
     
@@ -193,10 +181,6 @@ public class TelaParametrizacaoController implements Initializable {
     
     public void setarBotoes(boolean value)
     {
-        btAlterar.setVisible(value);
-        btBuscar.setVisible(value);
-        //btCancelar.setVisible(value);
-        
         btVoltar.setText("Sair");
         
     }
@@ -235,14 +219,9 @@ public class TelaParametrizacaoController implements Initializable {
     private void habilitarBotoes(boolean salvar, boolean alterar, boolean cancelar, boolean buscar, boolean voltar)
     {
         btSalvar.setDisable(salvar);
-        btAlterar.setDisable(alterar);
-        btCancelar.setDisable(cancelar);
-        btBuscar.setDisable(buscar);
         btVoltar.setDisable(voltar);
     }
-    
-    
-    
+  
     @FXML
     private void maskCep(KeyEvent event) {
         MaskFieldUtil.cepField(tfCep);
@@ -374,19 +353,12 @@ public class TelaParametrizacaoController implements Initializable {
         }
     }
 
-    @FXML
-    private void evtAlterar(ActionEvent event) {
-    }
 
-    @FXML
     private void evtCancelar(ActionEvent event) {
         inicializaEstilo();
         limparCampos();
     }
 
-    @FXML
-    private void evtBuscar(ActionEvent event) {
-    }
 
     @FXML
     private void evtVoltar(ActionEvent event) {
@@ -412,19 +384,30 @@ public class TelaParametrizacaoController implements Initializable {
     private void setarTela() {
         try
         {
-            Stage stage = (Stage)paneprincipal.getScene().getWindow();
-            stage.setWidth(380);
-            stage.setHeight(400 + 30);
-            stage.setResizable(false);
-            
-            Toolkit toolkit = Toolkit.getDefaultToolkit();
-            Dimension dime = toolkit.getScreenSize();
-            stage.setX(dime.getWidth()/2 - 380 / 2);
-            stage.setY(dime.getHeight()/2 - (400 + 60) / 2);
-            
-            Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/basicas/TelaLogin.fxml"));
-            paneprincipal.getChildren().clear();
-            paneprincipal.getChildren().add(root);
+            if(!CtrParametrizacao.instancia().inicia())
+            {
+                Stage stage = (Stage)paneprincipal.getScene().getWindow();
+                stage.setWidth(380);
+                stage.setHeight(400 + 30);
+                stage.setResizable(false);
+
+                Toolkit toolkit = Toolkit.getDefaultToolkit();
+                Dimension dime = toolkit.getScreenSize();
+                stage.setX(dime.getWidth()/2 - 380 / 2);
+                stage.setY(dime.getHeight()/2 - (400 + 60) / 2);
+
+                Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/basicas/TelaLogin.fxml"));
+                paneprincipal.getChildren().clear();
+                paneprincipal.getChildren().add(root);
+            }
+            else
+            {
+
+                    paneprincipal.toBack();
+                    paneprincipal.getChildren().clear();
+
+            }
+
             
         }catch(Exception er){
         }

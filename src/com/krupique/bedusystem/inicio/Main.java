@@ -1,13 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.krupique.bedusystem.inicio;
 
 import com.krupique.bedusystem.controladoras.CtrParametrizacao;
 import com.krupique.bedusystem.utilidades.Banco;
 import com.krupique.bedusystem.utilidades.CorSistema;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.application.Platform;
@@ -18,10 +16,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
-/**
- *
- * @author Henrique K. Secchi
- */
 public class Main extends Application{
     
     private static Stage stage;
@@ -29,23 +23,30 @@ public class Main extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         String janela;
-        /*Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/inicio/TelaInicial.fxml"));
-        stage.setWidth(1080);
-        stage.setHeight(680);*/
+        Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/inicio/TelaInicial.fxml"));
+        stage.setWidth(880);
+        stage.setHeight(700);
          
-        /*if(CtrParametrizacao.instancia().inicia())
+       if(CtrParametrizacao.instancia().inicia())
         {
-            */janela = "/com/krupique/bedusystem/interfaces/basicas/TelaLogin.fxml";
-            //janela = "/com/krupique/bedusystem/interfaces/fundamentais/GerarContasReceber.fxml";
-            //janela = "/com/krupique/bedusystem/interfaces/fundamentais/GerarContasReceber.fxml";
-            /*CorSistema.setCorHex(CtrParametrizacao.instancia().corParamatrizacao());
+                stage.setWidth(380);
+                stage.setHeight(430);
+                stage.setResizable(false);
+
+                Toolkit toolkit = Toolkit.getDefaultToolkit();
+                Dimension dime = toolkit.getScreenSize();
+                stage.setX(dime.getWidth()/2 - 380 / 2);
+                stage.setY(dime.getHeight()/2 - 460 / 2);
+            janela = "/com/krupique/bedusystem/interfaces/basicas/TelaLogin.fxml";
+
+            CorSistema.setCorHex(CtrParametrizacao.instancia().corParamatrizacao());
         }
         else
         {
             janela = "/com/krupique/bedusystem/interfaces/basicas/TelaParametrizacao.fxml";
-        }*/
+        }
         
-        Parent root = FXMLLoader.load(getClass().getResource(janela));
+        root = FXMLLoader.load(getClass().getResource(janela));
         Scene scene = new Scene(root);
         
         

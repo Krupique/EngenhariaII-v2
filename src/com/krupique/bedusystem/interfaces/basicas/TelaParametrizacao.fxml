@@ -61,21 +61,6 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btAlterar" buttonType="RAISED" layoutX="450.0" layoutY="46.0" onAction="#evtAlterar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Alterar" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="btCancelar" buttonType="RAISED" layoutX="530.0" layoutY="46.0" onAction="#evtCancelar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Cancelar" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="btBuscar" buttonType="RAISED" layoutX="570.0" layoutY="46.0" onAction="#evtBuscar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Buscar" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </JFXButton>
                   <JFXButton fx:id="btVoltar" buttonType="RAISED" layoutX="610.0" layoutY="46.0" onAction="#evtVoltar" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Voltar" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="13.0" />
