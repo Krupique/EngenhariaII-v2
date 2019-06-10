@@ -114,6 +114,33 @@ public class Compra extends Movimento
         return list;
     }
     
+    public ArrayList<Integer> buscar_periodo(String str)
+    {
+        ArrayList<Integer> lista_int = buscar_inteiros(str);
+        return lista_int;
+    }
+    
+    public ArrayList<Integer> buscar_inteiros(String str)
+    {
+        String sql = "select distinct compra.comp_codigo from parcela_compra inner join compra "
+                + "on  compra.comp_codigo = parcela_compra.parc_compra_compra_cod\n"
+                + "where parcela_compra.parc_compra_dtvencimento " + str + " and parcela_compra.parc_compra_status = 0";
+        ResultSet rs;
+        ArrayList<Integer> lista = new ArrayList<>();
+        
+        try
+        {
+            rs = Banco.con.consultar(sql);
+            while(rs.next()){
+                int temp = rs.getInt("comp_codigo");
+                lista.add(temp);
+            }
+        }catch(Exception er){
+            System.out.println("Erro: " + er.getMessage());
+        }
+        return lista;
+    }
+    
     public boolean excluir()
     {
         String sql = "delete from compra where comp_codigo = " + cod_compra;

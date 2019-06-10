@@ -100,6 +100,8 @@ public class QuitarContasPagarController implements Initializable {
     private static Object[] retorno;
     private int codigo_compra;
     private int pos;
+    @FXML
+    private JFXButton btEstornar;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         inicializaEstilo();
@@ -109,8 +111,7 @@ public class QuitarContasPagarController implements Initializable {
         dtBusca.setVisible(false);
         
         ctrcompra = new CtrCompra();
-        lista = ctrcompra.buscar("produto.prod_nome ilike '%%'");
-        
+        lista = ctrcompra.buscar("produto.peod_nome ilike '%%'");
         exibir_tableview(lista, 0);
     }    
     
@@ -118,6 +119,7 @@ public class QuitarContasPagarController implements Initializable {
     {
         String cor = CorSistema.getCorHex();
         btPagar.setStyle("-fx-background-color: " + cor);
+        btEstornar.setStyle("-fx-background-color: " + cor);
         btVoltar.setStyle("-fx-background-color: " + cor);
         hboxCompras.setStyle("-fx-background-color: " + cor);
         hboxParcelas.setStyle("-fx-background-color: " + cor);
@@ -238,14 +240,19 @@ public class QuitarContasPagarController implements Initializable {
         else if(rdFornecedor.isSelected())
             nome = "fornecedor.forn_nome ilike '%" + txtBusca.getText() + "%'";
         else if(rdVenceNoDia.isSelected())
-            nome = "compra.comp_data_compra = '" + dtBusca.getValue() + "'";
+            nome = " = '" + dtBusca.getValue() + "'";
         else //rdVenceAteDia.isSelected()
-            nome = "compra.comp_data_compra < '" + dtBusca.getValue() + "'";
+            nome = " < '" + dtBusca.getValue() + "'";
         
         if(nome == null)
             nome = "";
         
-        lista = ctrcompra.buscar(nome);
+        if(rdProduto.isSelected() || rdFornecedor.isSelected())
+            lista = ctrcompra.buscar(nome);
+        else
+        {
+            lista = ctrcompra.buscarPeriodo(nome);
+        }
         exibir_tableview(lista, 0);
     }
 
@@ -331,6 +338,28 @@ public class QuitarContasPagarController implements Initializable {
                 exibirParcelas(index, 0);
         }
         
+    }
+
+    @FXML
+    private void evtEstornar(ActionEvent event) {
+    }
+
+    @FXML
+    private void evtClickTabParcelas(MouseEvent event) {
+        Objeto temp_obj;
+        if(tbvParcelas.getSelectionModel().getSelectedIndex() != -1){   
+            temp_obj = tbvParcelas.getSelectionModel().getSelectedItem();
+            if(temp_obj.getParam2().equals("em haver"))
+            {
+                btPagar.setDisable(false);
+                btEstornar.setDisable(true);
+            }
+            else
+            {
+                btPagar.setDisable(true);
+                btEstornar.setDisable(false);
+            }
+        }
     }
     
 }

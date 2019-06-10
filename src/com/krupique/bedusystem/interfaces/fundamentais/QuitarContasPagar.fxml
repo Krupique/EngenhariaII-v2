@@ -18,7 +18,7 @@
    <top>
       <HBox alignment="CENTER" prefHeight="80.0" prefWidth="880.0" style="-fx-background-color: #E1E1E1;" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Quitar Contas à Pagar">
+            <Label text="Quitar Contas a Pagar">
                <font>
                   <Font name="System Bold" size="28.0" />
                </font>
@@ -93,7 +93,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <TableView fx:id="tbvParcelas" prefHeight="500.0" prefWidth="850.0">
+                  <TableView fx:id="tbvParcelas" onMouseClicked="#evtClickTabParcelas" prefHeight="500.0" prefWidth="850.0">
                      <columns>
                         <TableColumn fx:id="colParNum" prefWidth="100.0" text="Número" />
                         <TableColumn fx:id="colParStatus" prefWidth="100.0" text="Status" />
@@ -110,6 +110,11 @@
       <HBox fx:id="paneBotoes" alignment="CENTER" prefHeight="80.0" prefWidth="200.0" spacing="40.0" style="-fx-background-color: #E1E1E1;" BorderPane.alignment="CENTER">
          <children>
             <JFXButton fx:id="btPagar" buttonType="RAISED" onAction="#evtPagar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Pagar" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btEstornar" buttonType="RAISED" layoutX="290.0" layoutY="35.0" onAction="#evtEstornar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #347E65;" text="Estornar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>

@@ -119,4 +119,18 @@ public class CtrCompra {
         Compra compra = new Compra();
         return compra.getSequence();
     }
+    
+    public ArrayList<Object[]> buscarPeriodo(String str){
+        Compra compra = new Compra();
+        ArrayList<Integer> lista_int = compra.buscar_periodo(str);
+        ArrayList<Object[]> lista_res = new ArrayList<>();
+        ArrayList<Object[]> lista_temp;
+        String aux = "";
+        for (int i = 0; i < lista_int.size(); i++) {
+            aux = "compra.comp_codigo = " + lista_int.get(i);
+            lista_temp = buscar(aux);
+            lista_res.add(lista_temp.get(0));
+        }
+        return lista_res;
+    }
 }

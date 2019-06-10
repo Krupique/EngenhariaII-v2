@@ -230,16 +230,19 @@ public class BuscaComprasController implements Initializable {
         else if(rdFornecedor.isSelected())
             nome = "fornecedor.forn_nome ilike '%" + txtBusca.getText() + "%'";
         else if(rdVenceNoDia.isSelected())
-            nome = "compra.comp_data_compra = '" + dtBusca.getValue() + "'";
+            nome = " = '" + dtBusca.getValue() + "'";
         else //rdVenceAteDia.isSelected()
-            nome = "compra.comp_data_compra < '" + dtBusca.getValue() + "'";
+            nome = " < '" + dtBusca.getValue() + "'";
         
         if(nome == null)
             nome = "";
         
-        lista = ctrcompra.buscar(nome);
-        
-            
+        if(rdProduto.isSelected() || rdFornecedor.isSelected())
+            lista = ctrcompra.buscar(nome);
+        else
+        {
+            lista = ctrcompra.buscarPeriodo(nome);
+        }
         exibir_tableview(lista, 0);
     }
 
