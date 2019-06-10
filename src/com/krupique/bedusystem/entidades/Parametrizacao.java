@@ -255,35 +255,53 @@ public class Parametrizacao
 
     }
         
-    public boolean alterar(BufferedImage img,BufferedImage img2) throws SQLException, IOException
+    public boolean alterar(String caminho, String caminho2) throws SQLException, IOException
     {
             Connection connection = null;
             PreparedStatement statement = null;
-            
-           ByteArrayOutputStream bimg = new ByteArrayOutputStream();
-           ImageIO.write(img, "jpg", bimg);
-           InputStream f = new ByteArrayInputStream(bimg.toByteArray());
-           
-           ByteArrayOutputStream bimg2 = new ByteArrayOutputStream();
-           ImageIO.write(img2, "jpg", bimg2);
-           InputStream f2 = new ByteArrayInputStream(bimg2.toByteArray());
 
             connection = Banco.getCon().getConnection();
             //nome,fantasia,logoGrande,logoPequeno,telefone,email,razaoSocial,rua,bairro,cidade,cep,cor,site;
-            statement = connection.prepareStatement("UPDATE parametrizacao SET nome = ?,fantasia = ?,logoGrande = ? ,logoPequeno = ?,telefone = ?, email = ?, razaoSocial = ?, rua = ?, bairro = ?, cidade = ?, cep = ?, cor = ?, site = ?");
+            if(caminho !=null && caminho2 !=null)
+            {
+                File arq = new File(caminho);
+                File arq2 = new File(caminho2);
+                FileInputStream f = new FileInputStream(arq);
+                FileInputStream f2 = new FileInputStream(arq2);
+                statement = connection.prepareStatement("UPDATE parametrizacao SET nome = ?,fantasia = ? ,telefone = ?, email = ?, razaoSocial = ?, rua = ?, bairro = ?, cidade = ?, cep = ?, cor = ?, site = ?, logoGrande = ?, logoPequeno = ?");
+                statement.setBinaryStream(12, f, (int) arq.length());
+                statement.setBinaryStream(13, f2, (int) arq2.length());
+            }
+            else if(caminho !=null)
+            {
+                File arq = new File(caminho);
+                FileInputStream f = new FileInputStream(arq);
+                statement = connection.prepareStatement("UPDATE parametrizacao SET nome = ?,fantasia = ? ,telefone = ?, email = ?, razaoSocial = ?, rua = ?, bairro = ?, cidade = ?, cep = ?, cor = ?, site = ?, logoGrande = ?");
+                statement.setBinaryStream(12, f, (int) arq.length());
+            }
+            else if(caminho2 !=null)
+            {
+                File arq2 = new File(caminho2);
+                FileInputStream f2 = new FileInputStream(arq2);
+                statement = connection.prepareStatement("UPDATE parametrizacao SET nome = ?,fantasia = ? ,telefone = ?, email = ?, razaoSocial = ?, rua = ?, bairro = ?, cidade = ?, cep = ?, cor = ?, site = ?, logoPequeno = ?");
+                statement.setBinaryStream(12, f2, (int) arq2.length());
+            }
+            else
+            {
+                 statement = connection.prepareStatement("UPDATE parametrizacao SET nome = ?,fantasia = ?,telefone = ?, email = ?, razaoSocial = ?, rua = ?, bairro = ?, cidade = ?, cep = ?, cor = ?, site = ?");
+            }
+            
             statement.setString(1, nome);
             statement.setString(2, fantasia);
-            statement.setBinaryStream(3, f, bimg.toByteArray().length);
-            statement.setBinaryStream(4, f2, bimg2.toByteArray().length);
-            statement.setString(5, telefone);
-            statement.setString(6, email);
-            statement.setString(7, razaoSocial);
-            statement.setString(8, rua);
-            statement.setString(9, bairro);
-            statement.setString(10, cidade);
-            statement.setString(11, cep);
-            statement.setString(12, cor);
-            statement.setString(13, site);
+            statement.setString(3, telefone);
+            statement.setString(4, email);
+            statement.setString(5, razaoSocial);
+            statement.setString(6, rua);
+            statement.setString(7, bairro);
+            statement.setString(8, cidade);
+            statement.setString(9, cep);
+            statement.setString(10, cor);
+            statement.setString(11, site);
             try
             {
                 statement.executeUpdate();

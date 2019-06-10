@@ -39,9 +39,9 @@ public class CtrParametrizacao
         return new Parametrizacao(nome, fantasia, telefone, email, razaoSocial, rua, bairro, cidade,cep,cor,site).Manipular(logoGrande, logoPequeno);
     }
     
-        public boolean alterar(String nome, String fantasia, BufferedImage logoGrande, BufferedImage logoPequeno, String telefone, String email, String razaoSocial, String rua, String bairro, String cidade, String cep, String cor, String site) throws SQLException, IOException
+        public boolean alterar(String nome, String fantasia, BufferedImage logoGrande, BufferedImage logoPequeno, String telefone, String email, String razaoSocial, String rua, String bairro, String cidade, String cep, String cor, String site,String caminho, String caminho2) throws SQLException, IOException
     {
-        return new Parametrizacao(nome, fantasia, telefone, email, razaoSocial, rua, bairro, cidade,cep,cor,site).alterar(logoGrande, logoPequeno);
+        return new Parametrizacao(nome, fantasia, telefone, email, razaoSocial, rua, bairro, cidade,cep,cor,site).alterar(caminho,caminho2);
     }
 
         

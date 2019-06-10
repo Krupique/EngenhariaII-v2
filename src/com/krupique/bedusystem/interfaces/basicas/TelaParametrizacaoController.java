@@ -133,8 +133,6 @@ public class TelaParametrizacaoController implements Initializable {
 
             } else
             {
-                // primeira vez do programa
-                System.out.println("TESTE TESTE");
                 setarBotoes(false);
             }
         } catch (SQLException ex)
@@ -250,6 +248,7 @@ public class TelaParametrizacaoController implements Initializable {
             fc.getExtensionFilters().addAll(filterPNG, filterJPG, filterGIF);
 
             fc.setInitialDirectory(new File("C:\\"));
+            fc.setSelectedExtensionFilter(filterJPG);
             File arq = fc.showOpenDialog(null);
 
             if(arq != null)
@@ -280,6 +279,7 @@ public class TelaParametrizacaoController implements Initializable {
             fc.getExtensionFilters().addAll(filterPNG, filterJPG, filterGIF);
 
             fc.setInitialDirectory(new File("C:\\"));
+            fc.setSelectedExtensionFilter(filterJPG);
             File arq = fc.showOpenDialog(null);
 
             if(arq != null)
@@ -306,7 +306,7 @@ public class TelaParametrizacaoController implements Initializable {
             if (!tfRazaoSocial.getText().isEmpty() && !tfNomeFantasia.getText().isEmpty() && !tfEndereco.getText().isEmpty() && !cor.isEmpty() && !tfCep.getText().isEmpty() && !tfSite.getText().isEmpty() && !tfEmail.getText().isEmpty() && !tfFone.getText().isEmpty())
             {
               //nome,fantasia,logoGrande,logoPequeno,telefone,email,razaoSocial,rua,bairro,cidade,cep,cor,site;
-                if(caminho != null && caminho2 != null)
+                if(caminho != null && caminho2 != null && !CtrParametrizacao.instancia().inicia())
                 {
                     
                        if(CtrParametrizacao.instancia().Manipular(tfNomeFantasia.getText(),
@@ -318,6 +318,22 @@ public class TelaParametrizacaoController implements Initializable {
                         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
                         alerta.setContentText("Cadastrado com Sucesso!!!");
                         alerta.showAndWait();
+                        
+                        
+                        
+                 Stage stage = (Stage)paneprincipal.getScene().getWindow();
+                stage.setWidth(380);
+                stage.setHeight(400 + 30);
+                stage.setResizable(false);
+
+                Toolkit toolkit = Toolkit.getDefaultToolkit();
+                Dimension dime = toolkit.getScreenSize();
+                stage.setX(dime.getWidth()/2 - 380 / 2);
+                stage.setY(dime.getHeight()/2 - (400 + 60) / 2);
+
+                Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/basicas/TelaLogin.fxml"));
+                paneprincipal.getChildren().clear();
+                paneprincipal.getChildren().add(root);
                         }
                 }
                 else
@@ -327,17 +343,18 @@ public class TelaParametrizacaoController implements Initializable {
                             tfNomeFantasia.getText(), para.getLogoGrande(), para.getLogoPequeno(),
                             tfFone.getText(), tfEmail.getText(),tfRazaoSocial.getText(), 
                             tfEndereco.getText(),cbbairro.getValue(),cbcidade.getValue(),
-                            tfCep.getText(), cor, tfSite.getText()))
+                            tfCep.getText(), cor, tfSite.getText(),caminho,caminho2))
                         {
                         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
                         alerta.setContentText("Alterado com Sucesso!!!");
                         alerta.showAndWait();
+                            paneprincipal.toBack();
+                            paneprincipal.getChildren().clear();
                         }
                 }
 
                 //abrir tela
                 CorSistema.setCorHex(cor);
-                setarTela();
                 
                 
             } else
@@ -361,10 +378,10 @@ public class TelaParametrizacaoController implements Initializable {
 
 
     @FXML
-    private void evtVoltar(ActionEvent event) {
-        if(btVoltar.getText().equals("Sair")){
-            Platform.exit();
-        }
+    private void evtVoltar(ActionEvent event) 
+    {
+      paneprincipal.toBack();
+      paneprincipal.getChildren().clear();
     }
 
     @FXML
@@ -379,38 +396,6 @@ public class TelaParametrizacaoController implements Initializable {
         cbbairro.getItems().add(my_obj.getString("district"));
         cbbairro.getSelectionModel().select(my_obj.getString("district"));
         
-    }
-
-    private void setarTela() {
-        try
-        {
-            if(!CtrParametrizacao.instancia().inicia())
-            {
-                Stage stage = (Stage)paneprincipal.getScene().getWindow();
-                stage.setWidth(380);
-                stage.setHeight(400 + 30);
-                stage.setResizable(false);
-
-                Toolkit toolkit = Toolkit.getDefaultToolkit();
-                Dimension dime = toolkit.getScreenSize();
-                stage.setX(dime.getWidth()/2 - 380 / 2);
-                stage.setY(dime.getHeight()/2 - (400 + 60) / 2);
-
-                Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/interfaces/basicas/TelaLogin.fxml"));
-                paneprincipal.getChildren().clear();
-                paneprincipal.getChildren().add(root);
-            }
-            else
-            {
-
-                    paneprincipal.toBack();
-                    paneprincipal.getChildren().clear();
-
-            }
-
-            
-        }catch(Exception er){
-        }
     }
 
     
