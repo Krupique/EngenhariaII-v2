@@ -11,6 +11,7 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -92,16 +93,22 @@ public class TelaInicialController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        inicializaEstilo();
-        //Acho que isso é do Armando
-        /*
         try {
-           para = Controladoras.CtrParametrizacao.instancia().carrega();
-        } catch (SQLException | IOException ex) {
+            inicializaEstilo();
+            //Acho que isso é do Armando
+            /*
+            try {
+            para = Controladoras.CtrParametrizacao.instancia().carrega();
+            } catch (SQLException | IOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            imgLogoGrande.setImage(SwingFXUtils.toFXImage(para.getLogoPequeno(), null));
+            */
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaInicialController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(TelaInicialController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        imgLogoGrande.setImage(SwingFXUtils.toFXImage(para.getLogoPequeno(), null));
-        */
         
         //inicializa();
         if(nivel != 0)
@@ -114,7 +121,7 @@ public class TelaInicialController implements Initializable {
     
     
     //################################# PARTE DE ESTILO DA TELA #################################//
-    private void inicializaEstilo() {
+    public void inicializaEstilo() throws SQLException, IOException {
         img = new Image[11];
         //Imagem de fundo
         img[0] = new Image("/com/krupique/bedusystem/utilidades/recursos/wallpaper.png");
@@ -142,6 +149,8 @@ public class TelaInicialController implements Initializable {
         imgsair.setImage(img[5]);
         
         BufferedImage[] imgs = CtrParametrizacao.instancia().imgParametrizacao();
+        lblnome.setText(CtrParametrizacao.instancia().carrega().getFantasia());
+        lblemail.setText(CtrParametrizacao.instancia().carrega().getEmail());
         
         try{
             circle.setFill(new ImagePattern(SwingFXUtils.toFXImage(imgs[0], null)));

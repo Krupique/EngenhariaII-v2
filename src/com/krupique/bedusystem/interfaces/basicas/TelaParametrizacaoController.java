@@ -348,12 +348,13 @@ public class TelaParametrizacaoController implements Initializable {
                         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
                         alerta.setContentText("Alterado com Sucesso!!!");
                         alerta.showAndWait();
-                            paneprincipal.toBack();
-                            paneprincipal.getChildren().clear();
+                        paneprincipal.toBack();
+                        paneprincipal.getChildren().clear();
+                            
+
                         }
                 }
 
-                //abrir tela
                 CorSistema.setCorHex(cor);
                 
                 
