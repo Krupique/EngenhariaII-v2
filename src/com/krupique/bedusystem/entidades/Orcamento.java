@@ -170,7 +170,7 @@ public class Orcamento
     {
         boolean flag = false;
         String sqlb1;
-        String sql = "insert into Orcamento(cli_cod, dt_orcamento, dt_validade, valor_tot, orc_descricao, func_codigo) VALUES($1, '$2', '$3', $4, '$5', $6)";
+        String sql = "insert into Orcamento(cli_cod, dt_orcamento, dt_validade, valor_tot, orc_descricao, func_codigo,orc_status) VALUES($1, '$2', '$3', $4, '$5', $6,false)";
         sql = sql.replace("$1", Integer.toString(cliente.getCodigo())).replace("$2", dtorcamento.toString()).replace("$3", dtvalidade.toString())
                 .replace("$4", Double.toString(total)).replace("$5", obsformapagamento).replace("$6", Integer.toString(usuarioid.getCodigo()));
 

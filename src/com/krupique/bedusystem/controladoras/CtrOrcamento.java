@@ -77,12 +77,12 @@ public class CtrOrcamento
             for (int i = 0; i < produtos.size(); i++)
             {
                 po.add((ItemOrcamentoProduto) produtos.get(i));
-                po.get(i).setCodigo_orcamento(c_orcamento);
+                //po.get(i).setCodigo_orcamento(null);
             }
             for (int i = 0; i < servicos.size(); i++)
             {
                 so.add((ItemOrcamentoServico) servicos.get(i));
-                so.get(i).setCodigo_orcamento(c_orcamento);
+                //so.get(i).setCodigo_orcamento(null);
             }
             Cliente c = new Cliente(codigo_cliente);
             Funcionário f = new Funcionário();
