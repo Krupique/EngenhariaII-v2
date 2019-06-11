@@ -22,6 +22,8 @@ public class Main extends Application{
     
     @Override
     public void start(Stage stage) throws Exception {
+        
+        
         String janela;
         Parent root = FXMLLoader.load(getClass().getResource("/com/krupique/bedusystem/inicio/TelaInicial.fxml"));
         stage.setWidth(880);
@@ -45,7 +47,7 @@ public class Main extends Application{
         {
             janela = "/com/krupique/bedusystem/interfaces/basicas/TelaParametrizacao.fxml";
         }
-        janela = "/com/krupique/bedusystem/interfaces/basicas/TelaLogin.fxml";
+        //janela = "/com/krupique/bedusystem/interfaces/basicas/TelaLogin.fxml";
         root = FXMLLoader.load(getClass().getResource(janela));
         Scene scene = new Scene(root);
         

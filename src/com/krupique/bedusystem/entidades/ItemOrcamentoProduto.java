@@ -144,4 +144,8 @@ public class ItemOrcamentoProduto
         return Banco.getCon().manipular(sql);
     }
 
+        @Override
+    public boolean equals(Object o) {
+        return (o instanceof ItemOrcamentoProduto && this.produto.getCodigo() == ((ItemOrcamentoProduto)o).getProduto().getCodigo())? true : false;
+    }
 }

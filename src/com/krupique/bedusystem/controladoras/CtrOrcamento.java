@@ -99,7 +99,13 @@ public class CtrOrcamento
         }
         return flag;
     }
-
+    
+    public static void somaEAtualiza(Object old, Object n)
+    {
+        ((ItemOrcamentoProduto)(n)).setValor(((ItemOrcamentoProduto)(n)).getValor() + ((ItemOrcamentoProduto)(old)).getValor());
+        ((ItemOrcamentoProduto)(n)).setQtd(((ItemOrcamentoProduto)(n)).getQtd() + ((ItemOrcamentoProduto)(old)).getQtd());
+    }
+    
     public static boolean Adicionar(int codigo_cliente, LocalDate dtorcamento, LocalDate dtvalidade, Double total, String obs, int id_funcionario, ObservableList<Object> produtos, ObservableList<Object> servicos)
     {
         boolean flag = false;

@@ -13,6 +13,7 @@ import com.krupique.bedusystem.entidades.Funcionário;
 import com.krupique.bedusystem.entidades.Orcamento;
 import static com.krupique.bedusystem.interfaces.fundamentais.TelaGenOrcamentoController.stage;
 import com.krupique.bedusystem.utilidades.Banco;
+import com.krupique.bedusystem.utilidades.CorSistema;
 import com.krupique.bedusystem.utilidades.MaskFieldUtil;
 import java.net.URL;
 import java.sql.Date;
@@ -164,6 +165,24 @@ public class RealizarOrcamentoController implements Initializable {
         
         
     }
+        private void inicializaEstilo()
+    {
+        String cor = CorSistema.getCorHex();
+        btalterar.setStyle("-fx-background-color: " + cor);
+        btcancelar.setStyle("-fx-background-color: " + cor);
+        btconfirmar.setStyle("-fx-background-color: " + cor);
+        btexcluir.setStyle("-fx-background-color: " + cor);
+        btnalteraproduto.setStyle("-fx-background-color: " + cor);
+        dtorcamento.setDefaultColor(CorSistema.hex2Rgb(CorSistema.getCorHex()));
+         btnalteraservico.setStyle("-fx-background-color: " + cor);
+        btnbuscar.setStyle("-fx-background-color: " + cor);
+        dtvalidade.setDefaultColor(CorSistema.hex2Rgb(CorSistema.getCorHex()));
+        btnovo.setStyle("-fx-background-color: " + cor);
+        btnremoveproduto.setStyle("-fx-background-color: " + cor);
+        btnremoveservico.setStyle("-fx-background-color: " + cor);
+        
+  
+    }
 
     @FXML
     private void evtBusca(ActionEvent event) 
@@ -227,7 +246,18 @@ public class RealizarOrcamentoController implements Initializable {
             stage.showAndWait();
             if (TelaAddProdutoController.getItemP() != null)
             {
-                tabelaProduto.getItems().add(TelaAddProdutoController.getItemP());
+                Object oprod = TelaAddProdutoController.getItemP();
+                int index = tabelaProduto.getItems().indexOf(oprod);
+                if(index == -1)
+                {
+                    tabelaProduto.getItems().add(oprod);
+                }
+                else
+                {
+                    CtrOrcamento.somaEAtualiza( tabelaProduto.getItems().get(index), oprod);
+                    tabelaProduto.getItems().set(index, oprod);
+                }
+              
             }
         } catch (Exception ex)
         {
@@ -558,11 +588,11 @@ public class RealizarOrcamentoController implements Initializable {
     }
          private void AtualizaTotalProduto()
     {
-        CtrOrcamento.AtualizaTotProduto(lbltotal, tabelaProduto);
+        CtrOrcamento.AtualizaTotProduto(lbltotalproduto, tabelaProduto);
     }
         private void AtualizaTotalServico()
     {
-        CtrOrcamento.AtualizaTotServico(lbltotal, TabelaServico);
+        CtrOrcamento.AtualizaTotServico(lbltotalservico, TabelaServico);
     }
      
    private boolean ValidaCampos()
