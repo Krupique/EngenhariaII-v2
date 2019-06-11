@@ -156,7 +156,7 @@ public class Usuario
         else
         {
             if(tipo == 0)
-                rs = Banco.getCon().consultar("Select * from usuario where func_codigo = " + new Funcionário().get(filtro).getCodigo());
+                rs = Banco.getCon().consultar("Select * from usuario where func_codigo = " + new Funcionário().get(filtro).getCodigo() + " and func_codigo <> " + f.getCodigo());
             else
             {
                 if(tipo == 1)

@@ -188,7 +188,12 @@ public class ParcelaRecebimento
 
     public boolean gravar()
     {
-        String sql = "insert into parcela_recebimento(parc_receb_status,parc_receb_dtvencimento,parc_receb_numero,"
+        String sql;
+        if(pagamento != null)
+            sql = "insert into parcela_recebimento(parc_receb_status,parc_receb_dtvencimento,parc_receb_numero,"
+                + "parc_receb_vlrpago,parc_receb_valor,cli_cod,parc_receb_dtpagamento) values($2,'$3',$4,$5,$6,$1,'$7')";
+        else
+            sql = "insert into parcela_recebimento(parc_receb_status,parc_receb_dtvencimento,parc_receb_numero,"
                 + "parc_receb_vlrpago,parc_receb_valor,cli_cod) values ($2,'$3',$4,$5,$6,$1)";
 
         sql = sql.replace("$2", String.valueOf(status));
@@ -197,6 +202,9 @@ public class ParcelaRecebimento
         sql = sql.replace("$5", String.valueOf(valor_pago));
         sql = sql.replace("$6", String.valueOf(valor));
         sql = sql.replace("$1", String.valueOf(cliente.getCodigo()));
+        
+        if(pagamento != null)
+            sql = sql.replace("$7", String.valueOf(pagamento));
 
         return Banco.getCon().manipular(sql);
     }

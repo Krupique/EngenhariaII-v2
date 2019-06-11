@@ -309,7 +309,6 @@ public class GerarContasReceberController implements Initializable
     @FXML
     private void alterarDesconto(KeyEvent event)
     {
-        System.out.println("" + event.getCode().getName());
         if(event.getCode() == KeyCode.BACK_SPACE && tf_desconto.getText().equals("") || Integer.parseInt(tf_desconto.getText()) < 0)
             tf_desconto.setText("0");
         if (Integer.parseInt(tf_desconto.getText()) > 100)

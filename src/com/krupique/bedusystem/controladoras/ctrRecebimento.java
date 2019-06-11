@@ -38,6 +38,8 @@ public class ctrRecebimento
         {
             parcela = new ParcelaRecebimento(Integer.parseInt(parcelas.get(i).getParam1()),
                     Date.valueOf(parcelas.get(i).getParam3()), Double.valueOf(parcelas.get(i).getParam2().replace(",", ".")));
+            if(LocalDate.parse(parcelas.get(i).getParam3()).compareTo(LocalDate.now()) == 0)
+                parcela.setPagamento(Date.valueOf(parcelas.get(i).getParam3()));
             parcela.setCliente(CtrCliente.instancia().getCodigo(cliente.getText()));
             flag = flag && parcela.gravar();
         }

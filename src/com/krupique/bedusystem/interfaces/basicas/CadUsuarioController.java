@@ -320,10 +320,12 @@ public class CadUsuarioController implements Initializable
         Objeto obj;
         //ObservableList<Usuario> usuarios;
         if(rb_login.isSelected())
-             //usuarios = new ctrUsuario().procurar(rb_login, tf_busca);
             list = new ctrUsuario().procurar(rb_login, tf_busca);
         else if(rb_nivel.isSelected())
+        {
+            tf_busca.setText(tf_busca.getText().substring(0, 1).toUpperCase() + tf_busca.getText().substring(1));
             list = new ctrUsuario().procurar(rb_nivel, tf_busca);
+        }    
         else
             list = new ctrUsuario().procurar(rb_nome, tf_busca);
         
