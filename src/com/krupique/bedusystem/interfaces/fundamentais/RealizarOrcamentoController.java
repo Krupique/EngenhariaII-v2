@@ -549,13 +549,7 @@ public class RealizarOrcamentoController implements Initializable {
      
    private boolean ValidaCampos()
     {
-        boolean flag = (tabelaProduto.getItems().size() == 0 && TabelaServico.getItems().size() == 0) || txcodigocliente.getText().isEmpty();
-        if (flag)
-        {
-            lerroCliente.setVisible(txcodigocliente.getText().isEmpty());
-            lerroPS.setVisible(tabelaProduto.getItems().size() == 0 && TabelaServico.getItems().size() == 0);
-        }
-        return !flag;
+        return true;
     }
 
     private void CarregaTabela(String string)

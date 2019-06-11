@@ -251,7 +251,7 @@ public class Orcamento
     {
         ArrayList<Object> a = new ArrayList<>();
 
-        String sql = "select * from Orcamento";
+        String sql = "select * from Orcamento where orc_status = 'false'";
         ResultSet rs = null;
         rs = Banco.getCon().consultar(sql);
 
@@ -272,12 +272,12 @@ public class Orcamento
     {
         ArrayList<Object> a = new ArrayList<>();
 
-        String sql = "select * from Orcamento";
+        String sql = "select * from Orcamento where orc_status = 'false'";
         if (tipo != null)
         {
             if (tipo.equals("RG") && !filtro.isEmpty())
             {
-                sql += " INNER JOIN Cliente ON Orcamento.cli_cod = Cliente.cli_cod AND Cliente.cli_rg = '" + filtro + "'";
+                sql += " INNER JOIN Cliente ON Orcamento.cli_cod = Cliente.cli_cod AND Cliente.cli_rg = '" + filtro + "' and orc_status = 'false'";
             } else if (tipo.equals("Ano") && !filtro.isEmpty())
             {
                 Integer t = null;
@@ -290,7 +290,7 @@ public class Orcamento
                 }
                 if (t != null)
                 {
-                    sql += " where EXTRACT(YEAR FROM dt_orcamento) = " + filtro.toString();
+                    sql += " where orc_status = 'false' and EXTRACT(YEAR FROM dt_orcamento) = " + filtro.toString();
                 }
             }
         }
@@ -345,7 +345,7 @@ public class Orcamento
 
             for (int i = 0; i < servicosOrcamento.size(); i++)
             {
-                if (servicosOrcamento.get(i).getCodigo_orcamento() != null)
+                if (servicosOrcamento.get(i).getOrcamento().getCodigo() != null)
                 {
                     sqlb1 = "update Servicos_Orcamento set orc_codigo = $1, serv_codigo = $2, serv_cod_preco = $3, serv_cod_quantidade = $4 WHERE orc_codigo = " + codigo + " and serv_codigo = " + Integer.toString(servicosOrcamento.get(i).getServico().getCodigo_servico());
                     sqlb1 = sqlb1.replace("$1", Integer.toString(codigo))
@@ -439,7 +439,7 @@ public class Orcamento
     
     public Orcamento busca(int codigo)
     {
-        String sql = "select *from Orcamento Where orc_codigo = " + codigo;
+        String sql = "select *from Orcamento Where orc_codigo = " + codigo+" and orc_status = 'false'";
         ResultSet rs = null;
             
         rs = Banco.getCon().consultar(sql);

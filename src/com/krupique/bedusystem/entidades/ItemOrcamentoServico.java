@@ -19,8 +19,7 @@ public class ItemOrcamentoServico
 
     public ItemOrcamentoServico(Integer codigo_orcamento, Servico servico, Double valor, Integer qtd)
     {
-        this.orcamento = new Orcamento();
-        this.orcamento.setCodigo(codigo_orcamento);
+        this.orcamento = new Orcamento().busca(codigo_orcamento);
         this.servico = servico;
         this.valor = valor;
         this.qtd = qtd;
@@ -37,6 +36,7 @@ public class ItemOrcamentoServico
 
     public ItemOrcamentoServico(Servico servico, Double valor, Integer qtd)
     {
+        this.orcamento = new Orcamento();
         this.servico = servico;
         this.valor = valor;
         this.qtd = qtd;
@@ -44,6 +44,7 @@ public class ItemOrcamentoServico
 
     public ItemOrcamentoServico(Serviço servico, Double valor)
     {
+        this.orcamento = new Orcamento();
         this.serviço = servico;
         this.valor = valor;
     }
@@ -53,6 +54,23 @@ public class ItemOrcamentoServico
         this.orcamento = new Orcamento();
         this.orcamento.setCodigo(orc_cod);
     }
+
+    public Orcamento getOrcamento() {
+        return orcamento;
+    }
+
+    public void setOrcamento(Orcamento orcamento) {
+        this.orcamento = orcamento;
+    }
+
+    public Serviço getServiço() {
+        return serviço;
+    }
+
+    public void setServiço(Serviço serviço) {
+        this.serviço = serviço;
+    }
+ 
 
     public Integer getCodigo_orcamento()
     {
