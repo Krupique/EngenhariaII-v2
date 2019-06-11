@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import com.krupique.bedusystem.controladoras.ctrParcelaRecebimento;
 import com.krupique.bedusystem.controladoras.ctrRecebimento;
+import com.krupique.bedusystem.entidades.Caixa;
 import com.krupique.bedusystem.entidades.Cliente;
 import com.krupique.bedusystem.entidades.Funcionário;
 import com.krupique.bedusystem.entidades.ParcelaRecebimento;
@@ -151,7 +152,14 @@ public class QuitarContasReceberController implements Initializable {
         double valorpg;
         TextField tx = new TextField();
         
-        if(tab_par.getSelectionModel().getSelectedItem().getPagamento() == null)
+        String data = LocalDate.now() + "";
+        Caixa caixa = new Caixa();
+        int log = caixa.validar_caixa(data);
+        
+        
+        if(log == 1)
+        {
+                    if(tab_par.getSelectionModel().getSelectedItem().getPagamento() == null)
         {
             
             TextInputDialog a = new TextInputDialog(); 
@@ -205,6 +213,24 @@ public class QuitarContasReceberController implements Initializable {
             a.setContentText("Parcela ja foi paga!!!");
             a.show();
         }
+        }
+                else if(log == 0) //Caixa nao foi aberto ainda.
+                {
+                    Alert a = new Alert(Alert.AlertType.WARNING, "O Caixa não foi aberto ainda, portanto a conta não pode ser paga!", ButtonType.OK);
+                    a.showAndWait();
+                }
+                else if(log == -1) //Caixa ja foi fechado.
+                {
+                    Alert a = new Alert(Alert.AlertType.WARNING, "O Caixa já foi fechado, portanto a conta não pode ser paga!", ButtonType.OK);
+                    a.showAndWait();
+                }
+                else //Erro
+                {
+                    Alert a = new Alert(Alert.AlertType.WARNING, "Erro ao pagar a parcela!", ButtonType.OK);
+                    a.showAndWait();
+                }
+        
+
         
 
     }
@@ -212,6 +238,14 @@ public class QuitarContasReceberController implements Initializable {
     @FXML
     private void evtRemover(ActionEvent event) 
     {
+        
+       String data = LocalDate.now() + "";
+        Caixa caixa = new Caixa();
+        int log = caixa.validar_caixa(data);
+        
+        
+        if(log == 1)
+        {
         if(tab_par.getSelectionModel().getSelectedItem().getPagamento() != null)
         {
                 Alert c = new Alert(Alert.AlertType.CONFIRMATION);
@@ -241,6 +275,22 @@ public class QuitarContasReceberController implements Initializable {
             b.setContentText("Parcela ainda não foi paga para ter estorno!!!");
             b.show();
         }
+        }
+            else if(log == 0) //Caixa nao foi aberto ainda.
+                {
+                    Alert a = new Alert(Alert.AlertType.WARNING, "O Caixa não foi aberto ainda, portanto a conta não pode ser paga!", ButtonType.OK);
+                    a.showAndWait();
+                }
+                else if(log == -1) //Caixa ja foi fechado.
+                {
+                    Alert a = new Alert(Alert.AlertType.WARNING, "O Caixa já foi fechado, portanto a conta não pode ser paga!", ButtonType.OK);
+                    a.showAndWait();
+                }
+                else //Erro
+                {
+                    Alert a = new Alert(Alert.AlertType.WARNING, "Erro ao pagar a parcela!", ButtonType.OK);
+                    a.showAndWait();
+                }
     }
 
 

@@ -45,8 +45,6 @@ public class Main extends Application{
         {
             janela = "/com/krupique/bedusystem/interfaces/basicas/TelaParametrizacao.fxml";
         }
-       
-       janela = "/com/krupique/bedusystem/interfaces/basicas/TelaLogin.fxml";
         
         root = FXMLLoader.load(getClass().getResource(janela));
         Scene scene = new Scene(root);

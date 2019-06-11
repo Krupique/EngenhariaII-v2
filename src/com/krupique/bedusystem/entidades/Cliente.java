@@ -282,14 +282,13 @@ public class Cliente
     public Boolean insert()
     {
         String sql = "insert into cliente(cli_cpf, cli_rg, cli_nome, "
-                + "cli_telefone, cli_email, cli_endereco, cli_datacadastro, cli_cep) "
-                + "VALUES('$1', '$2', '$3', '$4', '$5', '$6', '$8', '$9')";
+                + "cli_telefone, cli_email, cli_endereco, cli_datacadastro, cli_cep,vei_placa) "
+                + "VALUES('$1', '$2', '$3', '$4', '$5', '$6', '$8', '$9','aaa-1111')";
         sql = sql.replace("$1", cpf).replace("$2", rg)
                 .replace("$3", nome).replace("$4", telefone)
                 .replace("$5", email).replace("$6", endereco)
                 .replace("$8", dtCadastro.toString())
                 .replace("$9", cep.replace("-", ""));
-        System.out.println(sql);
         return Banco.getCon().manipular(sql);
     }
 
