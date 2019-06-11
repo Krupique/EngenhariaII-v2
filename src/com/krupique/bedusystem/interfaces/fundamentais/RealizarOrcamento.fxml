@@ -84,6 +84,8 @@
                                     <JFXButton focusTraversable="false" layoutX="8.0" layoutY="218.0" onAction="#evtAdicionaProduto" prefWidth="90.0" style="-fx-background-color: #0076A3;" text="Adicionar" />
                                     <JFXButton fx:id="btnremoveproduto" focusTraversable="false" layoutX="117.0" layoutY="218.0" onAction="#evtRemoveProduto" prefWidth="90.0" style="-fx-background-color: #0076A3;" text="Remover" />
                                     <JFXButton fx:id="btnalteraproduto" focusTraversable="false" layoutX="229.0" layoutY="218.0" onAction="#evtalterarProduto" prefWidth="90.0" style="-fx-background-color: #0076A3;" text="Alterar" />
+                                    <Label layoutX="298.0" layoutY="171.0" text="Total(*):" />
+                                    <Label fx:id="lbltotalproduto" layoutX="348.0" layoutY="171.0" text="0" />
                                  </children>
                               </AnchorPane>
                            </content>
@@ -104,6 +106,8 @@
                                     <JFXButton focusTraversable="false" layoutX="14.0" layoutY="232.0" onAction="#evtAdicionaServico" prefWidth="90.0" style="-fx-background-color: #0076A3;" text="Adicionar" />
                                     <JFXButton fx:id="btnremoveservico" focusTraversable="false" layoutX="120.0" layoutY="232.0" onAction="#evtRemoveServico" prefWidth="90.0" style="-fx-background-color: #0076A3;" text="Remover" />
                                     <JFXButton fx:id="btnalteraservico" focusTraversable="false" layoutX="231.0" layoutY="232.0" onAction="#evtalterarServico" prefWidth="90.0" style="-fx-background-color: #0076A3;" text="Alterar" />
+                                    <Label layoutX="308.0" layoutY="181.0" text="Total(*):" />
+                                    <Label fx:id="lbltotalservico" layoutX="358.0" layoutY="181.0" text="0" />
                                  </children>
                               </AnchorPane>
                            </content>

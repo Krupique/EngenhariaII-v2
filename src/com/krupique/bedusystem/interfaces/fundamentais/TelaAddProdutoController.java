@@ -114,7 +114,7 @@ public class TelaAddProdutoController implements Initializable
         if (txquantidade.getText().isEmpty())
         {
             txquantidade.setText("0");
-        }
+        }else
         if (Integer.parseInt(txquantidade.getText()) > ((Produto) tabela.getSelectionModel().getSelectedItem()).getQuantidade())
         {
             Alert a = new Alert(Alert.AlertType.ERROR);

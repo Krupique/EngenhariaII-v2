@@ -140,6 +140,10 @@ public class RealizarOrcamentoController implements Initializable {
     private JFXButton btnremoveservico;
     @FXML
     private JFXButton btnalteraservico;
+    @FXML
+    private Label lbltotalproduto;
+    @FXML
+    private Label lbltotalservico;
 
 
     @Override
@@ -229,6 +233,7 @@ public class RealizarOrcamentoController implements Initializable {
         {
             System.out.println(ex.getMessage());
         }
+        AtualizaTotalProduto();
         AtualizaTotal();
     }
 
@@ -264,6 +269,7 @@ public class RealizarOrcamentoController implements Initializable {
             a.show();
         }
         tabelaProduto.refresh();
+        AtualizaTotalProduto();
         AtualizaTotal();
     }
 
@@ -272,6 +278,7 @@ public class RealizarOrcamentoController implements Initializable {
     {
         CtrOrcamento.alteraProdutoSelecionado(tabelaProduto, txquantidadeproduto, txvalorproduto, lerroProdutoC);
         tabelaProduto.refresh();
+        AtualizaTotalProduto();
         AtualizaTotal();
     }
 
@@ -302,6 +309,7 @@ public class RealizarOrcamentoController implements Initializable {
             System.out.println(ex.getMessage());
         }
         TabelaServico.refresh();
+        AtualizaTotalServico();
         AtualizaTotal();
     }
 
@@ -336,6 +344,7 @@ public class RealizarOrcamentoController implements Initializable {
             }
         }
                 TabelaServico.refresh();
+                AtualizaTotalServico();
         AtualizaTotal();
     }
 
@@ -344,6 +353,7 @@ public class RealizarOrcamentoController implements Initializable {
     {
          CtrOrcamento.alteraServicoSelecionado(TabelaServico, txquantidadeservico, txvalorservico, lerroServicoC);
          TabelaServico.refresh();
+         AtualizaTotalServico();
         AtualizaTotal();
     }
 
@@ -545,6 +555,14 @@ public class RealizarOrcamentoController implements Initializable {
      private void AtualizaTotal()
     {
         CtrOrcamento.AtualizaTot(lbltotal, tabelaProduto, TabelaServico);
+    }
+         private void AtualizaTotalProduto()
+    {
+        CtrOrcamento.AtualizaTotProduto(lbltotal, tabelaProduto);
+    }
+        private void AtualizaTotalServico()
+    {
+        CtrOrcamento.AtualizaTotServico(lbltotal, TabelaServico);
     }
      
    private boolean ValidaCampos()

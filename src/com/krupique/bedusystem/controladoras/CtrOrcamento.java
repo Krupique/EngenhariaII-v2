@@ -251,6 +251,24 @@ public class CtrOrcamento
         }
         lbltotal.setText(Double.toString(c));
     }
+        public static void AtualizaTotProduto(Label lbltotal, TableView<Object> cbprodutos)
+    {
+        Double c = 0.0;
+        for (int i = 0; i < cbprodutos.getItems().size(); i++)
+        {
+            c += ((ItemOrcamentoProduto) cbprodutos.getItems().get(i)).getValor();
+        }
+        lbltotal.setText(Double.toString(c));
+    }
+            public static void AtualizaTotServico(Label lbltotal,TableView<Object> cbservicos)
+    {
+        Double c = 0.0;
+        for (int i = 0; i < cbservicos.getItems().size(); i++)
+        {
+            c += ((ItemOrcamentoServico) cbservicos.getItems().get(i)).getValor();
+        }
+        lbltotal.setText(Double.toString(c));
+    }
 
     public static boolean ApagarOrcamento(int parseInt,TableView<Object> tabelaproduto,TableView<Object> tabelaservico)
     {
