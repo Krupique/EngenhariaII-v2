@@ -82,8 +82,8 @@
                                        </columns>
                                     </TableView>
                                     <JFXButton focusTraversable="false" layoutX="8.0" layoutY="218.0" onAction="#evtAdicionaProduto" prefWidth="90.0" style="-fx-background-color: #0076A3;" text="Adicionar" />
-                                    <JFXButton focusTraversable="false" layoutX="117.0" layoutY="218.0" onAction="#evtRemoveProduto" prefWidth="90.0" style="-fx-background-color: #0076A3;" text="Remover" />
-                                    <JFXButton focusTraversable="false" layoutX="229.0" layoutY="218.0" onAction="#evtalterarProduto" prefWidth="90.0" style="-fx-background-color: #0076A3;" text="Alterar" />
+                                    <JFXButton fx:id="btnremoveproduto" focusTraversable="false" layoutX="117.0" layoutY="218.0" onAction="#evtRemoveProduto" prefWidth="90.0" style="-fx-background-color: #0076A3;" text="Remover" />
+                                    <JFXButton fx:id="btnalteraproduto" focusTraversable="false" layoutX="229.0" layoutY="218.0" onAction="#evtalterarProduto" prefWidth="90.0" style="-fx-background-color: #0076A3;" text="Alterar" />
                                  </children>
                               </AnchorPane>
                            </content>
@@ -102,8 +102,8 @@
                                        </columns>
                                     </TableView>
                                     <JFXButton focusTraversable="false" layoutX="14.0" layoutY="232.0" onAction="#evtAdicionaServico" prefWidth="90.0" style="-fx-background-color: #0076A3;" text="Adicionar" />
-                                    <JFXButton focusTraversable="false" layoutX="120.0" layoutY="232.0" onAction="#evtRemoveServico" prefWidth="90.0" style="-fx-background-color: #0076A3;" text="Remover" />
-                                    <JFXButton focusTraversable="false" layoutX="231.0" layoutY="232.0" onAction="#evtalterarServico" prefWidth="90.0" style="-fx-background-color: #0076A3;" text="Alterar" />
+                                    <JFXButton fx:id="btnremoveservico" focusTraversable="false" layoutX="120.0" layoutY="232.0" onAction="#evtRemoveServico" prefWidth="90.0" style="-fx-background-color: #0076A3;" text="Remover" />
+                                    <JFXButton fx:id="btnalteraservico" focusTraversable="false" layoutX="231.0" layoutY="232.0" onAction="#evtalterarServico" prefWidth="90.0" style="-fx-background-color: #0076A3;" text="Alterar" />
                                  </children>
                               </AnchorPane>
                            </content>

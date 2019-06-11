@@ -132,6 +132,14 @@ public class RealizarOrcamentoController implements Initializable {
     private RadioButton rbcpf;
     @FXML
     private RadioButton rbnome;
+    @FXML
+    private JFXButton btnremoveproduto;
+    @FXML
+    private JFXButton btnalteraproduto;
+    @FXML
+    private JFXButton btnremoveservico;
+    @FXML
+    private JFXButton btnalteraservico;
 
 
     @Override
@@ -142,6 +150,7 @@ public class RealizarOrcamentoController implements Initializable {
         CarregaTabela("");
         rbnome.setSelected(true);
         flagTransicaodeData = false;
+        modo = 0;
         pega();
     }   
         private void pega()
@@ -169,6 +178,20 @@ public class RealizarOrcamentoController implements Initializable {
         btalterar.setDisable(false);
         AtualizaTotal();
     }
+    private void travaproduto(boolean b)
+    {
+        btnremoveproduto.setDisable(b);
+        btnalteraproduto.setDisable(b);
+        txquantidadeproduto.setDisable(b);
+        txvalorproduto.setDisable(b);
+    }
+        private void travaservico(boolean b)
+    {
+        btnremoveservico.setDisable(b);
+        btnalteraservico.setDisable(b);
+        txquantidadeservico.setDisable(b);
+        txvalorservico.setDisable(b);
+    }
 
     @FXML
     private void evtmudaData(ActionEvent event) 
@@ -184,6 +207,7 @@ public class RealizarOrcamentoController implements Initializable {
     private void evtClickTableProduto(MouseEvent event)
     {
         CtrOrcamento.PreencheCamposPS(txquantidadeproduto, txvalorproduto, tabelaProduto.getSelectionModel().getSelectedItem());
+        travaproduto(false);
     }
 
     @FXML
@@ -239,6 +263,7 @@ public class RealizarOrcamentoController implements Initializable {
             a.setContentText("Operação Cancelada com Sucesso!!!");
             a.show();
         }
+        tabelaProduto.refresh();
         AtualizaTotal();
     }
 
@@ -246,6 +271,7 @@ public class RealizarOrcamentoController implements Initializable {
     private void evtalterarProduto(ActionEvent event) 
     {
         CtrOrcamento.alteraProdutoSelecionado(tabelaProduto, txquantidadeproduto, txvalorproduto, lerroProdutoC);
+        tabelaProduto.refresh();
         AtualizaTotal();
     }
 
@@ -253,6 +279,7 @@ public class RealizarOrcamentoController implements Initializable {
     private void evtClickTableServico(MouseEvent event)
     {
         CtrOrcamento.PreencheCamposPS(txquantidadeservico, txvalorservico, TabelaServico.getSelectionModel().getSelectedItem());
+        travaservico(false);
     }
 
     @FXML
@@ -274,6 +301,7 @@ public class RealizarOrcamentoController implements Initializable {
         {
             System.out.println(ex.getMessage());
         }
+        TabelaServico.refresh();
         AtualizaTotal();
     }
 
@@ -307,6 +335,7 @@ public class RealizarOrcamentoController implements Initializable {
                 a.show();
             }
         }
+                TabelaServico.refresh();
         AtualizaTotal();
     }
 
@@ -314,6 +343,7 @@ public class RealizarOrcamentoController implements Initializable {
     private void evtalterarServico(ActionEvent event) 
     {
          CtrOrcamento.alteraServicoSelecionado(TabelaServico, txquantidadeservico, txvalorservico, lerroServicoC);
+         TabelaServico.refresh();
         AtualizaTotal();
     }
 
@@ -432,7 +462,7 @@ public class RealizarOrcamentoController implements Initializable {
         a.setContentText("O orcamento bem como todos os seus itens serão apagados.\nDeseja Prosseguir?");
         if (a.showAndWait().get() == ButtonType.OK)
         {
-            if (CtrOrcamento.ApagarOrcamento(Integer.parseInt(txcodigo.getText())))
+            if (CtrOrcamento.ApagarOrcamento(Integer.parseInt(txcodigo.getText()),tabelaProduto,TabelaServico))
             {
                 a = new Alert(Alert.AlertType.INFORMATION);
                 a.setContentText("Orcamento Apagado Com Sucesso");
@@ -484,6 +514,8 @@ public class RealizarOrcamentoController implements Initializable {
         disablu(true);
         tabela.refresh();
         txBusca.setDisable(false);
+        travaproduto(true);
+        travaservico(true);
     }
         private void disablu(boolean b)
         {

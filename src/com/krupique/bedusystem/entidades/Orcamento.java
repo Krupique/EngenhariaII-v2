@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.beans.property.BooleanProperty;
+import javafx.scene.control.TableView;
 
 public class Orcamento 
 {
@@ -169,7 +170,7 @@ public class Orcamento
     {
         boolean flag = false;
         String sqlb1;
-        String sql = "insert into Orcamento(cli_cod, dt_orcamento, dt_validade, valor_tot, orc_descricao, func_codigo) VALUES('$1', '$2', '$3', '$4', '$5', '$6')";
+        String sql = "insert into Orcamento(cli_cod, dt_orcamento, dt_validade, valor_tot, orc_descricao, func_codigo) VALUES($1, '$2', '$3', $4, '$5', $6)";
         sql = sql.replace("$1", Integer.toString(cliente.getCodigo())).replace("$2", dtorcamento.toString()).replace("$3", dtvalidade.toString())
                 .replace("$4", Double.toString(total)).replace("$5", obsformapagamento).replace("$6", Integer.toString(usuarioid.getCodigo()));
 
@@ -178,7 +179,7 @@ public class Orcamento
 
         for (int i = 0; i < produtosOrcamento.size(); i++)
         {
-            sqlb1 = "insert into Produtos_Orcamento(orc_codigo, prod_codigo, prod_orc_preco, prod_orc_quantidade) VALUES ('$1', '$2', $3, $4)";
+            sqlb1 = "insert into Produtos_Orcamento(orc_codigo, prod_codigo, prod_orc_preco, prod_orc_quantidade) VALUES ($1, $2, $3, $4)";
             sqlb1 = sqlb1.replace("$1", cOrcamento)
                     .replace("$2", Integer.toString(produtosOrcamento.get(i).getProduto().getCodigo()))
                     .replace("$3", Double.toString(produtosOrcamento.get(i).getValor()))
@@ -189,7 +190,7 @@ public class Orcamento
 
         for (int i = 0; i < servicosOrcamento.size(); i++)
         {
-            sqlb1 = "insert into Servicos_Orcamento(orc_codigo, serv_codigo, serv_cod_preco, serv_cod_quantidade) VALUES ('$1', '$2', $3, $4)";
+            sqlb1 = "insert into Servicos_Orcamento(orc_codigo, serv_codigo, serv_cod_preco, serv_cod_quantidade) VALUES ($1, $2, $3, $4)";
             sqlb1 = sqlb1.replace("$1", cOrcamento)
                     .replace("$2", Integer.toString(servicosOrcamento.get(i).getServico().getCodigo_servico()))
                     .replace("$3", Double.toString(servicosOrcamento.get(i).getValor()))
@@ -201,7 +202,7 @@ public class Orcamento
         return flag;
     }
 
-    public Boolean delete()
+    public Boolean delete(TableView<Object> tabelaproduto,TableView<Object> tabelaservico)
     {
         boolean flag = false;
         String sql1 = "delete from Produtos_Orcamento where orc_codigo = " + codigo;
@@ -210,7 +211,11 @@ public class Orcamento
         try
         {
             Banco.getCon().getConnection().setAutoCommit(false);
-            flag = Banco.getCon().manipular(sql1) && Banco.getCon().manipular(sql2) && Banco.getCon().manipular(sql3);
+            if(!tabelaproduto.getItems().isEmpty())
+                flag = Banco.getCon().manipular(sql1);
+            if(!tabelaservico.getItems().isEmpty())
+                flag = Banco.getCon().manipular(sql2);
+            flag =   Banco.getCon().manipular(sql3);
             if (flag)
             {
                 Banco.getCon().getConnection().commit();
@@ -312,7 +317,7 @@ public class Orcamento
         try
         {
             Banco.getCon().getConnection().setAutoCommit(false);
-            String sql = "update Orcamento set cli_cod = '$1', dt_orcamento = '$2', dt_validade = '$3', valor_tot = '$4', orc_descricao = '$5', func_codigo = '$6' WHERE orc_codigo = " + codigo;
+            String sql = "update Orcamento set cli_cod = $1, dt_orcamento = '$2', dt_validade = '$3', valor_tot = $4, orc_descricao = '$5', func_codigo = $6 WHERE orc_codigo = " + codigo;
             sql = sql.replace("$1", Integer.toString(cliente.getCodigo())).replace("$2", dtorcamento.toString()).replace("$3", dtvalidade.toString())
                     .replace("$4", Double.toString(total)).replace("$5", obsformapagamento).replace("$6", Integer.toString(usuarioid.getCodigo()));
 
@@ -321,14 +326,14 @@ public class Orcamento
             {
                 if (produtosOrcamento.get(i).getCodigo_orcamento() != null)
                 {
-                    sqlb1 = "update Produtos_Orcamento set orc_codigo = '$1', prod_codigo = '$2', prod_orc_preco = $3, prod_orc_quantidade = $4 WHERE orc_codigo = " + codigo + " and prod_codigo = " + Integer.toString(produtosOrcamento.get(i).getProduto().getCodigo());
+                    sqlb1 = "update Produtos_Orcamento set orc_codigo = $1, prod_codigo = $2, prod_orc_preco = $3, prod_orc_quantidade = $4 WHERE orc_codigo = " + codigo + " and prod_codigo = " + Integer.toString(produtosOrcamento.get(i).getProduto().getCodigo());
                     sqlb1 = sqlb1.replace("$1", Integer.toString(codigo))
                             .replace("$2", Integer.toString(produtosOrcamento.get(i).getProduto().getCodigo()))
                             .replace("$3", Double.toString(produtosOrcamento.get(i).getValor()))
                             .replace("$4", Double.toString(produtosOrcamento.get(i).getQtd()));
                 } else
                 {
-                    sqlb1 = "insert into Produtos_Orcamento(orc_codigo, prod_codigo, prod_orc_preco, prod_orc_quantidade) VALUES ('$1', '$2', $3, $4)";
+                    sqlb1 = "insert into Produtos_Orcamento(orc_codigo, prod_codigo, prod_orc_preco, prod_orc_quantidade) VALUES ($1, $2, $3, $4)";
                     sqlb1 = sqlb1.replace("$1", codigo.toString())
                             .replace("$2", Integer.toString(produtosOrcamento.get(i).getProduto().getCodigo()))
                             .replace("$3", Double.toString(produtosOrcamento.get(i).getValor()))
@@ -342,14 +347,14 @@ public class Orcamento
             {
                 if (servicosOrcamento.get(i).getCodigo_orcamento() != null)
                 {
-                    sqlb1 = "update Servicos_Orcamento set orc_codigo = '$1', serv_codigo = '$2', serv_cod_preco = $3, serv_cod_quantidade = $4 WHERE orc_codigo = " + codigo + " and serv_codigo = " + Integer.toString(servicosOrcamento.get(i).getServico().getCodigo_servico());
+                    sqlb1 = "update Servicos_Orcamento set orc_codigo = $1, serv_codigo = $2, serv_cod_preco = $3, serv_cod_quantidade = $4 WHERE orc_codigo = " + codigo + " and serv_codigo = " + Integer.toString(servicosOrcamento.get(i).getServico().getCodigo_servico());
                     sqlb1 = sqlb1.replace("$1", Integer.toString(codigo))
                             .replace("$2", Integer.toString(servicosOrcamento.get(i).getServico().getCodigo_servico()))
                             .replace("$3", Double.toString(servicosOrcamento.get(i).getValor()))
                             .replace("$4", Double.toString(servicosOrcamento.get(i).getQtd()));
                 } else
                 {
-                    sqlb1 = "insert into Servicos_Orcamento(orc_codigo, serv_codigo, serv_cod_preco, serv_cod_quantidade) VALUES ('$1', '$2', $3, $4)";
+                    sqlb1 = "insert into Servicos_Orcamento(orc_codigo, serv_codigo, serv_cod_preco, serv_cod_quantidade) VALUES ($1, $2, $3, $4)";
                     sqlb1 = sqlb1.replace("$1", codigo.toString())
                             .replace("$2", Integer.toString(servicosOrcamento.get(i).getServico().getCodigo_servico()))
                             .replace("$3", Double.toString(servicosOrcamento.get(i).getValor()))

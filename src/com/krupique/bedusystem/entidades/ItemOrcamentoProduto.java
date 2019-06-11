@@ -18,8 +18,7 @@ public class ItemOrcamentoProduto
 
     public ItemOrcamentoProduto(Integer codigo_orcamento, Produto produto, Double valor, Integer qtd)
     {
-        this.orcamento = new Orcamento();
-        this.orcamento.setCodigo(codigo_orcamento);
+        this.orcamento = new Orcamento().busca(codigo_orcamento);
         this.produto = produto;
         this.valor = valor;
         this.qtd = qtd;

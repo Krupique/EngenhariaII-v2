@@ -345,7 +345,7 @@ public class TelaGenOrcamentoController implements Initializable
     @FXML
     private void evtExcluir(ActionEvent event)
     {
-        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        /*Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         a.setContentText("O orcamento bem como todos os seus itens serão apagados.\nDeseja Prosseguir?");
         if (a.showAndWait().get() == ButtonType.OK)
         {
@@ -367,7 +367,7 @@ public class TelaGenOrcamentoController implements Initializable
             a = new Alert(Alert.AlertType.INFORMATION);
             a.setContentText("Operação Cancelada com sucesso");
             a.show();
-        }
+        }*/
     }
 
     @FXML

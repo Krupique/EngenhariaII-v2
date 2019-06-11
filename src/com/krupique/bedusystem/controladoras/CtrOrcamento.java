@@ -250,9 +250,9 @@ public class CtrOrcamento
         lbltotal.setText(Double.toString(c));
     }
 
-    public static boolean ApagarOrcamento(int parseInt)
+    public static boolean ApagarOrcamento(int parseInt,TableView<Object> tabelaproduto,TableView<Object> tabelaservico)
     {
-        return new Orcamento(parseInt).delete();
+        return new Orcamento(parseInt).delete(tabelaproduto,tabelaservico);
     }
 
     public static ObservableList<Object> getInfoTabela(String filtro, String op)
